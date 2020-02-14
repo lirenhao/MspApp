@@ -10,7 +10,7 @@ import { getPageQuery } from '@/utils/utils';
 export interface StateType {
   status?: 'ok' | 'error';
   type?: string;
-  currentAuthority?: 'user' | 'guest' | 'admin';
+  currentAuthority?: 'reset' | 'guest' | 'user' | 'admin';
 }
 
 export interface LoginModelType {
@@ -80,7 +80,6 @@ const Model: LoginModelType = {
       return {
         ...state,
         status: payload.status,
-        type: payload.type,
       };
     },
   },
