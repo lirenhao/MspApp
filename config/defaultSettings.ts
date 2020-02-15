@@ -43,9 +43,9 @@ export interface DefaultSettings {
 }
 
 export default {
-  navTheme: 'dark',
+  navTheme: 'light',
   // 拂晓蓝
-  primaryColor: '#F5222D',
+  primaryColor: 'dark',
   layout: 'topmenu',
   contentWidth: 'Fluid',
   fixedHeader: true,
