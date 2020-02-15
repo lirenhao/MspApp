@@ -30,23 +30,22 @@ const LoginMessage: React.FC<{
 
 const Login: React.FC<LoginProps> = props => {
   const { userLogin = {}, submitting } = props;
-  const { status, type: loginType } = userLogin;
+  const { status } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
-  const [type, setType] = useState<string>('account');
 
   const handleSubmit = (values: LoginParamsType) => {
     const { dispatch } = props;
     dispatch({
       type: 'login/login',
-      payload: { ...values, type },
+      payload: values,
     });
   };
   return (
     <div className={styles.main}>
-      {status === 'error' && loginType === 'account' && !submitting && (
-        <LoginMessage content="账户或密码错误（admin/ant.design）" />
+      {status === 'error' && !submitting && (
+        <LoginMessage content="商户号或密码错误" />
       )}
-      <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
+      <LoginFrom onSubmit={handleSubmit}>
         <UserName
           name="userName"
           placeholder="商户号"
@@ -54,6 +53,10 @@ const Login: React.FC<LoginProps> = props => {
             {
               required: true,
               message: '请输入商户号!',
+            },
+            {
+              len: 15,
+              message: '商户号必须是15位!',
             },
           ]}
         />

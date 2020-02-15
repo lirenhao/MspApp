@@ -45,10 +45,10 @@ export interface DefaultSettings {
 export default {
   navTheme: 'dark',
   // 拂晓蓝
-  primaryColor: 'daybreak',
-  layout: 'sidemenu',
+  primaryColor: '#F5222D',
+  layout: 'topmenu',
   contentWidth: 'Fluid',
-  fixedHeader: false,
+  fixedHeader: true,
   autoHideHeader: false,
   fixSiderbar: false,
   colorWeak: false,

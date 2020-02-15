@@ -59,7 +59,7 @@ const UserLayout: React.FC<UserLayoutProps> = props => {
           {children}
         </div>
         <DefaultFooter
-          copyright="2020 蚂蚁金服体验技术部出品"
+          copyright="2020 copyright文本"
           links={[]}
         />
       </div>
