@@ -5,12 +5,12 @@ import React from 'react';
 import { connect } from 'dva';
 import { router } from 'umi';
 import { ConnectProps, ConnectState } from '@/models/connect';
-import { CurrentUser } from '@/models/user';
+import { MerInfo } from '@/models/user';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
 export interface GlobalHeaderRightProps extends ConnectProps {
-  currentUser?: CurrentUser;
+  merInfo?: MerInfo;
   menu?: boolean;
 }
 
@@ -35,10 +35,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
 
   render(): React.ReactNode {
     const {
-      currentUser = {
-        avatar: '',
-        name: '',
-      },
+      merInfo,
       menu,
     } = this.props;
     const menuHeaderDropdown = (
@@ -63,25 +60,25 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
         </Menu.Item>
       </Menu>
     );
-    return currentUser && currentUser.name ? (
+    return merInfo && merInfo.merNo ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-          <span className={styles.name}>{currentUser.name}</span>
+          <Avatar size="small" className={styles.avatar} icon={() => <UserOutlined />} alt="Merchant No" />
+          <span className={styles.name}>{merInfo.merNo}</span>
         </span>
       </HeaderDropdown>
     ) : (
-      <Spin
-        size="small"
-        style={{
-          marginLeft: 8,
-          marginRight: 8,
-        }}
-      />
-    );
+        <Spin
+          size="small"
+          style={{
+            marginLeft: 8,
+            marginRight: 8,
+          }}
+        />
+      );
   }
 }
 
 export default connect(({ user }: ConnectState) => ({
-  currentUser: user.currentUser,
+  merInfo: user.merInfo,
 }))(AvatarDropdown);

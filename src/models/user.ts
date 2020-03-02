@@ -5,7 +5,7 @@ import { getMerInfo } from '@/services/user';
 export interface MerInfo {
   merNo?: string;
   merName?: string;
-  // 0-请求中; 00-商户正常; 01-重置密码; 02-同意协议; 03-密码到期
+  // 0-请求中; 00-商户正常; 01-同意协议; 02-重置密码; 03-密码到期
   status?: '0' | '00' | '01' | '02' | '03';
 }
 

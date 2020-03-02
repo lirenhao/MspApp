@@ -21,10 +21,10 @@ const SecurityLayout: React.FC<SecurityLayoutProps> = props => {
   if (!loading && merInfo) {
     switch (merInfo.status) {
       case "01": {
-        return <Redirect to="/init/reset"></Redirect>;
+        return <Redirect to="/init/policy"></Redirect>;
       }
       case "02": {
-        return <Redirect to="/init/policy"></Redirect>;
+        return <Redirect to="/init/reset"></Redirect>;
       }
       case "03": {
         return <Redirect to="/init/reset"></Redirect>;
