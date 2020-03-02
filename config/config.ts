@@ -78,13 +78,29 @@ export default {
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
-      path: '/user',
+      path: '/login',
       component: '../layouts/UserLayout',
       routes: [
         {
           name: 'login',
-          path: '/user/login',
+          path: '/login',
           component: './login',
+        },
+      ],
+    },
+    {
+      path: '/init',
+      component: '../layouts/BlankLayout',
+      routes: [
+        {
+          name: 'reset',
+          path: '/init/reset',
+          component: './reset',
+        },
+        {
+          name: 'policy',
+          path: '/init/policy',
+          component: './policy',
         },
       ],
     },
@@ -93,25 +109,8 @@ export default {
       component: '../layouts/SecurityLayout',
       routes: [
         {
-          path: '/init',
-          component: '../layouts/BlankLayout',
-          routes: [
-            {
-              name: 'reset',
-              path: '/init/reset',
-              component: './reset',
-            },
-            {
-              name: 'guest',
-              path: '/init/guest',
-              component: './guest',
-            },
-          ],
-        },
-        {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['admin', 'user'],
           routes: [
             {
               path: '/',

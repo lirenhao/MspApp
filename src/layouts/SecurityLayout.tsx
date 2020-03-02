@@ -1,58 +1,53 @@
 import React from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'dva';
 import { PageLoading } from '@ant-design/pro-layout';
 import { Redirect } from 'umi';
-import { stringify } from 'querystring';
-import { ConnectState, ConnectProps } from '@/models/connect';
-import { CurrentUser } from '@/models/user';
+import { UserModelState, MerInfo } from '@/models/user';
 
-interface SecurityLayoutProps extends ConnectProps {
-  loading?: boolean;
-  currentUser?: CurrentUser;
+interface SecurityLayoutProps {
+  dispatch: Dispatch<any>;
+  loading: boolean;
+  merInfo: MerInfo;
 }
 
-interface SecurityLayoutState {
-  isReady: boolean;
-}
+const SecurityLayout: React.FC<SecurityLayoutProps> = props => {
+  const { dispatch, loading, merInfo, children } = props;
 
-class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayoutState> {
-  state: SecurityLayoutState = {
-    isReady: false,
-  };
+  React.useEffect(() => {
+    dispatch({ type: 'user/fetchMerInfo' });
+  }, []);
 
-  componentDidMount() {
-    this.setState({
-      isReady: true,
-    });
-    const { dispatch } = this.props;
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
+  if (!loading && merInfo) {
+    switch (merInfo.status) {
+      case "01": {
+        return <Redirect to="/init/reset"></Redirect>;
+      }
+      case "02": {
+        return <Redirect to="/init/policy"></Redirect>;
+      }
+      case "03": {
+        return <Redirect to="/init/reset"></Redirect>;
+      }
+      case "00": {
+        return children as React.ReactElement;
+      }
+      default: {
+        return <PageLoading />;
+      }
     }
-  }
-
-  render() {
-    const { isReady } = this.state;
-    const { children, loading, currentUser } = this.props;
-    // You can replace it to your authentication rule (such as check token exists)
-    // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
-    const isLogin = currentUser && currentUser.userid;
-    const queryString = stringify({
-      redirect: window.location.href,
-    });
-
-    if ((!isLogin && loading) || !isReady) {
-      return <PageLoading />;
-    }
-    if (!isLogin) {
-      return <Redirect to={`/user/login?${queryString}`}></Redirect>;
-    }
-    return children;
+  } else {
+    return <PageLoading />;
   }
 }
 
-export default connect(({ user, loading }: ConnectState) => ({
-  currentUser: user.currentUser,
+export default connect(({
+  user,
+  loading,
+}: {
+  user: UserModelState;
+  loading: { models: { [key: string]: boolean } };
+}) => ({
+  merInfo: user.merInfo,
   loading: loading.models.user,
 }))(SecurityLayout);

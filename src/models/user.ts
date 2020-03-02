@@ -1,36 +1,26 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
+import { getMerInfo } from '@/services/user';
 
-import { queryCurrent, query as queryUsers } from '@/services/user';
-
-export interface CurrentUser {
-  avatar?: string;
-  name?: string;
-  title?: string;
-  group?: string;
-  signature?: string;
-  tags?: {
-    key: string;
-    label: string;
-  }[];
-  userid?: string;
-  unreadCount?: number;
+export interface MerInfo {
+  merNo?: string;
+  merName?: string;
+  // 0-请求中; 00-商户正常; 01-重置密码; 02-同意协议; 03-密码到期
+  status?: '0' | '00' | '01' | '02' | '03';
 }
 
 export interface UserModelState {
-  currentUser?: CurrentUser;
+  merInfo: MerInfo;
 }
 
 export interface UserModelType {
   namespace: 'user';
   state: UserModelState;
   effects: {
-    fetch: Effect;
-    fetchCurrent: Effect;
+    fetchMerInfo: Effect;
   };
   reducers: {
-    saveCurrentUser: Reducer<UserModelState>;
-    changeNotifyCount: Reducer<UserModelState>;
+    setMerInfo: Reducer<UserModelState>;
   };
 }
 
@@ -38,46 +28,30 @@ const UserModel: UserModelType = {
   namespace: 'user',
 
   state: {
-    currentUser: {},
+    merInfo: {
+      status: '0'
+    },
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-    },
-    *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
-      yield put({
-        type: 'saveCurrentUser',
-        payload: response,
-      });
+    *fetchMerInfo(_, { call, put }) {
+      try {
+        const response = yield call(getMerInfo);
+        yield put({
+          type: 'setMerInfo',
+          payload: response,
+        });
+      } catch (error) {
+        // TODO 获取商户信息失败
+      }
     },
   },
 
   reducers: {
-    saveCurrentUser(state, action) {
+    setMerInfo(state, action) {
       return {
         ...state,
-        currentUser: action.payload || {},
-      };
-    },
-    changeNotifyCount(
-      state = {
-        currentUser: {},
-      },
-      action,
-    ) {
-      return {
-        ...state,
-        currentUser: {
-          ...state.currentUser,
-          notifyCount: action.payload.totalCount,
-          unreadCount: action.payload.unreadCount,
-        },
+        merInfo: action.payload || {},
       };
     },
   },
