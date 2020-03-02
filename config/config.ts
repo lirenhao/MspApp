@@ -93,32 +93,60 @@ export default {
       component: '../layouts/SecurityLayout',
       routes: [
         {
+          path: '/init',
+          component: '../layouts/BlankLayout',
+          routes: [
+            {
+              name: 'reset',
+              path: '/init/reset',
+              component: './reset',
+            },
+            {
+              name: 'guest',
+              path: '/init/guest',
+              component: './guest',
+            },
+          ],
+        },
+        {
           path: '/',
           component: '../layouts/BasicLayout',
           authority: ['admin', 'user'],
           routes: [
             {
               path: '/',
-              redirect: '/welcome',
+              redirect: '/dashboard',
             },
             {
-              path: '/welcome',
-              name: 'welcome',
+              path: '/dashboard',
+              name: 'dashboard',
               icon: 'smile',
-              component: './Welcome',
+              component: './dashboard',
+              hideInMenu: true,
             },
             {
-              path: '/admin',
-              name: 'admin',
+              path: '/merInfo',
+              name: 'merInfo',
               icon: 'crown',
-              component: './Admin',
-              authority: ['admin'],
+              component: './merInfo',
             },
             {
-              name: 'list.table-list',
-              icon: 'table',
-              path: '/list',
-              component: './ListTableList',
+              path: '/trans',
+              name: 'trans',
+              icon: 'crown',
+              component: './trans',
+            },
+            {
+              path: '/settle',
+              name: 'settle',
+              icon: 'crown',
+              component: './settle',
+            },
+            {
+              path: '/eState',
+              name: 'eState',
+              icon: 'crown',
+              component: './eState',
             },
             {
               component: './404',
