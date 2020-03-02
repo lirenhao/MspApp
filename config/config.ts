@@ -89,17 +89,17 @@ export default {
       ],
     },
     {
-      path: '/init',
+      path: '/pre',
       component: '../layouts/BlankLayout',
       routes: [
         {
           name: 'reset',
-          path: '/init/reset',
+          path: '/pre/reset',
           component: './reset',
         },
         {
           name: 'policy',
-          path: '/init/policy',
+          path: '/pre/policy',
           component: './policy',
         },
       ],
