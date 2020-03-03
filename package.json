@@ -47,10 +47,10 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "@ant-design/compatible": "0.0.1-rc.1",
+    "@ant-design/compatible": "^0.0.1-rc.1",
     "@ant-design/icons": "^4.0.0-alpha.19",
     "@ant-design/pro-layout": "^5.0.0",
-    "@ant-design/pro-table": "^2.0.0",
+    "@ant-design/pro-table": "^1.0.43",
     "@antv/data-set": "^0.11.1",
     "@types/lodash.debounce": "^4.0.6",
     "antd": "^4.0.0-rc.1",

@@ -146,12 +146,6 @@ export default {
               component: './eState',
             },
             {
-              name: 'sales',
-              icon: 'smile',
-              path: '/sales',
-              component: './sales',
-            },
-            {
               component: './404',
             },
           ],
