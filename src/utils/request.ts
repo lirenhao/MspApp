@@ -4,7 +4,6 @@
  */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
-import { routerRedux } from 'dva/router';
 import { stringify } from 'querystring';
 
 const codeMessage = {
@@ -34,7 +33,7 @@ const errorHandler = (error: { response: Response }): Response => {
     const queryString = stringify({
       redirect: window.location.href,
     });
-    routerRedux.push(`../login?${queryString}`);
+    window.location.href = `../login?${queryString}`;
   }
 
   if (response && response.status) {

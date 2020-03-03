@@ -1,6 +1,6 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
-import { getMerInfo } from '@/services/user';
+import { getMerInfo, getLogout } from '@/services/user';
 
 export interface MerInfo {
   merNo?: string;
@@ -18,6 +18,7 @@ export interface UserModelType {
   state: UserModelState;
   effects: {
     fetchMerInfo: Effect;
+    fetchLogout: Effect;
   };
   reducers: {
     setMerInfo: Reducer<UserModelState>;
@@ -45,6 +46,13 @@ const UserModel: UserModelType = {
         // TODO 获取商户信息失败
       }
     },
+    *fetchLogout(_, { call, put }) {
+      try {
+        yield call(getLogout);
+      } catch (error) {
+        // TODO 获取商户信息失败
+      }
+    }
   },
 
   reducers: {

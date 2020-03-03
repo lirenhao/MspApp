@@ -11,7 +11,3 @@ export async function login(params: LoginData) {
 export async function getCaptcha(mobile: string) {
   return request(`/api/login/captcha?mobile=${mobile}`);
 }
-
-export async function logout() {
-  return request('/api/logout');
-}

@@ -23,7 +23,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
 
       if (dispatch) {
         dispatch({
-          type: 'login/logout',
+          type: 'user/fetchLogout',
         });
       }
 
@@ -63,7 +63,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
     return merInfo && merInfo.merNo ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} icon={() => <UserOutlined />} alt="Merchant No" />
+          <Avatar size="small" className={styles.avatar}>Mer</Avatar>
           <span className={styles.name}>{merInfo.merNo}</span>
         </span>
       </HeaderDropdown>
