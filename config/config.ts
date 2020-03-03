@@ -112,13 +112,13 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/dashboard',
+              redirect: '/analysis',
             },
             {
-              path: '/dashboard',
-              name: 'dashboard',
+              name: 'analysis',
               icon: 'smile',
-              component: './sales',
+              path: '/analysis',
+              component: './analysis',
               hideInMenu: true,
             },
             {
