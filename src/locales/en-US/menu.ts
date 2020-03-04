@@ -1,7 +1,7 @@
 export default {
   'menu.login': 'Login',
   'menu.home': 'Home',
-  'menu.dashboard': 'Dashboard',
+  'menu.analysis': 'Dashboard',
   'menu.merInfo': 'merInfo',
   'menu.trans': 'trans',
   'menu.settle': 'settle',
