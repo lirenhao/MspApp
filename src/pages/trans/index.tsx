@@ -6,8 +6,9 @@ import { FormComponentProps } from '@ant-design/compatible/es/form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getLocale } from 'umi-plugin-react/locale';
 import ProTable, { IntlProvider, zhCNIntl, enUSIntl, ProColumns, ActionType } from '@ant-design/pro-table';
+import moment from 'moment';
 import { TableListItem } from './data.d';
-import { queryRule } from './service';
+import { queryTrans } from './service';
 
 import '@ant-design/compatible/assets/index.css';
 
@@ -19,22 +20,17 @@ const TableList: React.FC<TableListProps> = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '规则名称',
-      dataIndex: 'name',
-    },
-    {
-      title: '描述',
-      dataIndex: 'desc',
+      title: 'merNo',
+      dataIndex: 'merNo',
       hideInSearch: true,
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      renderText: (val: string) => `${val} 万`,
+      title: 'termNo',
+      dataIndex: 'termNo',
     },
     {
-      title: '状态',
-      dataIndex: 'status',
+      title: 'cardStatus',
+      dataIndex: 'cardStatus',
       valueEnum: {
         0: { text: '关闭' },
         1: { text: '运行中' },
@@ -43,9 +39,47 @@ const TableList: React.FC<TableListProps> = () => {
       },
     },
     {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
-      valueType: 'dateTime',
+      title: 'cardNo',
+      dataIndex: 'cardNo',
+      hideInSearch: true,
+    },
+    {
+      title: 'tranAmt',
+      dataIndex: 'tranAmt',
+      renderText: (val: string) => `SG$${val}`,
+    },
+    {
+      title: 'tranType',
+      dataIndex: 'tranType',
+      valueEnum: {
+        0: { text: '关闭' },
+        1: { text: '运行中' },
+        2: { text: '已上线' },
+        3: { text: '异常' },
+      },
+    },
+    {
+      title: 'tranStatus',
+      dataIndex: 'tranStatus',
+      valueEnum: {
+        0: { text: '关闭' },
+        1: { text: '运行中' },
+        2: { text: '已上线' },
+        3: { text: '异常' },
+      },
+    },
+    {
+      title: 'tranDate',
+      dataIndex: 'tranDate',
+      valueType: 'dateRange',
+      renderText: (val: string) => moment(val, 'YYYYMMDD').format('YYYY-MM-DD'),
+    },
+
+    {
+      title: 'tranTime',
+      dataIndex: 'tranTime',
+      renderText: (val: string) => moment(val, 'HHmmss').format('HH:mm:ss'),
+      hideInSearch: true,
     },
   ];
 
@@ -68,7 +102,7 @@ const TableList: React.FC<TableListProps> = () => {
             setParams(data)
             return data
           }}
-          request={params => queryRule(params)}
+          request={params => queryTrans(params)}
           columns={columns}
         />
       </IntlProvider>

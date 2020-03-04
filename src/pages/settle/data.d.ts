@@ -1,13 +1,10 @@
 export interface SubListItem {
   settlementDate: string;
-  settlementNumber: number;
-  totalCharge: number;
-  creait: number;
-  submissionAmount: number;
-  discountAmount: number;
-  feesAndIncentives: number;
-  chargeBacks: number;
-  adjustments: number;
+  creditDate: string;
+  totalAmt: number;
+  mdr: number;
+  refundAmt: number;
+  upgrade: number;
 }
 
 export interface TableListItem {

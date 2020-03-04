@@ -1,29 +1,14 @@
-export interface TransData {
+export interface TableListItem {
+  tranNo: string;
   merNo: string;
   termNo: string;
   cardStatus: string;
   cardNo: string;
-  tranAmt: string;
+  tranAmt: number;
   tranType: string;
   tranStatus: string;
   tranDate: string;
   tranTime: string;
-}
-
-export interface TableListItem {
-  key: number;
-  disabled?: boolean;
-  href: string;
-  avatar: string;
-  name: string;
-  title: string;
-  owner: string;
-  desc: string;
-  callNo: number;
-  status: number;
-  updatedAt: Date;
-  createdAt: Date;
-  progress: number;
 }
 
 export interface TableListPagination {
@@ -39,10 +24,11 @@ export interface TableListData {
 
 export interface TableListParams {
   sorter?: string;
-  status?: string;
-  name?: string;
-  desc?: string;
-  key?: number;
+  merNo?: string;
+  termNo?: string;
+  tranType?: string;
+  tranStatus?: string;
+  tranDate?: string;
   pageSize?: number;
   currentPage?: number;
 }

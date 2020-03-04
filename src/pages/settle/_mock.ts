@@ -2,10 +2,46 @@ import { Request, Response } from 'express';
 import { parse } from 'url';
 import { TableListItem, TableListParams } from './data.d';
 
-// mock tableListDataSource
 let tableListDataSource: TableListItem[] = [
   {
-    settlementDate: '20160531',
+    settlementDate: '20200131',
+    settlementNumber: 0,
+    totalCharge: 0,
+    creait: 0,
+    submissionAmount: 0,
+    discountAmount: 0,
+    feesAndIncentives: 0,
+    chargeBacks: 0,
+    adjustments: 0,
+    subs: [
+      {
+        settlementDate: '20200131',
+        creditDate: '20200202',
+        totalAmt: 0,
+        mdr: 0,
+        refundAmt: 0,
+        upgrade: 0,
+      },
+      {
+        settlementDate: '20200131',
+        creditDate: '20200202',
+        totalAmt: 0,
+        mdr: 0,
+        refundAmt: 0,
+        upgrade: 0,
+      },
+      {
+        settlementDate: '20200131',
+        creditDate: '20200202',
+        totalAmt: 0,
+        mdr: 0,
+        refundAmt: 0,
+        upgrade: 0,
+      },
+    ],
+  },
+  {
+    settlementDate: '20200130',
     settlementNumber: 0,
     totalCharge: 0,
     creait: 0,
@@ -17,7 +53,7 @@ let tableListDataSource: TableListItem[] = [
     subs: [],
   },
   {
-    settlementDate: '20160530',
+    settlementDate: '20200129',
     settlementNumber: 0,
     totalCharge: 0,
     creait: 0,
@@ -29,7 +65,7 @@ let tableListDataSource: TableListItem[] = [
     subs: [],
   },
   {
-    settlementDate: '20160529',
+    settlementDate: '20200128',
     settlementNumber: 0,
     totalCharge: 0,
     creait: 0,
@@ -41,7 +77,7 @@ let tableListDataSource: TableListItem[] = [
     subs: [],
   },
   {
-    settlementDate: '20160528',
+    settlementDate: '20200127',
     settlementNumber: 0,
     totalCharge: 0,
     creait: 0,
@@ -53,19 +89,7 @@ let tableListDataSource: TableListItem[] = [
     subs: [],
   },
   {
-    settlementDate: '20160527',
-    settlementNumber: 0,
-    totalCharge: 0,
-    creait: 0,
-    submissionAmount: 0,
-    discountAmount: 0,
-    feesAndIncentives: 0,
-    chargeBacks: 0,
-    adjustments: 0,
-    subs: [],
-  },
-  {
-    settlementDate: '20160526',
+    settlementDate: '20200126',
     settlementNumber: 0,
     totalCharge: 0,
     creait: 0,

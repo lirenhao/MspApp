@@ -79,12 +79,12 @@ const TableList: React.FC<TableListProps> = () => {
 
   const expandedRowRender = (record: TableListItem) => {
     const columns = [
-      { title: '结算日期', dataIndex: 'date'  },
-      { title: '信用日期', dataIndex: 'name'  },
-      { title: '总交易金额', dataIndex: 'upgradeNum'  },
-      { title: 'MDR', dataIndex: 'date'  },
-      { title: '退款', dataIndex: 'name'  },
-      { title: '调整', dataIndex: 'upgradeNum'  },
+      { title: '结算日期', dataIndex: 'settlementDate'  },
+      { title: '信用日期', dataIndex: 'creditDate'  },
+      { title: '总交易金额', dataIndex: 'totalAmt'  },
+      { title: 'MDR', dataIndex: 'mdr'  },
+      { title: '退款', dataIndex: 'refundAmt'  },
+      { title: '调整', dataIndex: 'upgrade'  },
     ];
     if (record.subs && record.subs.length > 0) {
       return <Table columns={columns} dataSource={record.subs} pagination={false} />;

@@ -3,30 +3,154 @@ import { parse } from 'url';
 import { TableListItem, TableListParams } from './data.d';
 
 // mock tableListDataSource
-let tableListDataSource: TableListItem[] = [];
+let tableListDataSource: TableListItem[] = [
+  {
+    tranNo: '1',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '2',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '3',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '4',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '5',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '6',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '7',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '8',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '9',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '10',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '11',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+  {
+    tranNo: '12',
+    merNo: '123456789012345',
+    termNo: '12345678',
+    cardStatus: '00',
+    cardNo: '1233*********6789',
+    tranAmt: 100,
+    tranType: '01',
+    tranStatus: '00',
+    tranDate: '20200129',
+    tranTime: '184530',
+  },
+];
 
-for (let i = 0; i < 10; i += 1) {
-  tableListDataSource.push({
-    key: i,
-    disabled: i % 6 === 0,
-    href: 'https://ant.design',
-    avatar: [
-      'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-      'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-    ][i % 2],
-    name: `TradeCode ${i}`,
-    title: `一个任务名称 ${i}`,
-    owner: '曲丽丽',
-    desc: '这是一段描述',
-    callNo: Math.floor(Math.random() * 1000),
-    status: Math.floor(Math.random() * 10) % 4,
-    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    progress: Math.ceil(Math.random() * 100),
-  });
-}
-
-function getRule(req: Request, res: Response, u: string) {
+function getTrans(req: Request, res: Response, u: string) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     // eslint-disable-next-line prefer-destructuring
@@ -47,24 +171,8 @@ function getRule(req: Request, res: Response, u: string) {
     });
   }
 
-  if (params.status) {
-    const status = params.status.split(',');
-    let filterDataSource: TableListItem[] = [];
-    status.forEach((s: string) => {
-      filterDataSource = filterDataSource.concat(
-        dataSource.filter(item => {
-          if (parseInt(`${item.status}`, 10) === parseInt(s.split('')[0], 10)) {
-            return true;
-          }
-          return false;
-        }),
-      );
-    });
-    dataSource = filterDataSource;
-  }
-
-  if (params.name) {
-    dataSource = dataSource.filter(data => data.name.includes(params.name || ''));
+  if (params.termNo) {
+    dataSource = dataSource.filter(data => data.termNo.includes(params.termNo || ''));
   }
 
   let pageSize = 10;
@@ -83,64 +191,6 @@ function getRule(req: Request, res: Response, u: string) {
   return res.json(result);
 }
 
-function postRule(req: Request, res: Response, u: string, b: Request) {
-  let url = u;
-  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
-    // eslint-disable-next-line prefer-destructuring
-    url = req.url;
-  }
-
-  const body = (b && b.body) || req.body;
-  const { method, name, desc, key } = body;
-
-  switch (method) {
-    /* eslint no-case-declarations:0 */
-    case 'delete':
-      tableListDataSource = tableListDataSource.filter(item => key.indexOf(item.key) === -1);
-      break;
-    case 'post':
-      const i = Math.ceil(Math.random() * 10000);
-      tableListDataSource.unshift({
-        key: i,
-        href: 'https://ant.design',
-        avatar: [
-          'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-          'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-        ][i % 2],
-        name: `TradeCode ${i}`,
-        title: `一个任务名称 ${i}`,
-        owner: '曲丽丽',
-        desc,
-        callNo: Math.floor(Math.random() * 1000),
-        status: Math.floor(Math.random() * 10) % 2,
-        updatedAt: new Date(),
-        createdAt: new Date(),
-        progress: Math.ceil(Math.random() * 100),
-      });
-      break;
-    case 'update':
-      tableListDataSource = tableListDataSource.map(item => {
-        if (item.key === key) {
-          return { ...item, desc, name };
-        }
-        return item;
-      });
-      break;
-    default:
-      break;
-  }
-
-  const result = {
-    list: tableListDataSource,
-    pagination: {
-      total: tableListDataSource.length,
-    },
-  };
-
-  return res.json(result);
-}
-
 export default {
-  'GET /api/rule': getRule,
-  'POST /api/rule': postRule,
+  'GET /api/trans': getTrans,
 };
