@@ -47,7 +47,7 @@ export default {
   // 拂晓蓝
   primaryColor: 'dark',
   layout: 'topmenu',
-  contentWidth: 'Fluid',
+  contentWidth: 'Fixed',
   fixedHeader: true,
   autoHideHeader: false,
   fixSiderbar: false,
