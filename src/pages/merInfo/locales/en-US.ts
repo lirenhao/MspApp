@@ -1,0 +1,17 @@
+export default {
+  'merInfo.revise': 'REVISE',
+  'merInfo.title': 'MERCHANT INFO',
+  'merInfo.merNo.title': 'MERCHANT NO',
+  'merInfo.merName.title': 'MERCHANT NAME',
+  'merInfo.merNameAbbr.title': 'MERCHANT POINT',
+  'merInfo.merAddress.title': 'MERCHANT ADDRESS',
+  'merInfo.accountNo.title': 'ACCOUNT',
+  'merInfo.contact.title': 'CONTACT INFO',
+  'merInfo.contactName.title': 'CONTACT PERSON',
+  'merInfo.contactPhone.title': 'CONTACT PHONE',
+  'merInfo.contactTax.title': 'CONTACT TAX',
+  'merInfo.contactEmail.title': 'CONTACT E-MAIL',
+  'merInfo.term.title': 'TERMINAL INFO',
+  'merInfo.termNo.title': 'TERMINAL NO',
+  'merInfo.termAddress.title': 'TERMINAL ADDRESS',
+};

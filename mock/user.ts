@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 
-const getMerInfo = (req: Request, res: Response) => {
+const getMerUser = (req: Request, res: Response) => {
   res.status(401).end();
 }
 
 export default {
-  'GET /api/user/merInfo': {
+  'GET /api/msp/user': {
     merNo: '123456789012345',
     merName: '测试商户',
     status: '00',

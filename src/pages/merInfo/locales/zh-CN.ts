@@ -1,0 +1,17 @@
+export default {
+  'merInfo.revise': '修改',
+  'merInfo.title': '商户信息',
+  'merInfo.merNo.title': '商户号',
+  'merInfo.merName.title': '商户名称',
+  'merInfo.merNameAbbr.title': '网点名称',
+  'merInfo.merAddress.title': '商户地址',
+  'merInfo.accountNo.title': '入帐帐户',
+  'merInfo.contact.title': '联系信息',
+  'merInfo.contactName.title': '联系人',
+  'merInfo.contactPhone.title': '联系电话',
+  'merInfo.contactTax.title': '传真',
+  'merInfo.contactEmail.title': '电子邮件',
+  'merInfo.term.title': '终端信息',
+  'merInfo.termNo.title': '终端号',
+  'merInfo.termAddress.title': '终端地址',
+};

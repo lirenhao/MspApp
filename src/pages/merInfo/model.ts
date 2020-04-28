@@ -1,11 +1,11 @@
 import { AnyAction, Reducer } from 'redux';
 
 import { EffectsCommandMap } from 'dva';
-import { BasicGood } from './data.d';
-import { queryBasicProfile } from './service';
+import { MerData } from './data.d';
+import { getMerInfo } from './service';
 
 export interface StateType {
-  basicGoods: BasicGood[];
+  merInfo?: MerData;
 }
 
 export type Effect = (
@@ -17,10 +17,10 @@ export interface ModelType {
   namespace: string;
   state: StateType;
   effects: {
-    fetchBasic: Effect;
+    fetch: Effect;
   };
   reducers: {
-    show: Reducer<StateType>;
+    save: Reducer<StateType>;
   };
 }
 
@@ -28,21 +28,21 @@ const Model: ModelType = {
   namespace: 'merInfo',
 
   state: {
-    basicGoods: [],
+
   },
 
   effects: {
-    *fetchBasic(_, { call, put }) {
-      const response = yield call(queryBasicProfile);
+    *fetch(_, { call, put }) {
+      const response = yield call(getMerInfo);
       yield put({
-        type: 'show',
+        type: 'save',
         payload: response,
       });
     },
   },
 
   reducers: {
-    show(state, { payload }) {
+    save(state, { payload }) {
       return {
         ...state,
         ...payload,

@@ -1,142 +1,71 @@
 import { Card, Descriptions, Divider, Table } from 'antd';
 import React, { Component } from 'react';
-
+import { formatMessage } from 'umi-plugin-react/locale';
 import { Dispatch } from 'redux';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
-import { BasicProfileDataType } from './data';
+import { MerData } from './data.d';
 import styles from './style.less';
 
-interface ProfileBasicProps {
+interface MerInfoProps {
   loading: boolean;
   dispatch: Dispatch<any>;
-  merInfo: BasicProfileDataType;
+  merInfo: MerData;
 }
-interface ProfileBasicState {
+interface MerInfoState {
   visible: boolean;
 }
 
-class ProfileBasic extends Component<
-  ProfileBasicProps,
-  ProfileBasicState
-  > {
+class MerInfo extends Component<MerInfoProps, MerInfoState> {
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'profileBasic/fetchBasic',
+      type: 'merInfo/fetch',
     });
   }
 
   render() {
-    const { merInfo, loading } = this.props;
-    const { basicGoods } = merInfo;
-    let goodsData: typeof basicGoods = [];
-    if (basicGoods.length) {
-      let num = 0;
-      let amount = 0;
-      basicGoods.forEach(item => {
-        num += Number(item.num);
-        amount += Number(item.amount);
-      });
-      goodsData = basicGoods.concat({
-        id: '总计',
-        num,
-        amount,
-      });
-    }
-    const renderContent = (value: any, row: any, index: any) => {
-      const obj: {
-        children: any;
-        props: { colSpan?: number };
-      } = {
-        children: value,
-        props: {},
-      };
-      if (index === basicGoods.length) {
-        obj.props.colSpan = 0;
-      }
-      return obj;
-    };
-    const goodsColumns = [
+    const { loading, merInfo } = this.props;
+    const termColumns = [
       {
-        title: '商品编号',
-        dataIndex: 'id',
-        key: 'id',
-        render: (text: React.ReactNode, row: any, index: number) => {
-          if (index < basicGoods.length) {
-            return <a href="">{text}</a>;
-          }
-          return {
-            children: <span style={{ fontWeight: 600 }}>总计</span>,
-            props: {
-              colSpan: 4,
-            },
-          };
-        },
+        title: formatMessage({ id: 'merInfo.termNo.title' }),
+        dataIndex: 'termNo',
+        key: 'termNo',
       },
       {
-        title: '商品名称',
-        dataIndex: 'name',
-        key: 'name',
-        render: renderContent,
-      },
-      {
-        title: '商品条码',
-        dataIndex: 'barcode',
-        key: 'barcode',
-        render: renderContent,
-      },
-      {
-        title: '单价',
-        dataIndex: 'price',
-        key: 'price',
-        align: 'right' as 'left' | 'right' | 'center',
-        render: renderContent,
-      },
-      {
-        title: '数量（件）',
-        dataIndex: 'num',
-        key: 'num',
-        align: 'right' as 'left' | 'right' | 'center',
-        render: (text: React.ReactNode, row: any, index: number) => {
-          if (index < basicGoods.length) {
-            return text;
-          }
-          return <span style={{ fontWeight: 600 }}>{text}</span>;
-        },
-      },
-      {
-        title: '金额',
-        dataIndex: 'amount',
-        key: 'amount',
-        align: 'right' as 'left' | 'right' | 'center',
-        render: (text: React.ReactNode, row: any, index: number) => {
-          if (index < basicGoods.length) {
-            return text;
-          }
-          return <span style={{ fontWeight: 600 }}>{text}</span>;
-        },
+        title: formatMessage({ id: 'merInfo.termAddress.title' }),
+        dataIndex: 'termAddress',
+        key: 'termAddress',
       },
     ];
     return (
-      <PageHeaderWrapper extra={<a href="#">修改</a>}>
+      <PageHeaderWrapper extra={<a href="#">{formatMessage({ id: 'merInfo.revise' })}</a>}>
         <Card bordered={false}>
-          <Descriptions title="商户信息" style={{ marginBottom: 32 }}>
-            <Descriptions.Item label="商户号">18100000000</Descriptions.Item>
-            <Descriptions.Item label="商户名称">付小小</Descriptions.Item>
-            <Descriptions.Item label="网点名称">菜鸟仓储</Descriptions.Item>
-            <Descriptions.Item label="入帐帐户">浙江省杭州市西湖区万塘路18号</Descriptions.Item>
-            <Descriptions.Item label="备注">无</Descriptions.Item>
+          <Descriptions title={formatMessage({ id: 'merInfo.title' })} style={{ marginBottom: 32 }}>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.merNo}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.merName}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.merNameAbbr}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.accountNo}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.merAddress}</Descriptions.Item>
           </Descriptions>
           <Divider style={{ marginBottom: 32 }} />
-          <div className={styles.title}>网点信息</div>
+          <Descriptions title={formatMessage({ id: 'merInfo.contact.title' })}>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.contactName.title' })}>{merInfo.contactName}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.contactPhone.title' })}>{merInfo.contactPhone}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.contactTax.title' })}>{merInfo.contactTax}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.contactEmail.title' })}>{merInfo.contactEmail}</Descriptions.Item>
+          </Descriptions>
+          <Divider style={{ marginBottom: 32 }} />
+          <div className={styles.title}>{formatMessage({ id: 'merInfo.term.title' })}</div>
           <Table
             style={{ marginBottom: 24 }}
+            scroll={{ y: 300 }}
             pagination={false}
             loading={loading}
-            dataSource={goodsData}
-            columns={goodsColumns}
-            rowKey="id"
+            dataSource={merInfo.terms}
+            columns={termColumns}
+            rowKey="termNo"
           />
         </Card>
       </PageHeaderWrapper >
@@ -149,12 +78,12 @@ export default connect(
     merInfo,
     loading,
   }: {
-    merInfo: BasicProfileDataType;
+    merInfo: MerData;
     loading: {
       effects: { [key: string]: boolean };
     };
   }) => ({
     merInfo,
-    loading: loading.effects['profileBasic/fetchBasic'],
+    loading: loading.effects['merInfo/fetch'],
   }),
-)(ProfileBasic);
+)(MerInfo);
