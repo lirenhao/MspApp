@@ -116,7 +116,7 @@ export default {
             },
             {
               name: 'analysis',
-              icon: 'smile',
+              icon: 'home',
               path: '/analysis',
               component: './analysis',
               hideInMenu: true,
@@ -124,25 +124,25 @@ export default {
             {
               path: '/merInfo',
               name: 'merInfo',
-              icon: 'crown',
+              icon: 'user',
               component: './merInfo',
             },
             {
               path: '/trans',
               name: 'trans',
-              icon: 'crown',
+              icon: 'transaction',
               component: './trans',
             },
             {
               path: '/settle',
               name: 'settle',
-              icon: 'crown',
+              icon: 'payCircle',
               component: './settle',
             },
             {
               path: '/eState',
               name: 'eState',
-              icon: 'crown',
+              icon: 'link',
               component: './eState',
             },
             {
