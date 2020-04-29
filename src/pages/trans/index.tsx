@@ -4,7 +4,7 @@ import { Form } from '@ant-design/compatible';
 import { Button } from 'antd';
 import { FormComponentProps } from '@ant-design/compatible/es/form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { getLocale } from 'umi-plugin-react/locale';
+import { getLocale, formatMessage } from 'umi-plugin-react/locale';
 import ProTable, { IntlProvider, zhCNIntl, enUSIntl, ProColumns, ActionType } from '@ant-design/pro-table';
 import moment from 'moment';
 import { TableListItem } from './data.d';
@@ -20,63 +20,58 @@ const TableList: React.FC<TableListProps> = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: 'merNo',
+      title: formatMessage({ id: 'trans.merNo.title' }),
       dataIndex: 'merNo',
       hideInSearch: true,
     },
     {
-      title: 'termNo',
+      title: formatMessage({ id: 'trans.termNo.title' }),
       dataIndex: 'termNo',
     },
     {
-      title: 'cardStatus',
+      title: formatMessage({ id: 'trans.cardStatus.title' }),
       dataIndex: 'cardStatus',
       valueEnum: {
-        0: { text: '关闭' },
-        1: { text: '运行中' },
-        2: { text: '已上线' },
-        3: { text: '异常' },
+        '00': { text: formatMessage({ id: 'trans.cardStatus.credit' }) },
+        '01': { text: formatMessage({ id: 'trans.cardStatus.debit' }) },
       },
     },
     {
-      title: 'cardNo',
+      title: formatMessage({ id: 'trans.cardNo.title' }),
       dataIndex: 'cardNo',
       hideInSearch: true,
     },
     {
-      title: 'tranAmt',
+      title: formatMessage({ id: 'trans.tranAmt.title' }),
       dataIndex: 'tranAmt',
       renderText: (val: string) => `SG$${val}`,
     },
     {
-      title: 'tranType',
+      title: formatMessage({ id: 'trans.tranType.title' }),
       dataIndex: 'tranType',
       valueEnum: {
-        0: { text: '关闭' },
-        1: { text: '运行中' },
-        2: { text: '已上线' },
-        3: { text: '异常' },
+        '00': { text: formatMessage({ id: 'trans.tranType.pay' }) },
+        '01': { text: formatMessage({ id: 'trans.tranType.refund' }) },
+        '02': { text: formatMessage({ id: 'trans.tranType.revoke' }) },
       },
     },
     {
-      title: 'tranStatus',
+      title: formatMessage({ id: 'trans.tranStatus.title' }),
       dataIndex: 'tranStatus',
       valueEnum: {
-        0: { text: '关闭' },
-        1: { text: '运行中' },
-        2: { text: '已上线' },
-        3: { text: '异常' },
+        '00': { text: formatMessage({ id: 'trans.tranStatus.success' }) },
+        '01': { text: formatMessage({ id: 'trans.tranStatus.fail' }) },
       },
     },
     {
-      title: 'tranDate',
+      title: formatMessage({ id: 'trans.tranDate.title' }),
       dataIndex: 'tranDate',
       valueType: 'dateRange',
       renderText: (val: string) => moment(val, 'YYYYMMDD').format('YYYY-MM-DD'),
     },
 
     {
-      title: 'tranTime',
+      title: formatMessage({ id: 'trans.tranTime.title' }),
       dataIndex: 'tranTime',
       renderText: (val: string) => moment(val, 'HHmmss').format('HH:mm:ss'),
       hideInSearch: true,
@@ -91,7 +86,7 @@ const TableList: React.FC<TableListProps> = () => {
     <PageHeaderWrapper>
       <IntlProvider value={getLocale() === 'en-US' ? enUSIntl : zhCNIntl}>
         <ProTable<TableListItem>
-          headerTitle="交易查询"
+          headerTitle={formatMessage({ id: 'trans.query.result' })}
           actionRef={actionRef}
           rowKey="key"
           toolBarRender={() => [

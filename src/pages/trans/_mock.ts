@@ -192,5 +192,5 @@ function getTrans(req: Request, res: Response, u: string) {
 }
 
 export default {
-  'GET /api/trans': getTrans,
+  'GET /api/msp/trans': getTrans,
 };
