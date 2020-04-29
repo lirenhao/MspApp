@@ -4,7 +4,7 @@ import { Form } from '@ant-design/compatible';
 import { Table, Button } from 'antd';
 import { FormComponentProps } from '@ant-design/compatible/es/form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { getLocale } from 'umi-plugin-react/locale';
+import { getLocale, formatMessage } from 'umi-plugin-react/locale';
 import ProTable, { IntlProvider, zhCNIntl, enUSIntl, ProColumns, ActionType } from '@ant-design/pro-table';
 import moment from 'moment';
 import { TableListItem } from './data.d';
@@ -20,53 +20,53 @@ const TableList: React.FC<TableListProps> = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: 'settlementDate',
+      title: formatMessage({ id: 'settle.settlementDate.title' }),
       dataIndex: 'settlementDate',
       valueType: 'dateRange',
     },
     {
-      title: 'settlementNumber',
+      title: formatMessage({ id: 'settle.settlementNumber.title' }),
       dataIndex: 'settlementNumber',
       hideInSearch: true,
     },
     {
-      title: 'totalCharge',
+      title: formatMessage({ id: 'settle.totalCharge.title' }),
       dataIndex: 'totalCharge',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
     {
-      title: 'creait',
+      title: formatMessage({ id: 'settle.creait.title' }),
       dataIndex: 'creait',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
     {
-      title: 'submissionAmount',
+      title: formatMessage({ id: 'settle.submissionAmount.title' }),
       dataIndex: 'submissionAmount',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
     {
-      title: 'discountAmount',
+      title: formatMessage({ id: 'settle.discountAmount.title' }),
       dataIndex: 'discountAmount',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
     {
-      title: 'feesAndIncentives',
+      title: formatMessage({ id: 'settle.feesAndIncentives.title' }),
       dataIndex: 'feesAndIncentives',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
     {
-      title: 'chargeBacks',
+      title: formatMessage({ id: 'settle.chargeBacks.title' }),
       dataIndex: 'chargeBacks',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
     {
-      title: 'adjustments',
+      title: formatMessage({ id: 'settle.adjustments.title' }),
       dataIndex: 'adjustments',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
@@ -79,12 +79,12 @@ const TableList: React.FC<TableListProps> = () => {
 
   const expandedRowRender = (record: TableListItem) => {
     const columns = [
-      { title: '结算日期', dataIndex: 'settlementDate'  },
-      { title: '信用日期', dataIndex: 'creditDate'  },
-      { title: '总交易金额', dataIndex: 'totalAmt'  },
-      { title: 'MDR', dataIndex: 'mdr'  },
-      { title: '退款', dataIndex: 'refundAmt'  },
-      { title: '调整', dataIndex: 'upgrade'  },
+      { title: formatMessage({ id: 'settle.settlementDate.title' }), dataIndex: 'settlementDate' },
+      { title: formatMessage({ id: 'settle.creditDate.title' }), dataIndex: 'creditDate' },
+      { title: formatMessage({ id: 'settle.totalAmt.title' }), dataIndex: 'totalAmt' },
+      { title: formatMessage({ id: 'settle.mdr.title' }), dataIndex: 'mdr' },
+      { title: formatMessage({ id: 'settle.refundAmt.title' }), dataIndex: 'refundAmt' },
+      { title: formatMessage({ id: 'settle.upgrade.title' }), dataIndex: 'upgrade' },
     ];
     if (record.subs && record.subs.length > 0) {
       return <Table columns={columns} dataSource={record.subs} pagination={false} />;
@@ -97,7 +97,7 @@ const TableList: React.FC<TableListProps> = () => {
     <PageHeaderWrapper>
       <IntlProvider value={getLocale() === 'en-US' ? enUSIntl : zhCNIntl}>
         <ProTable<TableListItem>
-          headerTitle="Settlement Summary"
+          headerTitle={formatMessage({ id: 'settle.query.result' })}
           actionRef={actionRef}
           rowKey="settlementDate"
           expandable={{ expandedRowRender }}

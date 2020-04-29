@@ -4,7 +4,7 @@ export default {
   'menu.analysis': 'Dashboard',
   'menu.merInfo': 'Merchant Info',
   'menu.trans': 'Transaction Info',
-  'menu.settle': 'Settle Info',
+  'menu.settle': 'Settlement Info',
   'menu.eState': 'eState',
   'menu.changePwd': 'Change Password',
   'menu.logout': 'Logout',

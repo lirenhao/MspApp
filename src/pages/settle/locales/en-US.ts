@@ -1,0 +1,17 @@
+export default {
+  'settle.query.result': 'Query Result',
+  'settle.settlementDate.title': 'Settlement Date',
+  'settle.settlementNumber.title': 'Settlement Number',
+  'settle.totalCharge.title': 'Total Charge',
+  'settle.creait.title': 'Creait Amount',
+  'settle.submissionAmount.title': 'Submission Amount',
+  'settle.discountAmount.title': 'Discount Amount',
+  'settle.feesAndIncentives.title': 'Incentives',
+  'settle.chargeBacks.title': 'Charge Backs',
+  'settle.adjustments.title': 'adjustments',
+  'settle.creditDate.title': 'Credit Date',
+  'settle.totalAmt.title': 'Total Amount',
+  'settle.mdr.title': 'MDR',
+  'settle.refundAmt.title': 'Refund Amount',
+  'settle.upgrade.title': 'Upgrade',
+};
