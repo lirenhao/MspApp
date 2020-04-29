@@ -6,4 +6,6 @@ export default {
   'menu.trans': 'Transaction Info',
   'menu.settle': 'Settle Info',
   'menu.eState': 'eState',
+  'menu.changePwd': 'Change Password',
+  'menu.logout': 'Logout',
 };

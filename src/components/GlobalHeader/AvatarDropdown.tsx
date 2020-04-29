@@ -1,9 +1,10 @@
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, SettingOutlined, UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Spin } from 'antd';
 import { ClickParam } from 'antd/es/menu';
 import React from 'react';
 import { connect } from 'dva';
 import { router } from 'umi';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { ConnectProps, ConnectState } from '@/models/connect';
 import { MerInfo } from '@/models/user';
 import HeaderDropdown from '../HeaderDropdown';
@@ -54,12 +55,12 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
         )}
         {menu && <Menu.Divider />}
         <Menu.Item key="changePwd">
-          <LogoutOutlined />
-          修改密码
-        <Menu.Item key="logout">
-            <LogoutOutlined />
-          退出登录
+          <LockOutlined />
+          {formatMessage({ id: 'menu.changePwd' })}
         </Menu.Item>
+        <Menu.Item key="logout">
+          <LogoutOutlined />
+          {formatMessage({ id: 'menu.logout' })}
         </Menu.Item>
       </Menu>
     );
