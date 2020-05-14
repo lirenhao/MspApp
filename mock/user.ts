@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-const getMerUser = (req: Request, res: Response) => {
+const getUser = (req: Request, res: Response) => {
   res.status(401).end();
 }
 

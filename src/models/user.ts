@@ -1,8 +1,8 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
-import { getMerInfo, getLogout } from '@/services/user';
+import { getUser, getLogout } from '@/services/user';
 
-export interface MerInfo {
+export interface User {
   merNo?: string;
   merName?: string;
   // 0-请求中; 00-商户正常; 01-同意协议; 02-重置密码; 03-密码到期
@@ -10,18 +10,18 @@ export interface MerInfo {
 }
 
 export interface UserModelState {
-  merInfo: MerInfo;
+  user: User;
 }
 
 export interface UserModelType {
   namespace: 'user';
   state: UserModelState;
   effects: {
-    fetchMerInfo: Effect;
+    fetchUser: Effect;
     fetchLogout: Effect;
   };
   reducers: {
-    setMerInfo: Reducer<UserModelState>;
+    setUser: Reducer<UserModelState>;
   };
 }
 
@@ -29,17 +29,17 @@ const UserModel: UserModelType = {
   namespace: 'user',
 
   state: {
-    merInfo: {
+    user: {
       status: '0'
     },
   },
 
   effects: {
-    *fetchMerInfo(_, { call, put }) {
+    *fetchUser(_, { call, put }) {
       try {
-        const response = yield call(getMerInfo);
+        const response = yield call(getUser);
         yield put({
-          type: 'setMerInfo',
+          type: 'setUser',
           payload: response,
         });
       } catch (error) {
@@ -56,10 +56,10 @@ const UserModel: UserModelType = {
   },
 
   reducers: {
-    setMerInfo(state, action) {
+    setUser(state, action) {
       return {
         ...state,
-        merInfo: action.payload || {},
+        user: action.payload || {},
       };
     },
   },

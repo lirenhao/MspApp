@@ -6,12 +6,12 @@ import { connect } from 'dva';
 import { router } from 'umi';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { ConnectProps, ConnectState } from '@/models/connect';
-import { MerInfo } from '@/models/user';
+import { User } from '@/models/user';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
 export interface GlobalHeaderRightProps extends ConnectProps {
-  merInfo?: MerInfo;
+  user?: User;
   menu?: boolean;
 }
 
@@ -36,7 +36,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
 
   render(): React.ReactNode {
     const {
-      merInfo,
+      user,
       menu,
     } = this.props;
     const menuHeaderDropdown = (
@@ -64,11 +64,11 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
         </Menu.Item>
       </Menu>
     );
-    return merInfo && merInfo.merNo ? (
+    return user && user.merNo ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
           <Avatar size="small" className={styles.avatar}>Mer</Avatar>
-          <span className={styles.name}>{merInfo.merNo}</span>
+          <span className={styles.name}>{user.merNo}</span>
         </span>
       </HeaderDropdown>
     ) : (
@@ -84,5 +84,5 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
 }
 
 export default connect(({ user }: ConnectState) => ({
-  merInfo: user.merInfo,
+  user: user.user,
 }))(AvatarDropdown);

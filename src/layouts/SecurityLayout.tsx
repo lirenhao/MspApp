@@ -3,23 +3,23 @@ import { Dispatch } from 'redux';
 import { connect } from 'dva';
 import { PageLoading } from '@ant-design/pro-layout';
 import { Redirect } from 'umi';
-import { UserModelState, MerInfo } from '@/models/user';
+import { UserModelState, User } from '@/models/user';
 
 interface SecurityLayoutProps {
   dispatch: Dispatch<any>;
   loading: boolean;
-  merInfo: MerInfo;
+  user: User;
 }
 
 const SecurityLayout: React.FC<SecurityLayoutProps> = props => {
-  const { dispatch, loading, merInfo, children } = props;
+  const { dispatch, loading, user, children } = props;
 
   React.useEffect(() => {
-    dispatch({ type: 'user/fetchMerInfo' });
+    dispatch({ type: 'user/fetchUser' });
   }, []);
 
-  if (!loading && merInfo) {
-    switch (merInfo.status) {
+  if (!loading && user) {
+    switch (user.status) {
       case "01": {
         return <Redirect to="/pre/policy"></Redirect>;
       }
@@ -48,6 +48,6 @@ export default connect(({
   user: UserModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
-  merInfo: user.merInfo,
+  user: user.user,
   loading: loading.models.user,
 }))(SecurityLayout);

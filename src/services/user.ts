@@ -1,9 +1,9 @@
 import request from '@/utils/request';
 
-export async function getMerInfo(): Promise<any> {
+export async function getUser(): Promise<any> {
   return request('/api/msp/user');
 }
 
 export async function getLogout(): Promise<any> {
-  return request('/api/msp/logout');
+  return request('/api/logout');
 }
