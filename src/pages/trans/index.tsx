@@ -92,12 +92,12 @@ const TableList: React.FC<TableListProps> = () => {
             <Button icon={<DownloadOutlined />} type="link" onClick={() => handleDownload()} />
           ]}
           options={{ density: false, fullScreen: true, reload: true, setting: false }}
-          beforeSearchSubmit={(data) => {
-            if (data.tranDate) {
-              data.tranDate = moment(data.tranDate).format('YYYYMMDD');
+          beforeSearchSubmit={(params) => {
+            if (params.tranDate) {
+              params.tranDate = moment(params.tranDate).format('YYYYMMDD');
             }
-            setParams(data)
-            return data
+            setParams(params)
+            return params
           }}
           request={async (params = {}) => {
             try {

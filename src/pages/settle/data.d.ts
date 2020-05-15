@@ -1,39 +1,22 @@
-export interface SubListItem {
-  settlementDate: string;
-  creditDate: string;
-  totalAmt: number;
-  mdr: number;
-  refundAmt: number;
-  upgrade: number;
+export interface SettleSubItem {
+  settleDate: string;
+  merNo: string;
+  channel: string;
+  tranAmt: string;
+  fee: string;
+  settleAmt: string;
 }
 
-export interface TableListItem {
-  settlementDate: string;
-  settlementNumber: number;
-  totalCharge: number;
-  creait: number;
-  submissionAmount: number;
-  discountAmount: number;
-  feesAndIncentives: number;
-  chargeBacks: number;
-  adjustments: number;
-  subs: SubListItem[];
+export interface SettleItem {
+  settleDate: string;
+  merNo: string;
+  tranAmt: string;
+  fee: string;
+  settleAmt: string;
+  subs: SettleSubItem[];
 }
 
-export interface TableListPagination {
-  total: number;
-  pageSize: number;
-  current: number;
-}
-
-export interface TableListData {
-  list: TableListItem[];
-  pagination: Partial<TableListPagination>;
-}
-
-export interface TableListParams {
-  sorter?: string;
-  settlementDate?: string;
-  pageSize?: number;
-  currentPage?: number;
+export interface SettleParams {
+  settleDate: string;
+  merNo: string;
 }

@@ -1,73 +1,55 @@
 import React from 'react';
 import { DownloadOutlined, LinkOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
-import { Table, Button } from 'antd';
+import { DatePicker, Table, Button } from 'antd';
 import { FormComponentProps } from '@ant-design/compatible/es/form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getLocale, formatMessage } from 'umi-plugin-react/locale';
 import ProTable, { IntlProvider, zhCNIntl, enUSIntl, ProColumns, ActionType } from '@ant-design/pro-table';
 import moment from 'moment';
-import { TableListItem } from './data.d';
+import { SettleItem } from './data.d';
 import { querySettle } from './service';
 
 import '@ant-design/compatible/assets/index.css';
 
-interface TableListProps extends FormComponentProps { }
+interface SettleProps extends FormComponentProps { }
 
-const TableList: React.FC<TableListProps> = () => {
+const SettleList: React.FC<SettleProps> = () => {
   const [params, setParams] = React.useState({});
   const actionRef = React.useRef<ActionType>();
 
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<SettleItem>[] = [
     {
-      title: formatMessage({ id: 'settle.settlementDate.title' }),
-      dataIndex: 'settlementDate',
-      valueType: 'dateRange',
+      title: formatMessage({ id: 'settle.merNo.title' }),
+      dataIndex: 'merNo',
     },
     {
-      title: formatMessage({ id: 'settle.settlementNumber.title' }),
-      dataIndex: 'settlementNumber',
-      hideInSearch: true,
+      title: formatMessage({ id: 'settle.settleDate.title' }),
+      dataIndex: 'settleDate',
+      valueType: 'date',
+      renderText: (val: string) => moment(val, 'YYYYMMDD').format('YYYY-MM-DD'),
+      renderFormItem: (item, { onChange, ...rest }) => (
+        <DatePicker style={{ width: '100%' }} showToday={false}
+          disabledDate={(date) => date && date >= moment().endOf('day')}
+          {...item.formItemProps} {...rest} onChange={onChange}
+        />
+      ),
     },
     {
-      title: formatMessage({ id: 'settle.totalCharge.title' }),
-      dataIndex: 'totalCharge',
+      title: formatMessage({ id: 'settle.tranAmt.title' }),
+      dataIndex: 'tranAmt',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
     {
-      title: formatMessage({ id: 'settle.creait.title' }),
-      dataIndex: 'creait',
+      title: formatMessage({ id: 'settle.fee.title' }),
+      dataIndex: 'fee',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
     {
-      title: formatMessage({ id: 'settle.submissionAmount.title' }),
-      dataIndex: 'submissionAmount',
-      renderText: (val: number) => `SG$${val}`,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'settle.discountAmount.title' }),
-      dataIndex: 'discountAmount',
-      renderText: (val: number) => `SG$${val}`,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'settle.feesAndIncentives.title' }),
-      dataIndex: 'feesAndIncentives',
-      renderText: (val: number) => `SG$${val}`,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'settle.chargeBacks.title' }),
-      dataIndex: 'chargeBacks',
-      renderText: (val: number) => `SG$${val}`,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'settle.adjustments.title' }),
-      dataIndex: 'adjustments',
+      title: formatMessage({ id: 'settle.settleAmt.title' }),
+      dataIndex: 'settleAmt',
       renderText: (val: number) => `SG$${val}`,
       hideInSearch: true,
     },
@@ -77,14 +59,35 @@ const TableList: React.FC<TableListProps> = () => {
     console.log(params);
   };
 
-  const expandedRowRender = (record: TableListItem) => {
+  const expandedRowRender = (record: SettleItem) => {
     const columns = [
-      { title: formatMessage({ id: 'settle.settlementDate.title' }), dataIndex: 'settlementDate' },
-      { title: formatMessage({ id: 'settle.creditDate.title' }), dataIndex: 'creditDate' },
-      { title: formatMessage({ id: 'settle.totalAmt.title' }), dataIndex: 'totalAmt' },
-      { title: formatMessage({ id: 'settle.mdr.title' }), dataIndex: 'mdr' },
-      { title: formatMessage({ id: 'settle.refundAmt.title' }), dataIndex: 'refundAmt' },
-      { title: formatMessage({ id: 'settle.upgrade.title' }), dataIndex: 'upgrade' },
+      {
+        title: formatMessage({ id: 'settle.merNo.title' }),
+        dataIndex: 'merNo',
+      },
+      {
+        title: formatMessage({ id: 'settle.settleDate.title' }),
+        dataIndex: 'settleDate'
+      },
+      {
+        title: formatMessage({ id: 'settle.tranAmt.title' }),
+        dataIndex: 'tranAmt',
+        render: (val: number) => `SG$${val}`,
+      },
+      {
+        title: formatMessage({ id: 'settle.fee.title' }),
+        dataIndex: 'fee',
+        render: (val: number) => `SG$${val}`,
+      },
+      {
+        title: formatMessage({ id: 'settle.settleAmt.title' }),
+        dataIndex: 'settleAmt',
+        render: (val: number) => `SG$${val}`,
+      },
+      {
+        title: formatMessage({ id: 'settle.channel.title' }),
+        dataIndex: 'channel',
+      },
     ];
     if (record.subs && record.subs.length > 0) {
       return <Table columns={columns} dataSource={record.subs} pagination={false} />;
@@ -96,10 +99,10 @@ const TableList: React.FC<TableListProps> = () => {
   return (
     <PageHeaderWrapper>
       <IntlProvider value={getLocale() === 'en-US' ? enUSIntl : zhCNIntl}>
-        <ProTable<TableListItem>
+        <ProTable<SettleItem>
           headerTitle={formatMessage({ id: 'settle.query.result' })}
           actionRef={actionRef}
-          rowKey="settlementDate"
+          rowKey="settleDate"
           expandable={{ expandedRowRender }}
           toolBarRender={() => [
             <Button icon={<LinkOutlined />} type="link" onClick={() => handleDownload()} >
@@ -109,18 +112,32 @@ const TableList: React.FC<TableListProps> = () => {
           ]}
           options={{ density: false, fullScreen: true, reload: true, setting: false }}
           beforeSearchSubmit={(params) => {
-            if (params.settlementDate) {
-              const data = {
-                ...params,
-                settlementDate: moment(params.settlementDate).format("YYYYMMDD"),
-              }
-              setParams(data)
-              return data
+            if (params.settleDate) {
+              params.settleDate = moment(params.settleDate).format('YYYYMMDD');
             }
             setParams(params)
             return params
           }}
-          request={params => querySettle(params)}
+          request={async (params = {}) => {
+            try {
+              const result = await querySettle({
+                ...params,
+                size: params.pageSize,
+                page: params.current as number - 1,
+              });
+              return {
+                data: result.content,
+                page: result.totalPages,
+                total: result.totalElements,
+                success: true,
+              }
+            } catch (err) {
+              return {
+                data: [],
+                success: false,
+              }
+            }
+          }}
           columns={columns}
         />
       </IntlProvider>
@@ -128,4 +145,4 @@ const TableList: React.FC<TableListProps> = () => {
   );
 };
 
-export default Form.create<TableListProps>()(TableList);
+export default Form.create<SettleProps>()(SettleList);

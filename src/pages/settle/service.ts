@@ -1,7 +1,6 @@
 import request from '@/utils/request';
-import { TableListParams } from './data.d';
 
-export async function querySettle(params?: TableListParams) {
+export async function querySettle(params?: any) {
   return request('/api/msp/settle', {
     params,
   });

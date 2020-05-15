@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { parse } from 'url';
 import { TransItem, TransParams } from './data.d';
 
-// mock tableListDataSource
 const transDataSource: TransItem[] = [
   {
     lsId: '1',
@@ -199,13 +198,11 @@ function getTrans(req: Request, res: Response) {
   const dataSource = transDataSource
     .filter(data => params.termNo ? data.termNo.includes(params.termNo) : true);
 
-  const result = {
+  return res.json({
     content: dataSource,
     totalElements: dataSource.length,
     totalPages: dataSource.length % params.size,
-  };
-
-  return res.json(result);
+  });
 }
 
 export default {
