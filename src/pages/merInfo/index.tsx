@@ -44,10 +44,10 @@ class MerInfo extends Component<MerInfoProps, MerInfoState> {
         <Card bordered={false}>
           <Descriptions title={formatMessage({ id: 'merInfo.title' })} style={{ marginBottom: 32 }}>
             <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.merNo}</Descriptions.Item>
-            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.merName}</Descriptions.Item>
-            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.merNameAbbr}</Descriptions.Item>
-            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.accountNo}</Descriptions.Item>
-            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNo.title' })}>{merInfo.merAddress}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.merName.title' })}>{merInfo.merName}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.merNameAbbr.title' })}>{merInfo.merNameAbbr}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.accountNo.title' })}>{merInfo.accountNo}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'merInfo.merAddress.title' })}>{merInfo.merAddress}</Descriptions.Item>
           </Descriptions>
           <Divider style={{ marginBottom: 32 }} />
           <Descriptions title={formatMessage({ id: 'merInfo.contact.title' })}>

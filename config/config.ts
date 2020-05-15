@@ -74,6 +74,8 @@ export default {
     ie: 11,
   },
   history: 'hash',
+  base: '/api/msp',
+  publicPath: '/api/msp/',
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
