@@ -1,7 +1,6 @@
 import request from '@/utils/request';
-import { TableListParams } from './data.d';
 
-export async function queryTrans(params?: TableListParams) {
+export async function queryTrans(params: any) {
   return request('/api/msp/trans', {
     params,
   });

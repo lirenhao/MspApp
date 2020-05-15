@@ -1,34 +1,23 @@
-export interface TableListItem {
-  tranNo: string;
+export interface TransItem {
+  lsId: string;
   merNo: string;
   termNo: string;
-  cardStatus: string;
   cardNo: string;
   tranAmt: number;
   tranType: string;
-  tranStatus: string;
+  respCode: string;
   tranDate: string;
   tranTime: string;
+  batchNo: string;
+  traceNo: string;
+  authNo: string;
+  rrn: string;
 }
 
-export interface TableListPagination {
-  total: number;
-  pageSize: number;
-  current: number;
-}
-
-export interface TableListData {
-  list: TableListItem[];
-  pagination: Partial<TableListPagination>;
-}
-
-export interface TableListParams {
-  sorter?: string;
+export interface TransParams {
   merNo?: string;
   termNo?: string;
   tranType?: string;
-  tranStatus?: string;
+  respCode?: string;
   tranDate?: string;
-  pageSize?: number;
-  currentPage?: number;
 }

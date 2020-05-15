@@ -69,10 +69,11 @@ if (isAntDesignProPreview) {
 
 export default {
   plugins,
-  hash: true,
+  hash: false,
   targets: {
     ie: 11,
   },
+  history: 'hash',
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
@@ -112,7 +113,7 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/analysis',
+              redirect: '/merInfo',
             },
             {
               name: 'analysis',
@@ -207,9 +208,11 @@ export default {
     basePath: '/',
   }, // chainWebpack: webpackPlugin,
   proxy: {
-    // '/api': {
-    //   target: 'http://localhost:8080/',
-    //   changeOrigin: true,
-    // },
+    '/api': {
+      target: 'http://localhost:3012/',
+      changeOrigin: true,
+      pathRewrite: { "^/api": "" },
+      logLevel: 'debug',
+    },
   },
 } as IConfig;

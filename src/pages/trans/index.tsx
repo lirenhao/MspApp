@@ -1,13 +1,13 @@
 import React from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
-import { Button } from 'antd';
+import { DatePicker, Button } from 'antd';
 import { FormComponentProps } from '@ant-design/compatible/es/form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getLocale, formatMessage } from 'umi-plugin-react/locale';
 import ProTable, { IntlProvider, zhCNIntl, enUSIntl, ProColumns, ActionType } from '@ant-design/pro-table';
 import moment from 'moment';
-import { TableListItem } from './data.d';
+import { TransItem, TransParams } from './data.d';
 import { queryTrans } from './service';
 
 import '@ant-design/compatible/assets/index.css';
@@ -18,23 +18,15 @@ const TableList: React.FC<TableListProps> = () => {
   const [params, setParams] = React.useState({});
   const actionRef = React.useRef<ActionType>();
 
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<TransItem>[] = [
     {
       title: formatMessage({ id: 'trans.merNo.title' }),
       dataIndex: 'merNo',
-      hideInSearch: true,
+      // initialValue: '104767999000004',
     },
     {
       title: formatMessage({ id: 'trans.termNo.title' }),
       dataIndex: 'termNo',
-    },
-    {
-      title: formatMessage({ id: 'trans.cardStatus.title' }),
-      dataIndex: 'cardStatus',
-      valueEnum: {
-        '00': { text: formatMessage({ id: 'trans.cardStatus.credit' }) },
-        '01': { text: formatMessage({ id: 'trans.cardStatus.debit' }) },
-      },
     },
     {
       title: formatMessage({ id: 'trans.cardNo.title' }),
@@ -45,6 +37,7 @@ const TableList: React.FC<TableListProps> = () => {
       title: formatMessage({ id: 'trans.tranAmt.title' }),
       dataIndex: 'tranAmt',
       renderText: (val: string) => `SG$${val}`,
+      hideInSearch: true,
     },
     {
       title: formatMessage({ id: 'trans.tranType.title' }),
@@ -56,18 +49,24 @@ const TableList: React.FC<TableListProps> = () => {
       },
     },
     {
-      title: formatMessage({ id: 'trans.tranStatus.title' }),
-      dataIndex: 'tranStatus',
+      title: formatMessage({ id: 'trans.respCode.title' }),
+      dataIndex: 'respCode',
       valueEnum: {
-        '00': { text: formatMessage({ id: 'trans.tranStatus.success' }) },
-        '01': { text: formatMessage({ id: 'trans.tranStatus.fail' }) },
+        '00': { text: formatMessage({ id: 'trans.respCode.success' }) },
+        '01': { text: formatMessage({ id: 'trans.respCode.fail' }) },
       },
     },
     {
       title: formatMessage({ id: 'trans.tranDate.title' }),
       dataIndex: 'tranDate',
-      valueType: 'dateRange',
+      valueType: 'date',
       renderText: (val: string) => moment(val, 'YYYYMMDD').format('YYYY-MM-DD'),
+      renderFormItem: (item, { onChange, ...rest }) => (
+        <DatePicker style={{ width: '100%' }} showToday={false}
+          disabledDate={(date) => date && date >= moment().endOf('day')}
+          {...item.formItemProps} {...rest} onChange={onChange}
+        />
+      ),
     },
 
     {
@@ -85,7 +84,7 @@ const TableList: React.FC<TableListProps> = () => {
   return (
     <PageHeaderWrapper>
       <IntlProvider value={getLocale() === 'en-US' ? enUSIntl : zhCNIntl}>
-        <ProTable<TableListItem>
+        <ProTable<TransItem, TransParams>
           headerTitle={formatMessage({ id: 'trans.query.result' })}
           actionRef={actionRef}
           rowKey="key"
@@ -94,10 +93,32 @@ const TableList: React.FC<TableListProps> = () => {
           ]}
           options={{ density: false, fullScreen: true, reload: true, setting: false }}
           beforeSearchSubmit={(data) => {
+            if (data.tranDate) {
+              data.tranDate = moment(data.tranDate).format('YYYYMMDD');
+            }
             setParams(data)
             return data
           }}
-          request={params => queryTrans(params)}
+          request={async (params = {}) => {
+            try {
+              const result = await queryTrans({
+                ...params,
+                size: params.pageSize,
+                page: params.current as number - 1,
+              });
+              return {
+                data: result.content,
+                page: result.totalPages,
+                total: result.totalElements,
+                success: true,
+              }
+            } catch (err) {
+              return {
+                data: [],
+                success: false,
+              }
+            }
+          }}
           columns={columns}
         />
       </IntlProvider>
