@@ -91,7 +91,7 @@ export default {
     },
     {
       path: '/pre',
-      component: '../layouts/BlankLayout',
+      component: '../layouts/PreLayout',
       routes: [
         {
           name: 'reset',
