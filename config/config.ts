@@ -96,7 +96,7 @@ export default {
         {
           name: 'reset',
           path: '/pre/reset',
-          component: './reset',
+          component: './resetPwd',
         },
         {
           name: 'policy',
@@ -147,6 +147,12 @@ export default {
               name: 'eState',
               icon: 'link',
               component: './eState',
+            },
+            {
+              name: 'modifyPwd',
+              path: '/modifyPwd',
+              component: './modifyPwd',
+              hideInMenu: true,
             },
             {
               component: './404',

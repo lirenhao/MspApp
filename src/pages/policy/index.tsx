@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'dva';
 import { Checkbox, Button } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage } from 'umi-plugin-react/locale';
 import router from 'umi/router';
 import { PolicyData } from './data.d';
 

@@ -6,6 +6,6 @@ export default {
   'menu.trans': 'Transaction Query',
   'menu.settle': 'Settlement Query',
   'menu.eState': 'eState',
-  'menu.changePwd': 'Change Password',
+  'menu.modifyPwd': 'Modify Password',
   'menu.logout': 'Logout',
 };

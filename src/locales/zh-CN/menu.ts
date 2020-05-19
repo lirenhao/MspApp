@@ -6,6 +6,6 @@ export default {
   'menu.trans': '交易查询',
   'menu.settle': '清算查询',
   'menu.eState': 'eState',
-  'menu.changePwd': '修改密码',
+  'menu.modifyPwd': '修改密码',
   'menu.logout': '退出登陆',
 };
