@@ -11,7 +11,7 @@ const layout = {
   wrapperCol: { span: 8 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { span: 16 },
 };
 
 const ModifyView: React.FC<{}> = () => {
@@ -33,7 +33,11 @@ const ModifyView: React.FC<{}> = () => {
   return (
     <PageHeaderWrapper>
       <Card bordered={false}>
-        <Form form={form} onFinish={values => handleSubmit(values as ModifyData)} style={{ marginTop: 40 }} {...layout} >
+        <Form
+          size="large" style={{ marginTop: 40 }}
+          form={form} {...layout}
+          onFinish={values => handleSubmit(values as ModifyData)}
+        >
           <Form.Item
             name="oldPwd"
             label={formatMessage({ id: 'modify.oldPwd.label' })}
@@ -87,7 +91,7 @@ const ModifyView: React.FC<{}> = () => {
               prefix={<LockOutlined />}
             />
           </Form.Item>
-          <Form.Item  {...tailLayout}>
+          <Form.Item style={{ textAlign: 'right' }} {...tailLayout}>
             <Button size="large" type="primary" htmlType="submit">
               <FormattedMessage id="modify.submit" />
             </Button>

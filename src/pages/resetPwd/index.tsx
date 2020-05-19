@@ -11,7 +11,7 @@ const layout = {
   wrapperCol: { span: 8 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { span: 16 },
 };
 
 const ResetView: React.FC<{}> = () => {
@@ -33,8 +33,13 @@ const ResetView: React.FC<{}> = () => {
 
   return (
     <PageHeaderWrapper pageHeaderRender={() => (<></>)}>
-      <Card bordered={false} title={formatMessage({ id: 'reset.title' })} style={{ marginTop: 60 }} >
-        <Form form={form} style={{ marginTop: 40 }} {...layout} onFinish={values => handleSubmit(values as ResetData)}>
+      <Card bordered={false} style={{ marginTop: 80 }}>
+        <h1 style={{ textAlign: 'center' }}>{formatMessage({ id: 'reset.title' })}</h1>
+        <Form
+          size="large" style={{ marginTop: 40 }}
+          form={form} {...layout}
+          onFinish={values => handleSubmit(values as ResetData)}
+        >
           <Form.Item
             name="newPwd"
             label={formatMessage({ id: 'reset.newPwd.label' })}
@@ -73,7 +78,7 @@ const ResetView: React.FC<{}> = () => {
               prefix={<LockOutlined />}
             />
           </Form.Item>
-          <Form.Item  {...tailLayout}>
+          <Form.Item style={{ textAlign: 'right' }} {...tailLayout}>
             <Button size="large" type="primary" htmlType="submit">
               <FormattedMessage id="reset.submit" />
             </Button>
