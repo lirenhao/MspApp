@@ -1,14 +1,14 @@
 import React from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
-import { DatePicker, Button } from 'antd';
+import { DatePicker, Button, notification } from 'antd';
 import { FormComponentProps } from '@ant-design/compatible/es/form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { getLocale, formatMessage } from 'umi-plugin-react/locale';
 import ProTable, { IntlProvider, zhCNIntl, enUSIntl, ProColumns, ActionType } from '@ant-design/pro-table';
 import moment from 'moment';
 import { TransItem, TransParams } from './data.d';
-import { queryTrans } from './service';
+import { queryTrans, downloadTrans } from './service';
 
 import '@ant-design/compatible/assets/index.css';
 
@@ -16,6 +16,8 @@ interface TableListProps extends FormComponentProps { }
 
 const TableList: React.FC<TableListProps> = () => {
   const [params, setParams] = React.useState({});
+  const [isDownload, setIsDownload] = React.useState(false);
+
   const actionRef = React.useRef<ActionType>();
 
   const columns: ProColumns<TransItem>[] = [
@@ -78,7 +80,41 @@ const TableList: React.FC<TableListProps> = () => {
   ];
 
   const handleDownload = async () => {
-    console.log(params);
+    setIsDownload(true);
+    try {
+      const resp = await downloadTrans(params);
+      if (resp.status === 200) {
+        const content = await resp.blob();
+        const file = new Blob([content], { type: 'application/vnd.ms-excel' });
+        const fileName = resp.headers.get('X-Suggested-Filename');
+        if ('download' in document.createElement('a')) {
+          // 非IE下载
+          const elink = document.createElement('a');
+          elink.download = fileName;
+          elink.style.display = 'none';
+          elink.href = URL.createObjectURL(file);
+          document.body.appendChild(elink);
+          elink.click();
+          // 释放URL 对象
+          URL.revokeObjectURL(elink.href);
+          document.body.removeChild(elink);
+        } else {
+          // IE10+下载
+          navigator.msSaveBlob(file, fileName);
+        }
+      } else {
+        notification.error({
+          message: '文件下载失败',
+          description: '您的网络发生异常,请稍后再试',
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: '文件下载失败',
+        description: '您的网络发生异常,请稍后再试',
+      });
+    }
+    setIsDownload(false);
   };
 
   return (
@@ -89,7 +125,7 @@ const TableList: React.FC<TableListProps> = () => {
           actionRef={actionRef}
           rowKey="key"
           toolBarRender={() => [
-            <Button icon={<DownloadOutlined />} type="link" onClick={() => handleDownload()} />
+            <Button loading={isDownload} icon={<DownloadOutlined />} type="link" onClick={() => handleDownload()} />
           ]}
           options={{ density: false, fullScreen: true, reload: true, setting: false }}
           beforeSearchSubmit={(params) => {

@@ -5,3 +5,10 @@ export async function querySettle(params?: any) {
     params,
   });
 }
+
+export async function downloadSettle(params?: any) {
+  return request('/api/msp/settle/download', {
+    params,
+    parseResponse: false,
+  });
+}

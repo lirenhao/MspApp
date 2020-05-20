@@ -110,7 +110,7 @@ const ModifyView: React.FC<{}> = () => {
               hl={getLocale() === 'en-US' ? 'en' : 'zh-CN'}
             />
           </Form.Item>
-          <Form.Item style={{ textAlign: 'right' }} {...tailLayout}>
+          <Form.Item {...tailLayout}>
             <Button block size="large" type="primary" htmlType="submit">
               <FormattedMessage id="modify.submit" />
             </Button>
