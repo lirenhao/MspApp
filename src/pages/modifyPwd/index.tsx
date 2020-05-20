@@ -2,7 +2,8 @@ import React from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, Form, Input, Button, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage, formatMessage, getLocale } from 'umi-plugin-react/locale';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { ModifyData } from './data';
 import { modifyPwd } from './service';
 
@@ -10,8 +11,9 @@ const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 8 },
 };
+
 const tailLayout = {
-  wrapperCol: { span: 16 },
+  wrapperCol: { offset: 8, span: 8 },
 };
 
 const ModifyView: React.FC<{}> = () => {
@@ -33,6 +35,7 @@ const ModifyView: React.FC<{}> = () => {
   return (
     <PageHeaderWrapper>
       <Card bordered={false}>
+        <h1 style={{ textAlign: 'center' }}>{formatMessage({ id: 'modify.title' })}</h1>
         <Form
           size="large" style={{ marginTop: 40 }}
           form={form} {...layout}
@@ -62,7 +65,7 @@ const ModifyView: React.FC<{}> = () => {
                 message: formatMessage({ id: 'modify.newPwd.role-required' }),
               },
               {
-                pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,32}$/,
+                pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/,
                 message: formatMessage({ id: 'modify.newPwd.role-pattern' }),
               },
             ]}
@@ -91,8 +94,24 @@ const ModifyView: React.FC<{}> = () => {
               prefix={<LockOutlined />}
             />
           </Form.Item>
+          <Form.Item
+            name="captcha"
+            label={formatMessage({ id: 'modify.captcha.label' })}
+            rules={[
+              {
+                required: true,
+                message: formatMessage({ id: 'modify.captcha.role-required' }),
+              },
+            ]}
+          >
+            <ReCAPTCHA
+              size="normal"
+              sitekey='6Leu2NsUAAAAAFttLaiyEKDu9yLgrYJhN77Ou1ge'
+              hl={getLocale() === 'en-US' ? 'en' : 'zh-CN'}
+            />
+          </Form.Item>
           <Form.Item style={{ textAlign: 'right' }} {...tailLayout}>
-            <Button size="large" type="primary" htmlType="submit">
+            <Button block size="large" type="primary" htmlType="submit">
               <FormattedMessage id="modify.submit" />
             </Button>
           </Form.Item>

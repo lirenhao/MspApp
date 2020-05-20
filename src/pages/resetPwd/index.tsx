@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Card, Form, Input, Button, notification } from 'antd';
+import { Card, Form, Input, Row, Col, Button, Statistic, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import { ResetData } from './data';
@@ -11,10 +11,12 @@ const layout = {
   wrapperCol: { span: 8 },
 };
 const tailLayout = {
-  wrapperCol: { span: 16 },
+  wrapperCol: { offset: 8, span: 8 },
 };
 
 const ResetView: React.FC<{}> = () => {
+  const [isCountdown, setIsCountdown] = React.useState<boolean>(false);
+
   const [form] = Form.useForm();
 
   const handleSubmit = async (values: ResetData) => {
@@ -33,7 +35,7 @@ const ResetView: React.FC<{}> = () => {
 
   return (
     <PageHeaderWrapper pageHeaderRender={() => (<></>)}>
-      <Card bordered={false} style={{ marginTop: 80 }}>
+      <Card bordered={false} style={{ marginTop: 40 }}>
         <h1 style={{ textAlign: 'center' }}>{formatMessage({ id: 'reset.title' })}</h1>
         <Form
           size="large" style={{ marginTop: 40 }}
@@ -49,7 +51,7 @@ const ResetView: React.FC<{}> = () => {
                 message: formatMessage({ id: 'reset.newPwd.role-required' }),
               },
               {
-                pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,32}$/,
+                pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/,
                 message: formatMessage({ id: 'reset.newPwd.role-pattern' }),
               },
             ]}
@@ -78,8 +80,36 @@ const ResetView: React.FC<{}> = () => {
               prefix={<LockOutlined />}
             />
           </Form.Item>
-          <Form.Item style={{ textAlign: 'right' }} {...tailLayout}>
-            <Button size="large" type="primary" htmlType="submit">
+          <Form.Item
+            label={formatMessage({ id: 'reset.captcha.label' })}
+            extra={formatMessage({ id: 'reset.captcha.extra' })}
+          >
+            <Row gutter={8}>
+              <Col span={16}>
+                <Form.Item
+                  name="captcha"
+                  noStyle
+                  rules={[
+                    {
+                      required: true,
+                      message: formatMessage({ id: 'reset.captcha.role-required' }),
+                    }
+                  ]}
+                >
+                  <Input placeholder={formatMessage({ id: 'reset.captcha.placeholder' })} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Button block disabled={isCountdown} onClick={() => setIsCountdown(true)}>
+                  {isCountdown ? (
+                    <Statistic.Countdown value={Date.now() + 1000 * 20} format="s" suffix="S" onFinish={() => setIsCountdown(false)} />
+                  ) : formatMessage({ id: 'reset.captcha.button' })}
+                </Button>
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item {...tailLayout}>
+            <Button block size="large" type="primary" htmlType="submit">
               <FormattedMessage id="reset.submit" />
             </Button>
           </Form.Item>

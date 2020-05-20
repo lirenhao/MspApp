@@ -69,6 +69,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-fittext": "^1.0.0",
+    "react-google-recaptcha": "^2.0.1",
     "react-helmet": "^5.2.1",
     "redux": "^4.0.1",
     "umi": "^2.13.0",
