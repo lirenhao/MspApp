@@ -10,12 +10,11 @@ import moment from 'moment';
 import { SettleItem } from './data.d';
 import { querySettle, downloadSettle } from './service';
 
-import '@ant-design/compatible/assets/index.css';
-
 interface SettleProps extends FormComponentProps { }
 
 const SettleList: React.FC<SettleProps> = () => {
   const [params, setParams] = React.useState({});
+  const [isQuery, setIsQuery] = React.useState(false);
   const [isDownload, setIsDownload] = React.useState(false);
 
   const actionRef = React.useRef<ActionType>();
@@ -33,6 +32,7 @@ const SettleList: React.FC<SettleProps> = () => {
       renderFormItem: (item, { onChange, ...rest }) => (
         <DatePicker style={{ width: '100%' }} showToday={false}
           disabledDate={(date) => date && date >= moment().endOf('day')}
+          placeholder={formatMessage({ id: 'settle.settleDate.placeholder' })}
           {...item.formItemProps} {...rest} onChange={onChange}
         />
       ),
@@ -152,25 +152,33 @@ const SettleList: React.FC<SettleProps> = () => {
               params.settleDate = moment(params.settleDate).format('YYYYMMDD');
             }
             setParams(params)
+            setIsQuery(true)
             return params
           }}
           request={async (params = {}) => {
-            try {
-              const result = await querySettle({
-                ...params,
-                size: params.pageSize,
-                page: params.current as number - 1,
-              });
-              return {
-                data: result.content,
-                page: result.totalPages,
-                total: result.totalElements,
-                success: true,
+            if (isQuery) {
+              try {
+                const result = await querySettle({
+                  ...params,
+                  size: params.pageSize,
+                  page: params.current as number - 1,
+                });
+                return {
+                  data: result.content,
+                  page: result.totalPages,
+                  total: result.totalElements,
+                  success: true,
+                }
+              } catch (err) {
+                return {
+                  data: [],
+                  success: false,
+                }
               }
-            } catch (err) {
+            } else {
               return {
                 data: [],
-                success: false,
+                success: true,
               }
             }
           }}

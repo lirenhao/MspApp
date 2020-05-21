@@ -7,6 +7,7 @@ export default {
   'trans.tranType.title': '交易类型',
   'trans.respCode.title': '交易状态',
   'trans.tranDate.title': '交易日期',
+  'trans.tranDate.placeholder': '请选择',
   'trans.tranTime.title': '交易时间',
   'trans.tranType.pay': '消费',
   'trans.tranType.refund': '退货',

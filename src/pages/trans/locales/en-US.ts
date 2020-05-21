@@ -7,6 +7,7 @@ export default {
   'trans.tranType.title': 'Tran Type',
   'trans.respCode.title': 'Tran Status',
   'trans.tranDate.title': 'Tran Date',
+  'trans.tranDate.placeholder': 'Please select',
   'trans.tranTime.title': 'Tran Time',
   'trans.tranType.pay': 'Pay',
   'trans.tranType.refund': 'Refund',

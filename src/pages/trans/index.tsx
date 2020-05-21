@@ -10,12 +10,11 @@ import moment from 'moment';
 import { TransItem, TransParams } from './data.d';
 import { queryTrans, downloadTrans } from './service';
 
-import '@ant-design/compatible/assets/index.css';
-
 interface TableListProps extends FormComponentProps { }
 
 const TableList: React.FC<TableListProps> = () => {
   const [params, setParams] = React.useState({});
+  const [isQuery, setIsQuery] = React.useState(false);
   const [isDownload, setIsDownload] = React.useState(false);
 
   const actionRef = React.useRef<ActionType>();
@@ -66,6 +65,7 @@ const TableList: React.FC<TableListProps> = () => {
       renderFormItem: (item, { onChange, ...rest }) => (
         <DatePicker style={{ width: '100%' }} showToday={false}
           disabledDate={(date) => date && date >= moment().endOf('day')}
+          placeholder={formatMessage({ id: 'trans.tranDate.placeholder' })}
           {...item.formItemProps} {...rest} onChange={onChange}
         />
       ),
@@ -133,25 +133,33 @@ const TableList: React.FC<TableListProps> = () => {
               params.tranDate = moment(params.tranDate).format('YYYYMMDD');
             }
             setParams(params)
+            setIsQuery(true)
             return params
           }}
           request={async (params = {}) => {
-            try {
-              const result = await queryTrans({
-                ...params,
-                size: params.pageSize,
-                page: params.current as number - 1,
-              });
-              return {
-                data: result.content,
-                page: result.totalPages,
-                total: result.totalElements,
-                success: true,
+            if (isQuery) {
+              try {
+                const result = await queryTrans({
+                  ...params,
+                  size: params.pageSize,
+                  page: params.current as number - 1,
+                });
+                return {
+                  data: result.content,
+                  page: result.totalPages,
+                  total: result.totalElements,
+                  success: true,
+                }
+              } catch (err) {
+                return {
+                  data: [],
+                  success: false,
+                }
               }
-            } catch (err) {
+            } else {
               return {
                 data: [],
-                success: false,
+                success: true,
               }
             }
           }}
