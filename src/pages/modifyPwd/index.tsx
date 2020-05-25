@@ -106,7 +106,7 @@ const ModifyView: React.FC<{}> = () => {
           >
             <ReCAPTCHA
               size="normal"
-              sitekey='6Leu2NsUAAAAAFttLaiyEKDu9yLgrYJhN77Ou1ge'
+              sitekey={process.env.GOOGLE_SITE_KEY || '6Leu2NsUAAAAAFttLaiyEKDu9yLgrYJhN77Ou1ge'}
               hl={getLocale() === 'en-US' ? 'en' : 'zh-CN'}
             />
           </Form.Item>
