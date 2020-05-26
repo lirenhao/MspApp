@@ -14,10 +14,30 @@ export interface TransItem {
   rrn: string;
 }
 
-export interface TransParams {
+export interface TransQuery {
   merNo?: string;
   termNo?: string;
   tranType?: string;
   respCode?: string;
   tranDate?: string;
+  page: number;
+  size: number;
+}
+
+export interface Order {
+  property: string;
+  direction?: 'ASC' | 'DESC';
+}
+
+export interface Pageable {
+  pageSize: number;
+  pageNumber: number;
+  sort: Order[];
+}
+
+export interface TransPage {
+  content: TransItem[];
+  pageable: Pageable;
+  totalPages: number;
+  totalElements: number;
 }

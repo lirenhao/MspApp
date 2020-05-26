@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { parse } from 'url';
-import { TransItem, TransParams } from './data.d';
+import { TransItem, TransQuery } from './data';
 
 const transDataSource: TransItem[] = [
   {
@@ -190,7 +190,7 @@ const transDataSource: TransItem[] = [
 ];
 
 function getTrans(req: Request, res: Response) {
-  const params = (parse(req.url, true).query as unknown) as TransParams & {
+  const params = (parse(req.url, true).query as unknown) as TransQuery & {
     size: number;
     page: number;
   };
