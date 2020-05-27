@@ -1,12 +1,12 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { notification } from 'antd';
-import { TransPage, TransQuery } from './data';
-import { queryTrans, downloadTrans } from './service';
+import { SettlePage, SettleQuery } from './data';
+import { querySettle, downloadSettle } from './service';
 
 export interface StateType {
-  page: TransPage;
-  query: TransQuery;
+  page: SettlePage;
+  query: SettleQuery;
   downloading: boolean;
 }
 
@@ -42,7 +42,7 @@ const defaulState = {
 };
 
 const Model: ModelType = {
-  namespace: 'trans',
+  namespace: 'settle',
   state: defaulState,
   effects: {
     *fetchQuery({ payload, callback }, { call, put }) {
@@ -51,7 +51,7 @@ const Model: ModelType = {
           type: 'setQuery',
           payload: payload,
         });
-        const response = yield call(queryTrans, payload);
+        const response = yield call(querySettle, payload);
         yield put({
           type: 'setPage',
           payload: response,
@@ -61,8 +61,8 @@ const Model: ModelType = {
     },
     *fetchDownload({ callback }, { call, select }) {
       try {
-        const query = yield select((state: any) => state.trans.query)
-        const resp = yield call(downloadTrans, query);
+        const query = yield select((state: any) => state.settle.query)
+        const resp = yield call(downloadSettle, query);
         if (resp.status === 200) {
           const content = yield call(() => resp.blob());
           const file = new Blob([content], { type: 'application/vnd.ms-excel' });

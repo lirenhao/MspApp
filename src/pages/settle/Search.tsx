@@ -1,17 +1,17 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Card, Form, Row, Col, Input, DatePicker, Select, Space, Button } from 'antd';
+import { Card, Form, Row, Col, Input, DatePicker, Space, Button } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { FormInstance } from 'antd/lib/form';
 import moment from 'moment';
-import { TransQuery } from './data';
+import { SettleQuery } from './data';
 import { StateType } from './model';
 
 interface SearchProps {
   dispatch: Dispatch<any>;
   form: FormInstance;
-  query: TransQuery;
+  query: SettleQuery;
   loading: boolean;
 }
 
@@ -46,7 +46,7 @@ const SearchView: React.FC<SearchProps> = props => {
 
   const handleSubmit = (values: any) => {
     dispatch({
-      type: 'trans/fetchQuery',
+      type: 'settle/fetchQuery',
       payload: {
         ...values,
         page: 0,
@@ -66,57 +66,33 @@ const SearchView: React.FC<SearchProps> = props => {
           <Col {...defaultColConfig} >
             <Form.Item
               name="merNO" {...layout}
-              label={formatMessage({ id: 'trans.merNo.title' })}
+              label={formatMessage({ id: 'settle.merNo.title' })}
               rules={[
                 {
                   required: true,
-                  message: formatMessage({ id: 'trans.merNo.required' })
+                  message: formatMessage({ id: 'settle.merNo.required' })
                 }
               ]}
             >
-              <Input placeholder={formatMessage({ id: 'trans.merNo.placeholder' })} />
-            </Form.Item>
-          </Col>
-          <Col {...defaultColConfig} >
-            <Form.Item {...layout} label={formatMessage({ id: 'trans.termNo.title' })} name="termNo">
-              <Input placeholder={formatMessage({ id: 'trans.termNo.placeholder' })} />
-            </Form.Item>
-          </Col>
-          <Col {...defaultColConfig} >
-            <Form.Item {...layout} label={formatMessage({ id: 'trans.tranType.title' })} name="tranType">
-              <Select placeholder={formatMessage({ id: 'trans.tranType.placeholder' })} allowClear={true}>
-                <Select.Option value='00'>消费</Select.Option>
-                <Select.Option value='01'>撤销</Select.Option>
-                <Select.Option value='02'>退货</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16} justify="start">
-          <Col {...defaultColConfig} >
-            <Form.Item {...layout} label={formatMessage({ id: 'trans.respCode.title' })} name="respCode">
-              <Select placeholder={formatMessage({ id: 'trans.respCode.placeholder' })} allowClear={true}>
-                <Select.Option value='00'>成功</Select.Option>
-                <Select.Option value='01'>失败</Select.Option>
-              </Select>
+              <Input placeholder={formatMessage({ id: 'settle.merNo.placeholder' })} />
             </Form.Item>
           </Col>
           <Col {...defaultColConfig} >
             <Form.Item
-              {...layout} name="tranDate"
-              label={formatMessage({ id: 'trans.tranDate.title' })}
+              {...layout} name="settleDate"
+              label={formatMessage({ id: 'settle.settleDate.title' })}
             >
               <DateFormat style={{ width: '100%' }} showToday={false} format="YYYYMMDD"
                 disabledDate={(date: moment.Moment) => date && date >= moment().endOf('day')}
-                placeholder={formatMessage({ id: 'trans.tranDate.placeholder' })}
+                placeholder={formatMessage({ id: 'settle.settleDate.placeholder' })}
               />
             </Form.Item>
           </Col>
           <Col {...defaultColConfig} style={{ textAlign: 'right' }}>
             <Form.Item {...tailLayout}>
               <Space>
-                <Button type="primary" htmlType="submit">{formatMessage({ id: 'trans.query.submit' })}</Button>
-                <Button onClick={() => form.resetFields()}>{formatMessage({ id: 'trans.query.reset' })}</Button>
+                <Button type="primary" htmlType="submit">{formatMessage({ id: 'settle.query.submit' })}</Button>
+                <Button onClick={() => form.resetFields()}>{formatMessage({ id: 'settle.query.reset' })}</Button>
               </Space>
             </Form.Item>
           </Col>
@@ -127,11 +103,11 @@ const SearchView: React.FC<SearchProps> = props => {
 }
 
 export default connect(
-  ({ trans, loading }: {
-    trans: StateType,
+  ({ settle, loading }: {
+    settle: StateType,
     loading: { models: { [key: string]: boolean } };
   }) => ({
-    query: trans.query,
-    loading: loading.models.trans,
+    query: settle.query,
+    loading: loading.models.settle,
   }),
 )(SearchView);

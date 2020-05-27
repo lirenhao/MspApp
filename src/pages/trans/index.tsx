@@ -2,13 +2,12 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
 import { DownloadOutlined } from '@ant-design/icons';
-import { Form, Card, Table, Button, notification } from 'antd';
+import { Form, Card, Table, Tooltip, Button } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
 import { TransPage, TransQuery, TransItem } from './data.d';
 import { StateType } from './model';
-import { downloadTrans } from './service';
 import Search from './Search';
 import ToolBar from './toolBar';
 
@@ -30,7 +29,6 @@ const PageView: React.FC<PageViewProps> = props => {
     {
       title: formatMessage({ id: 'trans.merNo.title' }),
       dataIndex: 'merNo',
-      // initialValue: '104767999000004',
     },
     {
       title: formatMessage({ id: 'trans.termNo.title' }),
@@ -39,13 +37,11 @@ const PageView: React.FC<PageViewProps> = props => {
     {
       title: formatMessage({ id: 'trans.cardNo.title' }),
       dataIndex: 'cardNo',
-      hideInSearch: true,
     },
     {
       title: formatMessage({ id: 'trans.tranAmt.title' }),
       dataIndex: 'tranAmt',
-      renderText: (val: string) => `SG$${val}`,
-      hideInSearch: true,
+      render: (val: string) => `SG$${val}`,
     },
     {
       title: formatMessage({ id: 'trans.tranType.title' }),
@@ -67,14 +63,12 @@ const PageView: React.FC<PageViewProps> = props => {
     {
       title: formatMessage({ id: 'trans.tranDate.title' }),
       dataIndex: 'tranDate',
-      valueType: 'date',
-      renderText: (val: string) => moment(val, 'YYYYMMDD').format('YYYY-MM-DD'),
+      render: (val: string) => moment(val, 'YYYYMMDD').format('YYYY-MM-DD'),
     },
     {
       title: formatMessage({ id: 'trans.tranTime.title' }),
       dataIndex: 'tranTime',
-      renderText: (val: string) => moment(val, 'HHmmss').format('HH:mm:ss'),
-      hideInSearch: true,
+      render: (val: string) => moment(val, 'HHmmss').format('HH:mm:ss'),
     },
   ];
 
@@ -100,42 +94,12 @@ const PageView: React.FC<PageViewProps> = props => {
     showTotal: (total: number, range: number[]) => `${range[0]}-${range[1]} of ${total} items`,
   };
 
-  const handleDownload = async () => {
+  const handleDownload = () => {
     setIsDownload(true);
-    try {
-      const resp = await downloadTrans(query);
-      if (resp.status === 200) {
-        const content = await resp.blob();
-        const file = new Blob([content], { type: 'application/vnd.ms-excel' });
-        const fileName = resp.headers.get('X-Suggested-Filename');
-        if ('download' in document.createElement('a')) {
-          // 非IE下载
-          const elink = document.createElement('a');
-          elink.download = fileName;
-          elink.style.display = 'none';
-          elink.href = URL.createObjectURL(file);
-          document.body.appendChild(elink);
-          elink.click();
-          // 释放URL 对象
-          URL.revokeObjectURL(elink.href);
-          document.body.removeChild(elink);
-        } else {
-          // IE10+下载
-          navigator.msSaveBlob(file, fileName);
-        }
-      } else {
-        notification.error({
-          message: '文件下载失败',
-          description: '您的网络发生异常,请稍后再试',
-        });
-      }
-    } catch (error) {
-      notification.error({
-        message: '文件下载失败',
-        description: '您的网络发生异常,请稍后再试',
-      });
-    }
-    setIsDownload(false);
+    dispatch({
+      type: 'trans/fetchDownload',
+      callback: () => setIsDownload(false)
+    })
   };
 
   return (
@@ -147,17 +111,19 @@ const PageView: React.FC<PageViewProps> = props => {
           bodyStyle={{ padding: 0 }}
         >
           <ToolBar
-            title="查询结果"
+            title={formatMessage({ id: 'trans.query.result' })}
             options={[
-              <Button loading={isDownload} icon={<DownloadOutlined />} key="download" type="link" onClick={() => {
-                handleDownload()
-              }} />,
+              <Tooltip key="download" title={formatMessage({ id: 'trans.option.download' })}>
+                <Button loading={isDownload} icon={<DownloadOutlined />} type="link"
+                  onClick={() => form.validateFields().then(() => handleDownload()).catch(() => { })}
+                />
+              </Tooltip>,
             ]}
             rootRef={rootRef}
             onReload={() => { form.submit() }}
           />
           <Table<TransItem>
-            key="lsId"
+            rowKey="lsId"
             loading={loading}
             columns={columns}
             pagination={pagination}

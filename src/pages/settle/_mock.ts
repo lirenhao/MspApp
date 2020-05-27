@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { parse } from 'url';
-import { SettleItem, SettleParams } from './data.d';
+import { SettleItem, SettleQuery } from './data.d';
 
 const settleDataSource: SettleItem[] = [
   {
@@ -80,7 +80,7 @@ const settleDataSource: SettleItem[] = [
 ];
 
 function getSettle(req: Request, res: Response, u: string) {
-  const params = (parse(req.url, true).query as unknown) as SettleParams & {
+  const params = (parse(req.url, true).query as unknown) as SettleQuery & {
     size: number;
     page: number;
   };

@@ -1,25 +1,31 @@
 import React from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'dva';
 import { DownloadOutlined, LinkOutlined } from '@ant-design/icons';
-import { Form } from '@ant-design/compatible';
-import { DatePicker, Table, Button, notification } from 'antd';
-import { FormComponentProps } from '@ant-design/compatible/es/form';
+import { Form, Card, Table, Tooltip, Button } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { getLocale, formatMessage } from 'umi-plugin-react/locale';
-import ProTable, { IntlProvider, zhCNIntl, enUSIntl, ProColumns, ActionType } from '@ant-design/pro-table';
+import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
-import { SettleItem } from './data.d';
-import { querySettle, downloadSettle } from './service';
+import { SettlePage, SettleQuery, SettleItem } from './data.d';
+import { StateType } from './model';
+import Search from './Search';
+import ToolBar from './toolBar';
 
-interface SettleProps extends FormComponentProps { }
+interface PageViewProps {
+  dispatch: Dispatch<any>;
+  page: SettlePage,
+  query: SettleQuery,
+  loading: boolean;
+}
 
-const SettleList: React.FC<SettleProps> = () => {
-  const [params, setParams] = React.useState({});
-  const [isQuery, setIsQuery] = React.useState(false);
+const PageView: React.FC<PageViewProps> = props => {
+  const { dispatch, loading, page, query } = props;
+
   const [isDownload, setIsDownload] = React.useState(false);
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const [form] = Form.useForm();
 
-  const actionRef = React.useRef<ActionType>();
-
-  const columns: ProColumns<SettleItem>[] = [
+  const columns = [
     {
       title: formatMessage({ id: 'settle.merNo.title' }),
       dataIndex: 'merNo',
@@ -27,33 +33,22 @@ const SettleList: React.FC<SettleProps> = () => {
     {
       title: formatMessage({ id: 'settle.settleDate.title' }),
       dataIndex: 'settleDate',
-      valueType: 'date',
-      renderText: (val: string) => moment(val, 'YYYYMMDD').format('YYYY-MM-DD'),
-      renderFormItem: (item, { onChange, ...rest }) => (
-        <DatePicker style={{ width: '100%' }} showToday={false}
-          disabledDate={(date) => date && date >= moment().endOf('day')}
-          placeholder={formatMessage({ id: 'settle.settleDate.placeholder' })}
-          {...item.formItemProps} {...rest} onChange={onChange}
-        />
-      ),
+      render: (val: string) => moment(val, 'YYYYMMDD').format('YYYY-MM-DD'),
     },
     {
       title: formatMessage({ id: 'settle.tranAmt.title' }),
       dataIndex: 'tranAmt',
-      renderText: (val: number) => `SG$${val}`,
-      hideInSearch: true,
+      render: (val: number) => `SG$${val}`,
     },
     {
       title: formatMessage({ id: 'settle.fee.title' }),
       dataIndex: 'fee',
-      renderText: (val: number) => `SG$${val}`,
-      hideInSearch: true,
+      render: (val: number) => `SG$${val}`,
     },
     {
       title: formatMessage({ id: 'settle.settleAmt.title' }),
       dataIndex: 'settleAmt',
-      renderText: (val: number) => `SG$${val}`,
-      hideInSearch: true,
+      render: (val: number) => `SG$${val}`,
     },
   ];
 
@@ -94,99 +89,81 @@ const SettleList: React.FC<SettleProps> = () => {
     }
   };
 
-  const handleDownload = async () => {
+  const handlePage = (page: number, size?: number) => {
+    dispatch({
+      type: 'settle/fetchQuery',
+      payload: {
+        ...query,
+        size,
+        page: page > 0 ? page - 1 : page,
+      },
+    })
+  };
+
+  const pagination = {
+    total: page.totalElements,
+    current: page.pageable.pageNumber + 1,
+    pageSize: page.pageable.pageSize,
+    onChange: handlePage,
+    showSizeChanger: true,
+    pageSizeOptions: ['10', '20', '50'],
+    onShowSizeChange: handlePage,
+    showTotal: (total: number, range: number[]) => `${range[0]}-${range[1]} of ${total} items`,
+  };
+
+  const handleDownload = () => {
     setIsDownload(true);
-    try {
-      const resp = await downloadSettle(params);
-      if (resp.status === 200) {
-        const content = await resp.blob();
-        const file = new Blob([content], { type: 'application/vnd.ms-excel' });
-        const fileName = resp.headers.get('X-Suggested-Filename');
-        if ('download' in document.createElement('a')) {
-          // 非IE下载
-          const elink = document.createElement('a');
-          elink.download = fileName;
-          elink.style.display = 'none';
-          elink.href = URL.createObjectURL(file);
-          document.body.appendChild(elink);
-          elink.click();
-          // 释放URL 对象
-          URL.revokeObjectURL(elink.href);
-          document.body.removeChild(elink);
-        } else {
-          // IE10+下载
-          navigator.msSaveBlob(file, fileName);
-        }
-      } else {
-        notification.error({
-          message: '文件下载失败',
-          description: '您的网络发生异常,请稍后再试',
-        });
-      }
-    } catch (error) {
-      notification.error({
-        message: '文件下载失败',
-        description: '您的网络发生异常,请稍后再试',
-      });
-    }
-    setIsDownload(false);
+    dispatch({
+      type: 'settle/fetchDownload',
+      callback: () => setIsDownload(false)
+    })
   };
 
   return (
     <PageHeaderWrapper>
-      <IntlProvider value={getLocale() === 'en-US' ? enUSIntl : zhCNIntl}>
-        <ProTable<SettleItem>
-          headerTitle={formatMessage({ id: 'settle.query.result' })}
-          actionRef={actionRef}
-          rowKey="settleDate"
-          expandable={{ expandedRowRender }}
-          toolBarRender={() => [
-            <Button icon={<LinkOutlined />} type="link" target="_blank" href="https://ap-gateway.mastercard.com/ma/">
-              Ecommerce
-            </Button>,
-            <Button loading={isDownload} icon={<DownloadOutlined />} type="link" onClick={() => handleDownload()} />,
-          ]}
-          options={{ density: false, fullScreen: true, reload: true, setting: false }}
-          beforeSearchSubmit={(params) => {
-            if (params.settleDate) {
-              params.settleDate = moment(params.settleDate).format('YYYYMMDD');
-            }
-            setParams(params)
-            setIsQuery(true)
-            return params
-          }}
-          request={async (params = {}) => {
-            if (isQuery) {
-              try {
-                const result = await querySettle({
-                  ...params,
-                  size: params.pageSize,
-                  page: params.current as number - 1,
-                });
-                return {
-                  data: result.content,
-                  page: result.totalPages,
-                  total: result.totalElements,
-                  success: true,
-                }
-              } catch (err) {
-                return {
-                  data: [],
-                  success: false,
-                }
-              }
-            } else {
-              return {
-                data: [],
-                success: true,
-              }
-            }
-          }}
-          columns={columns}
-        />
-      </IntlProvider>
+      <div ref={rootRef}>
+        <Search form={form} />
+        <Card bordered={false}
+          style={{ height: '100%' }}
+          bodyStyle={{ padding: 0 }}
+        >
+          <ToolBar
+            title={formatMessage({ id: 'settle.query.result' })}
+            options={[
+              <Button icon={<LinkOutlined />} type="link" target="_blank" href="https://ap-gateway.mastercard.com/ma/">
+                Ecommerce
+              </Button>,
+              <Tooltip key="download" title={formatMessage({ id: 'settle.option.download' })}>
+                <Button loading={isDownload} icon={<DownloadOutlined />} type="link"
+                  onClick={() => form.validateFields().then(() => handleDownload()).catch(() => { })}
+                />
+              </Tooltip>,
+            ]}
+            rootRef={rootRef}
+            onReload={() => { form.submit() }}
+          />
+          <Table<SettleItem>
+            rowKey="settleDate"
+            loading={loading}
+            columns={columns}
+            expandable={{ expandedRowRender }}
+            pagination={pagination}
+            dataSource={page.content}
+          />
+        </Card>
+      </div>
+
     </PageHeaderWrapper>
   );
 };
 
-export default Form.create<SettleProps>()(SettleList);
+export default connect(
+  ({ settle, loading }: {
+    settle: StateType,
+    loading: { models: { [key: string]: boolean } };
+  }) => ({
+    page: settle.page,
+    query: settle.query,
+    loading: loading.models.settle,
+  }),
+)(PageView);

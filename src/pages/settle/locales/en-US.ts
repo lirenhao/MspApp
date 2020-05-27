@@ -7,4 +7,12 @@ export default {
   'settle.fee.title': 'Fee Amount',
   'settle.settleAmt.title': 'Settle Amount',
   'settle.channel.title': 'Channel',
+  'settle.query.submit': 'Query',
+  'settle.query.reset': 'Reset',
+  'settle.merNo.placeholder': 'Please input',
+  'settle.merNo.required': 'Merchant No is required',
+  'settle.option.reload': 'Refresh',
+  'settle.option.fullscreen': 'Full Screen',
+  'settle.option.exitFullscreen': 'Exit Full Screen',
+  'settle.option.download': 'Download',
 };

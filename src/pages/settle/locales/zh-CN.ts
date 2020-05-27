@@ -7,4 +7,12 @@ export default {
   'settle.fee.title': '手续费',
   'settle.settleAmt.title': '结算金额',
   'settle.channel.title': '渠道',
+  'settle.query.submit': '查询',
+  'settle.query.reset': '重置',
+  'settle.merNo.placeholder': '请输入',
+  'settle.merNo.required': '商户号必输',
+  'settle.option.reload': '刷新',
+  'settle.option.fullscreen': '全屏',
+  'settle.option.exitFullscreen': '退出全屏',
+  'settle.option.download': '下载',
 };
