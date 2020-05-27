@@ -7,23 +7,34 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
 import { SettlePage, SettleQuery, SettleItem } from './data.d';
+import { UserModelState } from '@/models/user';
 import { StateType } from './model';
 import Search from './Search';
 import ToolBar from './toolBar';
 
 interface PageViewProps {
   dispatch: Dispatch<any>;
+  merNo?: string;
   page: SettlePage,
   query: SettleQuery,
   loading: boolean;
 }
 
 const PageView: React.FC<PageViewProps> = props => {
-  const { dispatch, loading, page, query } = props;
+  const { dispatch, loading, merNo, page, query } = props;
 
   const [isDownload, setIsDownload] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement>(null);
   const [form] = Form.useForm();
+
+  React.useEffect(() => {
+    dispatch({
+      type: 'settle/fetchMerSubs',
+      payload: {
+        merNo,
+      },
+    });
+  }, [merNo]);
 
   const columns = [
     {
@@ -130,7 +141,7 @@ const PageView: React.FC<PageViewProps> = props => {
           <ToolBar
             title={formatMessage({ id: 'settle.query.result' })}
             options={[
-              <Button icon={<LinkOutlined />} type="link" target="_blank" href="https://ap-gateway.mastercard.com/ma/">
+              <Button key="ecommerce" icon={<LinkOutlined />} type="link" target="_blank" href="https://ap-gateway.mastercard.com/ma/">
                 Ecommerce
               </Button>,
               <Tooltip key="download" title={formatMessage({ id: 'settle.option.download' })}>
@@ -143,7 +154,7 @@ const PageView: React.FC<PageViewProps> = props => {
             onReload={() => { form.submit() }}
           />
           <Table<SettleItem>
-            rowKey="settleDate"
+            rowKey={record => record.settleDate + record.merNo}
             loading={loading}
             columns={columns}
             expandable={{ expandedRowRender }}
@@ -158,10 +169,12 @@ const PageView: React.FC<PageViewProps> = props => {
 };
 
 export default connect(
-  ({ settle, loading }: {
-    settle: StateType,
+  ({ user, settle, loading }: {
+    user: UserModelState;
+    settle: StateType;
     loading: { models: { [key: string]: boolean } };
   }) => ({
+    merNo: user.user.merNo,
     page: settle.page,
     query: settle.query,
     loading: loading.models.settle,

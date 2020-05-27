@@ -1,12 +1,13 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { notification } from 'antd';
-import { SettlePage, SettleQuery } from './data';
-import { querySettle, downloadSettle } from './service';
+import { SettlePage, SettleQuery, MerSubItem } from './data';
+import { querySettle, downloadSettle, getMerSubs } from './service';
 
 export interface StateType {
   page: SettlePage;
   query: SettleQuery;
+  merSubs: MerSubItem[];
   downloading: boolean;
 }
 
@@ -16,14 +17,16 @@ export interface ModelType {
   effects: {
     fetchQuery: Effect;
     fetchDownload: Effect;
+    fetchMerSubs: Effect;
   };
   reducers: {
     setQuery: Reducer<StateType>;
     setPage: Reducer<StateType>;
+    setMerSubs: Reducer<StateType>;
   };
 }
 
-const defaulState = {
+const defaultState = {
   page: {
     content: [],
     pageable: {
@@ -38,12 +41,13 @@ const defaulState = {
     page: 0,
     size: 10,
   },
+  merSubs: [],
   downloading: false,
 };
 
 const Model: ModelType = {
   namespace: 'settle',
-  state: defaulState,
+  state: defaultState,
   effects: {
     *fetchQuery({ payload, callback }, { call, put }) {
       try {
@@ -89,13 +93,26 @@ const Model: ModelType = {
           });
         }
       } catch (error) {
-        console.log(error)
         notification.error({
           message: '文件下载失败',
           description: '您的网络发生异常,请稍后再试',
         });
       }
       if (callback) callback();
+    },
+    *fetchMerSubs({ payload, callback }, { call, put }) {
+      try {
+        yield put({
+          type: 'setQuery',
+          payload: payload,
+        });
+        const response = yield call(getMerSubs);
+        yield put({
+          type: 'setMerSubs',
+          payload: response,
+        });
+        if (callback) callback(response);
+      } catch (error) { }
     },
   },
 
@@ -116,6 +133,12 @@ const Model: ModelType = {
           ...(state as StateType).query,
           ...action.payload
         },
+      };
+    },
+    setMerSubs(state, action) {
+      return {
+        ...(state as StateType),
+        merSubs: [...action.payload],
       };
     },
   },

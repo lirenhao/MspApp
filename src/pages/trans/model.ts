@@ -1,12 +1,13 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { notification } from 'antd';
-import { TransPage, TransQuery } from './data';
-import { queryTrans, downloadTrans } from './service';
+import { TransPage, TransQuery, MerSubItem } from './data';
+import { queryTrans, downloadTrans, getMerSubs } from './service';
 
 export interface StateType {
   page: TransPage;
   query: TransQuery;
+  merSubs: MerSubItem[];
   downloading: boolean;
 }
 
@@ -16,14 +17,16 @@ export interface ModelType {
   effects: {
     fetchQuery: Effect;
     fetchDownload: Effect;
+    fetchMerSubs: Effect;
   };
   reducers: {
     setQuery: Reducer<StateType>;
     setPage: Reducer<StateType>;
+    setMerSubs: Reducer<StateType>;
   };
 }
 
-const defaulState = {
+const defaultState = {
   page: {
     content: [],
     pageable: {
@@ -38,12 +41,13 @@ const defaulState = {
     page: 0,
     size: 10,
   },
+  merSubs: [],
   downloading: false,
 };
 
 const Model: ModelType = {
   namespace: 'trans',
-  state: defaulState,
+  state: defaultState,
   effects: {
     *fetchQuery({ payload, callback }, { call, put }) {
       try {
@@ -97,6 +101,20 @@ const Model: ModelType = {
       }
       if (callback) callback();
     },
+    *fetchMerSubs({ payload, callback }, { call, put }) {
+      try {
+        yield put({
+          type: 'setQuery',
+          payload: payload,
+        });
+        const response = yield call(getMerSubs);
+        yield put({
+          type: 'setMerSubs',
+          payload: response,
+        });
+        if (callback) callback(response);
+      } catch (error) { }
+    },
   },
 
   reducers: {
@@ -116,6 +134,12 @@ const Model: ModelType = {
           ...(state as StateType).query,
           ...action.payload
         },
+      };
+    },
+    setMerSubs(state, action) {
+      return {
+        ...(state as StateType),
+        merSubs: [...action.payload],
       };
     },
   },

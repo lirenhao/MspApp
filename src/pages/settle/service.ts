@@ -12,3 +12,7 @@ export async function downloadSettle(params?: any) {
     parseResponse: false,
   });
 }
+
+export async function getMerSubs() {
+  return request('/api/msp/mer/subs');
+}

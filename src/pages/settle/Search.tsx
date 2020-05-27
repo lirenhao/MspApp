@@ -1,18 +1,20 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Card, Form, Row, Col, Input, DatePicker, Space, Button } from 'antd';
+import { Card, Form, Row, Col, Select, DatePicker, Space, Button } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { FormInstance } from 'antd/lib/form';
 import moment from 'moment';
-import { SettleQuery } from './data';
+import { UserModelState } from '@/models/user';
+import { SettleQuery, MerSubItem } from './data';
 import { StateType } from './model';
 
 interface SearchProps {
   dispatch: Dispatch<any>;
-  form: FormInstance;
+  merNo?: string;
   query: SettleQuery;
-  loading: boolean;
+  merSubs: MerSubItem[];
+  form: FormInstance;
 }
 
 const DateFormat: React.FC<Record<string, any>> = ({ value, format, onChange, ...rest }) => {
@@ -42,7 +44,7 @@ const tailLayout = {
 };
 
 const SearchView: React.FC<SearchProps> = props => {
-  const { dispatch, form, query } = props;
+  const { dispatch, form, merNo, query, merSubs } = props;
 
   const handleSubmit = (values: any) => {
     dispatch({
@@ -59,13 +61,16 @@ const SearchView: React.FC<SearchProps> = props => {
     <Card style={{ marginBottom: '20px' }} bodyStyle={{ paddingBottom: 0 }}>
       <Form
         form={form}
-        initialValues={query}
+        initialValues={{
+          ...query,
+          merNo,
+        }}
         onFinish={handleSubmit}
       >
         <Row gutter={16} justify="start">
           <Col {...defaultColConfig} >
             <Form.Item
-              name="merNO" {...layout}
+              name="merNo" {...layout}
               label={formatMessage({ id: 'settle.merNo.title' })}
               rules={[
                 {
@@ -74,7 +79,11 @@ const SearchView: React.FC<SearchProps> = props => {
                 }
               ]}
             >
-              <Input placeholder={formatMessage({ id: 'settle.merNo.placeholder' })} />
+              <Select placeholder={formatMessage({ id: 'settle.merNo.placeholder' })}>
+                {merSubs?.map(sub => (
+                  <Select.Option key={sub.merNo} value={sub.merNo}>{sub.merName}</Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           <Col {...defaultColConfig} >
@@ -103,11 +112,13 @@ const SearchView: React.FC<SearchProps> = props => {
 }
 
 export default connect(
-  ({ settle, loading }: {
+  ({ user, settle }: {
+    user: UserModelState;
     settle: StateType,
     loading: { models: { [key: string]: boolean } };
   }) => ({
+    merNo: user.user.merNo,
     query: settle.query,
-    loading: loading.models.settle,
+    merSubs: settle.merSubs,
   }),
 )(SearchView);

@@ -40,3 +40,8 @@ export interface SettlePage {
   totalPages: number;
   totalElements: number;
 }
+
+export interface MerSubItem {
+  merNo: string;
+  merName: string;
+}
