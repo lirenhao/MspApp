@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { notification } from 'antd';
+import moment from 'moment';
 import { TransPage, TransQuery, MerSubItem } from './data';
 import { queryTrans, downloadTrans, getMerSubs } from './service';
 
@@ -40,6 +41,7 @@ const defaultState = {
   query: {
     page: 0,
     size: 10,
+    tranDate: moment().endOf('day').format('YYYYMMDD'),
   },
   merSubs: [],
   downloading: false,

@@ -57,18 +57,31 @@ const PageView: React.FC<PageViewProps> = props => {
     {
       title: formatMessage({ id: 'trans.tranType.title' }),
       dataIndex: 'tranType',
-      valueEnum: {
-        '00': { text: formatMessage({ id: 'trans.tranType.pay' }) },
-        '01': { text: formatMessage({ id: 'trans.tranType.refund' }) },
-        '02': { text: formatMessage({ id: 'trans.tranType.revoke' }) },
+      render: (val: string) => {
+        switch (val) {
+          case '00':
+            return formatMessage({ id: 'trans.tranType.pay' });
+          case '01':
+            return formatMessage({ id: 'trans.tranType.refund' });
+          case '02':
+            return formatMessage({ id: 'trans.tranType.revoke' });
+          default:
+            return val;
+        }
       },
     },
     {
       title: formatMessage({ id: 'trans.respCode.title' }),
       dataIndex: 'respCode',
-      valueEnum: {
-        '00': { text: formatMessage({ id: 'trans.respCode.success' }) },
-        '01': { text: formatMessage({ id: 'trans.respCode.fail' }) },
+      render: (val: string) => {
+        switch (val) {
+          case '00':
+            return formatMessage({ id: 'trans.respCode.success' });
+          case '01':
+            return formatMessage({ id: 'trans.respCode.fail' });
+          default:
+            return val;
+        }
       },
     },
     {

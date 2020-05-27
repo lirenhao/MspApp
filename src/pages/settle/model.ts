@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { notification } from 'antd';
+import moment from 'moment';
 import { SettlePage, SettleQuery, MerSubItem } from './data';
 import { querySettle, downloadSettle, getMerSubs } from './service';
 
@@ -40,6 +41,7 @@ const defaultState = {
   query: {
     page: 0,
     size: 10,
+    settleDate: moment().endOf('day').add('day', -1).format('YYYYMMDD'),
   },
   merSubs: [],
   downloading: false,

@@ -91,9 +91,9 @@ const SearchView: React.FC<SearchProps> = props => {
               {...layout} name="settleDate"
               label={formatMessage({ id: 'settle.settleDate.title' })}
             >
-              <DateFormat style={{ width: '100%' }} showToday={false} format="YYYYMMDD"
-                disabledDate={(date: moment.Moment) => date && date >= moment().endOf('day')}
+              <DateFormat style={{ width: '100%' }} showToday={false} allowClear={false} format="YYYYMMDD"
                 placeholder={formatMessage({ id: 'settle.settleDate.placeholder' })}
+                disabledDate={(date: moment.Moment) => date && (date >= moment().endOf('day').add('day', -1) || date < moment().endOf('day').add('day', -31))}
               />
             </Form.Item>
           </Col>
