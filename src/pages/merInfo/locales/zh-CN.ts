@@ -14,4 +14,6 @@ export default {
   'merInfo.term.title': '终端信息',
   'merInfo.termNo.title': '终端号',
   'merInfo.termAddress.title': '终端地址',
+  'merInfo.serialNumber.title': '序号',
+  'merInfo.status.title': '状态',
 };
