@@ -94,9 +94,9 @@ const SearchView: React.FC<SearchProps> = props => {
           <Col {...defaultColConfig} >
             <Form.Item {...layout} label={formatMessage({ id: 'trans.tranType.title' })} name="tranType">
               <Select placeholder={formatMessage({ id: 'trans.tranType.placeholder' })} allowClear={true}>
-                <Select.Option value='00'>消费</Select.Option>
-                <Select.Option value='01'>撤销</Select.Option>
-                <Select.Option value='02'>退货</Select.Option>
+                <Select.Option value='00'>{formatMessage({ id: 'trans.tranType.pay' })}</Select.Option>
+                <Select.Option value='01'>{formatMessage({ id: 'trans.tranType.refund' })}</Select.Option>
+                <Select.Option value='02'>{formatMessage({ id: 'trans.tranType.revoke' })}</Select.Option>
               </Select>
             </Form.Item>
           </Col>
@@ -105,8 +105,8 @@ const SearchView: React.FC<SearchProps> = props => {
           <Col {...defaultColConfig} >
             <Form.Item {...layout} label={formatMessage({ id: 'trans.respCode.title' })} name="respCode">
               <Select placeholder={formatMessage({ id: 'trans.respCode.placeholder' })} allowClear={true}>
-                <Select.Option value='00'>成功</Select.Option>
-                <Select.Option value='01'>失败</Select.Option>
+                <Select.Option value='00'>{formatMessage({ id: 'trans.respCode.success' })}</Select.Option>
+                <Select.Option value='01'>{formatMessage({ id: 'trans.respCode.fail' })}</Select.Option>
               </Select>
             </Form.Item>
           </Col>

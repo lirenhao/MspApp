@@ -2,7 +2,7 @@ export default {
   'trans.query.result': 'Query Result',
   'trans.merNo.title': 'Merchant No',
   'trans.termNo.title': 'Terminal No',
-  'trans.cardNo.title': 'Caard NO',
+  'trans.cardNo.title': 'Card No',
   'trans.tranAmt.title': 'Tran Amt',
   'trans.tranType.title': 'Tran Type',
   'trans.respCode.title': 'Tran Status',
