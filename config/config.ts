@@ -220,7 +220,9 @@ export default {
     '/api': {
       target: 'http://localhost:3012/',
       changeOrigin: true,
-      pathRewrite: { "^/api": "" },
+      pathRewrite: {
+        '^/api': '',
+      },
       logLevel: 'debug',
     },
   },

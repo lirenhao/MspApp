@@ -1,0 +1,15 @@
+export default {
+  'eState.step.query': '查询',
+  'eState.step.download': '下载',
+  'eState.option.next': '下一步',
+  'eState.option.back': '上一步',
+  'eState.option.download': '下载',
+  'eState.query.merNo': '商户号',
+  'eState.query.settleDate': '结算日期',
+  'eState.channel.title': 'Transaction Type',
+  'eState.settleDate.title': 'Settlement Date',
+  'eState.tranAmt.title': 'Settlement Amount',
+  'eState.fee.title': 'Merchant Discount Fee',
+  'eState.settleAmt.title': 'Net Settlement Amount',
+  'eState.tranDate.title': 'Transfer Date',
+};
