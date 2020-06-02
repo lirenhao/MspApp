@@ -81,7 +81,7 @@ const SearchView: React.FC<SearchProps> = props => {
             >
               <Select placeholder={formatMessage({ id: 'settle.merNo.placeholder' })}>
                 {merSubs?.map(sub => (
-                  <Select.Option key={sub.merNo} value={sub.merNo}>{sub.merName}</Select.Option>
+                  <Select.Option key={sub.merNo} value={sub.merNo}>{`${sub.merNo}[${sub.merName}]`}</Select.Option>
                 ))}
               </Select>
             </Form.Item>
