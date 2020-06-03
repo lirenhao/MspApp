@@ -1,13 +1,9 @@
 import { IConfig, IPlugin } from 'umi-types';
 import defaultSettings from './defaultSettings'; // https://umijs.org/config/
-
 import slash from 'slash2';
 import themePluginConfig from './themePluginConfig';
 const { pwa } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
-// preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
-const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
-const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
 const plugins: IPlugin[] = [
   ['umi-plugin-antd-icon-config', {}],
   [
@@ -38,11 +34,6 @@ const plugins: IPlugin[] = [
           },
         }
         : false, // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
-      // dll features https://webpack.js.org/plugins/dll-plugin/
-      // dll: {
-      //   include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
-      //   exclude: ['@babel/runtime', 'netlify-lambda'],
-      // },
     },
   ],
   [
@@ -54,18 +45,8 @@ const plugins: IPlugin[] = [
       autoAddMenu: true,
     },
   ],
+  // ['umi-plugin-antd-theme', themePluginConfig],
 ];
-
-if (isAntDesignProPreview) {
-  // 针对 preview.pro.ant.design 的 GA 统计代码
-  plugins.push([
-    'umi-plugin-ga',
-    {
-      code: 'UA-72788897-6',
-    },
-  ]);
-  plugins.push(['umi-plugin-antd-theme', themePluginConfig]);
-}
 
 export default {
   plugins,
@@ -172,8 +153,8 @@ export default {
     // ...darkTheme,
   },
   define: {
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
-      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
+    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: '',
+    // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
     'process.env.SERVICE_CONTEXT': process.env.SERVICE_CONTEXT,
     'process.env.GOOGLE_SITE_KEY': process.env.GOOGLE_SITE_KEY,
   },

@@ -42,14 +42,14 @@ const SalesCard = ({
               </h4>
               <ul className={styles.rankingList}>
                 {rankingListData.map((item, i) => (
-                  <li key={item.merNo}>
+                  <li key={i}>
                     <span className={`${styles.rankingItemNumber} ${i < 3 ? styles.active : ''}`}>
                       {i + 1}
                     </span>
                     <span className={styles.rankingItemTitle} title={item.merNo}>
                       {item.merNo}
                     </span>
-                    <span className={styles.rankingItemTitle} title={item.merNo}>
+                    <span className={styles.rankingItemTitle} title={item.address}>
                       {item.address}
                     </span>
                     <span className={styles.rankingItemValue}>
