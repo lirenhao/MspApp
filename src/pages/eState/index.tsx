@@ -121,21 +121,21 @@ const PageView: React.FC<PageViewProps> = props => {
           onFinish={handleQuery}
         >
           <Form.Item
-            label={formatMessage({ id: 'eState.query.merNo' })}
+            label={formatMessage({ id: 'eState.query.merNo.label' })}
             name="merNo"
-            rules={[{ required: true, message: '请选择商户号' }]}
+            rules={[{ required: true, message: formatMessage({ id: 'eState.query.merNo.required' }) }]}
           >
-            <Select placeholder="请选择商户号">
+            <Select placeholder={formatMessage({ id: 'eState.query.merNo.placeholder' })}>
               {merSubs?.map(sub => (
                 <Select.Option key={sub.merNo} value={sub.merNo}>{`${sub.merNo}[${sub.merName}]`}</Select.Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item
-            label={formatMessage({ id: 'eState.query.settleDate' })}
+            label={formatMessage({ id: 'eState.query.settleDate.label' })}
             name="settleDate"
             rules={[
-              { required: true, message: '请选择结算' },
+              { required: true, message: formatMessage({ id: 'eState.query.settleDate.required' }) },
             ]}
           >
             <RangeDateFormat format='YYYYMMDD' style={{ width: '100%' }} />

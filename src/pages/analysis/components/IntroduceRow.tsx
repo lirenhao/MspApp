@@ -1,14 +1,9 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { Col, Row, Tooltip } from 'antd';
-
-import { FormattedMessage } from 'umi-plugin-react/locale';
 import React from 'react';
+import { Col, Row } from 'antd';
+import { FormattedMessage } from 'umi-plugin-react/locale';
 import numeral from 'numeral';
-import { ChartCard, MiniArea, MiniBar, MiniProgress, Field } from './Charts';
-import { VisitDataType } from '../data';
-import Trend from './Trend';
+import { ChartCard, Pie } from './Charts';
 import Yuan from '../utils/Yuan';
-import styles from '../style.less';
 
 const topColResponsiveProps = {
   xs: 24,
@@ -19,141 +14,69 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
-const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: VisitDataType[] }) => (
-  <Row gutter={24} type="flex">
+const IntroduceRow = ({ loading }: { loading: boolean }) => (
+  <Row gutter={24}>
     <Col {...topColResponsiveProps}>
       <ChartCard
         bordered={false}
-        title={
-          <FormattedMessage id="dashboardanalysis.analysis.total-sales" defaultMessage="Total Sales" />
-        }
-        action={
-          <Tooltip
-            title={
-              <FormattedMessage id="dashboardanalysis.analysis.introduce" defaultMessage="Introduce" />
-            }
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        loading={loading}
-        total={() => <Yuan>126560</Yuan>}
-        footer={
-          <Field
-            label={
-              <FormattedMessage id="dashboardanalysis.analysis.day-sales" defaultMessage="Daily Sales" />
-            }
-            value={`￥${numeral(12423).format('0,0')}`}
+        title="2020"
+        avatar={
+          <img
+            alt="indicator"
+            style={{ width: 56, height: 56 }}
+            src="https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png"
           />
         }
-        contentHeight={46}
-      >
-        <Trend flag="up" style={{ marginRight: 16 }}>
-          <FormattedMessage id="dashboardanalysis.analysis.week" defaultMessage="Weekly Changes" />
-          <span className={styles.trendText}>12%</span>
-        </Trend>
-        <Trend flag="down">
-          <FormattedMessage id="dashboardanalysis.analysis.day" defaultMessage="Daily Changes" />
-          <span className={styles.trendText}>11%</span>
-        </Trend>
-      </ChartCard>
-    </Col>
-
-    <Col {...topColResponsiveProps}>
-      <ChartCard
-        bordered={false}
         loading={loading}
-        title={<FormattedMessage id="dashboardanalysis.analysis.visits" defaultMessage="Visits" />}
-        action={
-          <Tooltip
-            title={
-              <FormattedMessage id="dashboardanalysis.analysis.introduce" defaultMessage="Introduce" />
-            }
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
         total={numeral(8846).format('0,0')}
-        footer={
-          <Field
-            label={
-              <FormattedMessage id="dashboardanalysis.analysis.day-visits" defaultMessage="Daily Visits" />
-            }
-            value={numeral(1234).format('0,0')}
-          />
-        }
-        contentHeight={46}
+        footer={<>Total Transaction Count</>}
+        contentHeight={60}
       >
-        <MiniArea color="#975FE4" data={visitData} />
       </ChartCard>
     </Col>
     <Col {...topColResponsiveProps}>
       <ChartCard
         bordered={false}
         loading={loading}
-        title={<FormattedMessage id="dashboardanalysis.analysis.payments" defaultMessage="Payments" />}
-        action={
-          <Tooltip
-            title={
-              <FormattedMessage id="dashboardanalysis.analysis.introduce" defaultMessage="Introduce" />
-            }
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        total={numeral(6560).format('0,0')}
-        footer={
-          <Field
-            label={
-              <FormattedMessage
-                id="dashboardanalysis.analysis.conversion-rate"
-                defaultMessage="Conversion Rate"
-              />
-            }
-            value="60%"
+        title="2020"
+        avatar={
+          <img
+            alt="indicator"
+            style={{ width: 56, height: 56 }}
+            src="https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png"
           />
         }
-        contentHeight={46}
+        total={() => <Yuan>126560</Yuan>}
+        footer={<>Total Transaction Volume</>}
+        contentHeight={60}
       >
-        <MiniBar data={visitData} />
       </ChartCard>
     </Col>
     <Col {...topColResponsiveProps}>
       <ChartCard
-        loading={loading}
         bordered={false}
-        title={
-          <FormattedMessage
-            id="dashboardanalysis.analysis.operational-effect"
-            defaultMessage="Operational Effect"
+        loading={loading}
+        title="2020"
+        avatar={
+          <img
+            alt="indicator"
+            style={{ width: 56, height: 56 }}
+            src="https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png"
           />
         }
-        action={
-          <Tooltip
-            title={
-              <FormattedMessage id="dashboardanalysis.analysis.introduce" defaultMessage="Introduce" />
-            }
-          >
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        total="78%"
-        footer={
-          <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
-            <Trend flag="up" style={{ marginRight: 16 }}>
-              <FormattedMessage id="dashboardanalysis.analysis.week" defaultMessage="Weekly Changes" />
-              <span className={styles.trendText}>12%</span>
-            </Trend>
-            <Trend flag="down">
-              <FormattedMessage id="dashboardanalysis.analysis.day" defaultMessage="Weekly Changes" />
-              <span className={styles.trendText}>11%</span>
-            </Trend>
-          </div>
-        }
-        contentHeight={46}
+        total={() => <Yuan>126560</Yuan>}
+        footer={<>Total Settlement Volume</>}
+        contentHeight={60}
       >
-        <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" />
       </ChartCard>
+    </Col>
+    <Col {...topColResponsiveProps}>
+      <Pie
+        hasLegend
+        data={[{ x: 'On-us', y: 10 }, { x: 'Off-us', y: 20 },]}
+        height={60}
+        inner={0}
+      />
     </Col>
   </Row>
 );

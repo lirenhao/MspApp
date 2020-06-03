@@ -1,44 +1,36 @@
-import { AnyAction, Reducer } from 'redux';
-
-import { EffectsCommandMap } from 'dva';
-import { AnalysisData } from './data';
+import { Reducer } from 'redux';
+import { Effect } from 'dva';
+import { VisitDataType } from './data';
 import { fakeChartData } from './service';
 
-export type Effect = (
-  action: AnyAction,
-  effects: EffectsCommandMap & { select: <T>(func: (state: AnalysisData) => T) => T },
-) => void;
+export interface StateType {
+  salesData: VisitDataType[];
+}
 
 export interface ModelType {
   namespace: string;
-  state: AnalysisData;
+  state: StateType;
   effects: {
     fetch: Effect;
     fetchSalesData: Effect;
   };
   reducers: {
-    save: Reducer<AnalysisData>;
-    clear: Reducer<AnalysisData>;
+    save: Reducer<StateType>;
+    clear: Reducer<StateType>;
   };
 }
 
-const initState = {
-  visitData: [],
-  visitData2: [],
-  salesData: [],
-  searchData: [],
-  offlineData: [],
-  offlineChartData: [],
-  salesTypeData: [],
-  salesTypeDataOnline: [],
-  salesTypeDataOffline: [],
-  radarData: [],
+const defaultState = {
+  salesData: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i => ({
+    x: `${i + 1}月`,
+    y: Math.floor(Math.random() * 1000) + 200,
+  })),
 };
 
 const Model: ModelType = {
-  namespace: 'dashboardAnalysis',
+  namespace: 'analysis',
 
-  state: initState,
+  state: defaultState,
 
   effects: {
     *fetch(_, { call, put }) {
@@ -67,7 +59,7 @@ const Model: ModelType = {
       };
     },
     clear() {
-      return initState;
+      return defaultState;
     },
   },
 };

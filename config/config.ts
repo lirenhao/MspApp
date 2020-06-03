@@ -114,7 +114,7 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/merInfo',
+              redirect: '/analysis',
             },
             {
               name: 'analysis',
