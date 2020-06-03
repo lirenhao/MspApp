@@ -210,7 +210,7 @@ const getPdfDefinition = (result: Result): TDocumentDefinitions => ({
       color: 'white',
       alignment: 'center',
       fillColor: '#000000',
-      margin: [0, 6, 0, 0],
+      margin: [0, 4, 0, 4],
     },
     settleRow: {
       alignment: 'center',
