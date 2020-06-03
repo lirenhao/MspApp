@@ -1,16 +1,14 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-import { FormattedMessage } from 'umi-plugin-react/locale';
 import numeral from 'numeral';
 import { ChartCard, Pie } from './Charts';
-import Yuan from '../utils/Yuan';
 
 const topColResponsiveProps = {
   xs: 24,
   sm: 12,
   md: 12,
   lg: 12,
-  xl: 6,
+  xl: 8,
   style: { marginBottom: 24 },
 };
 
@@ -46,7 +44,7 @@ const IntroduceRow = ({ loading }: { loading: boolean }) => (
             src="https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png"
           />
         }
-        total={() => <Yuan>126560</Yuan>}
+        total={() => `S$${numeral(126560).format('0,0')}`}
         footer={<>Total Transaction Volume</>}
         contentHeight={60}
       >
@@ -64,7 +62,7 @@ const IntroduceRow = ({ loading }: { loading: boolean }) => (
             src="https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png"
           />
         }
-        total={() => <Yuan>126560</Yuan>}
+        total={() => `S$${numeral(126560).format('0,0')}`}
         footer={<>Total Settlement Volume</>}
         contentHeight={60}
       >
@@ -74,7 +72,7 @@ const IntroduceRow = ({ loading }: { loading: boolean }) => (
       <Pie
         hasLegend
         data={[{ x: 'On-us', y: 10 }, { x: 'Off-us', y: 20 },]}
-        height={60}
+        height={160}
         inner={0}
       />
     </Col>
