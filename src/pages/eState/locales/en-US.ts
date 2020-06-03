@@ -1,8 +1,5 @@
 export default {
-  'eState.step.query': 'Query',
-  'eState.step.download': 'Download',
-  'eState.option.next': 'Next',
-  'eState.option.back': 'Back',
+  'eState.option.query': 'Query',
   'eState.option.download': 'Download',
   'eState.query.merNo': 'Merchant ID',
   'eState.query.settleDate': 'Settlement Date',

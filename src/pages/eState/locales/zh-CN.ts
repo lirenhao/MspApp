@@ -1,8 +1,5 @@
 export default {
-  'eState.step.query': '查询',
-  'eState.step.download': '下载',
-  'eState.option.next': '下一步',
-  'eState.option.back': '上一步',
+  'eState.option.query': '查询',
   'eState.option.download': '下载',
   'eState.query.merNo': '商户号',
   'eState.query.settleDate': '结算日期',
