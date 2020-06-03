@@ -29,17 +29,21 @@ const formItemLayout = {
 };
 
 const RangeDateFormat: React.FC<Record<string, any>> = ({ value, format, onChange, ...rest }) => {
+  const [dates, setDates] = React.useState([]);
+
   const disabledDate = (current: any) => {
-    if (!value || value.length === 0) {
-      return false;
+    if (!dates || dates.length === 0) {
+      return current >= moment().endOf('day').add(-1, 'day');
     }
-    const tooLate = value[0] && current.diff(moment(value[0] as string, format), 'days') > 7;
-    const tooEarly = value[1] && moment(value[1] as string, format).diff(current, 'days') > 7;
+    const tooLate = dates[0] && current.diff(moment(dates[0] as string, format), 'days') > 7;
+    const tooEarly = dates[1] && moment(dates[1] as string, format).diff(current, 'days') > 7;
     return tooEarly || tooLate || current >= moment().endOf('day').add(-1, 'day');
   };
+
   return (
     <DatePicker.RangePicker {...rest}
       disabledDate={disabledDate}
+      onCalendarChange={(date: any) => { setDates(date) }}
       value={value?.map((date: any) => date && date !== '' ? moment(date as string, format) : undefined)}
       onChange={dates => onChange(dates?.map(date => date ? date.format(format) : undefined))}
     />

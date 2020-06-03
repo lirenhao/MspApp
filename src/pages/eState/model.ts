@@ -1,7 +1,6 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { notification } from 'antd';
-import moment from 'moment';
 import { MerSubItem, Query, Result } from './data.d';
 import { getResult, getMerSubs, generPdf } from './service';
 
@@ -35,10 +34,7 @@ const defaultState = {
   merSubs: [],
   query: {
     merNo: '',
-    settleDate: [
-      moment().endOf('day').add(-1, 'day').format('YYYYMMDD'),
-      moment().endOf('day').add(-1, 'day').format('YYYYMMDD'),
-    ],
+    settleDate: [],
   },
   result: {
   },
