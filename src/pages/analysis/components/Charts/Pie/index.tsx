@@ -1,6 +1,5 @@
-import { Chart, Coord, Geom, Tooltip } from 'bizcharts';
+import { Chart, Coord, Geom, Label, Tooltip } from 'bizcharts';
 import React, { Component } from 'react';
-
 import { DataView } from '@antv/data-set';
 import Debounce from 'lodash.debounce';
 import { Divider } from 'antd';
@@ -136,24 +135,6 @@ class Pie extends Component<PieProps, PieState> {
     this.root = n;
   };
 
-  handleLegendClick = (item: any, i: string | number) => {
-    const newItem = item;
-    newItem.checked = !newItem.checked;
-
-    const { legendData } = this.state;
-    legendData[i] = newItem;
-
-    const filteredLegendData = legendData.filter(l => l.checked).map(l => l.x);
-
-    if (this.chart) {
-      this.chart.filter('x', val => filteredLegendData.indexOf(`${val}`) > -1);
-    }
-
-    this.setState({
-      legendData,
-    });
-  };
-
   render() {
     const {
       valueFormat,
@@ -266,7 +247,19 @@ class Pie extends Component<PieProps, PieState> {
                 position="percent"
                 color={['x', percent || percent === 0 ? formatColor : defaultColors] as any}
                 selected={selected}
-              />
+              >
+                <Label
+                  content="percent"
+                  offset={-40}
+                  textStyle={{
+                    rotate: 0,
+                    textAlign: "center",
+                    shadowBlur: 2,
+                    shadowColor: "rgba(0, 0, 0, .45)"
+                  }}
+                  formatter={(_, item: any) => `${(item.point.percent * 100).toFixed(2)}%`}
+                />
+              </Geom>
             </Chart>
 
             {(subTitle || total) && (
@@ -284,7 +277,7 @@ class Pie extends Component<PieProps, PieState> {
         {hasLegend && (
           <ul className={styles.legend}>
             {legendData.map((item, i) => (
-              <li key={item.x} onClick={() => this.handleLegendClick(item, i)}>
+              <li key={item.x}>
                 <span
                   className={styles.dot}
                   style={{

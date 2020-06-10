@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Card, Form, Select, DatePicker, Button, Divider, Table } from 'antd';
+import { Spin, Card, Form, Select, DatePicker, Button, Divider, Table } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
@@ -112,64 +112,66 @@ const PageView: React.FC<PageViewProps> = props => {
 
   return (
     <PageHeaderWrapper title="Merchant E-statement">
-      <Card bordered={false} loading={loading}>
-        <Form
-          {...formItemLayout}
-          layout="horizontal"
-          className={styles.stepForm}
-          hideRequiredMark
-          initialValues={{
-            ...query,
-            merNo,
-          }}
-          onFinish={handleQuery}
-        >
-          <Form.Item
-            label={formatMessage({ id: 'eState.query.merNo.label' })}
-            name="merNo"
-            rules={[{ required: true, message: formatMessage({ id: 'eState.query.merNo.required' }) }]}
-          >
-            <Select placeholder={formatMessage({ id: 'eState.query.merNo.placeholder' })}>
-              {merSubs?.map(sub => (
-                <Select.Option key={sub.merNo} value={sub.merNo}>{`${sub.merNo}[${sub.merName}]`}</Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label={formatMessage({ id: 'eState.query.settleDate.label' })}
-            name="settleDate"
-            rules={[
-              { required: true, message: formatMessage({ id: 'eState.query.settleDate.required' }) },
-            ]}
-          >
-            <RangeDateFormat format='YYYYMMDD' style={{ width: '100%' }} />
-          </Form.Item>
-          <Form.Item
-            wrapperCol={{
-              xs: { span: 24, offset: 0 },
-              sm: {
-                span: formItemLayout.wrapperCol.span,
-                offset: formItemLayout.labelCol.span,
-              },
+      <Spin spinning={loading}>
+        <Card bordered={false}>
+          <Form
+            {...formItemLayout}
+            layout="horizontal"
+            className={styles.stepForm}
+            hideRequiredMark
+            initialValues={{
+              ...query,
+              merNo,
             }}
+            onFinish={handleQuery}
           >
-            <Button type="primary" htmlType="submit">
-              {formatMessage({ id: 'eState.option.query' })}
-            </Button>
-            <Button type="primary" style={{ marginLeft: 8 }}
-              onClick={handleDownload}
-              disabled={!(result.settles && result.settles.length > 0)}
+            <Form.Item
+              label={formatMessage({ id: 'eState.query.merNo.label' })}
+              name="merNo"
+              rules={[{ required: true, message: formatMessage({ id: 'eState.query.merNo.required' }) }]}
             >
-              {formatMessage({ id: 'eState.option.download' })}
-            </Button>
-          </Form.Item>
-        </Form>
-        <Divider style={{ margin: '40px 0 24px' }} />
-        <div className={styles.desc}>
-          <Table columns={columns} dataSource={result.settles} rowKey={record => `${record.merNo}${record.settleDate}${record.channel}`} />
-        </div>
-      </Card>
-    </PageHeaderWrapper>
+              <Select placeholder={formatMessage({ id: 'eState.query.merNo.placeholder' })}>
+                {merSubs?.map(sub => (
+                  <Select.Option key={sub.merNo} value={sub.merNo}>{`${sub.merNo}[${sub.merName}]`}</Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label={formatMessage({ id: 'eState.query.settleDate.label' })}
+              name="settleDate"
+              rules={[
+                { required: true, message: formatMessage({ id: 'eState.query.settleDate.required' }) },
+              ]}
+            >
+              <RangeDateFormat format='YYYYMMDD' style={{ width: '100%' }} />
+            </Form.Item>
+            <Form.Item
+              wrapperCol={{
+                xs: { span: 24, offset: 0 },
+                sm: {
+                  span: formItemLayout.wrapperCol.span,
+                  offset: formItemLayout.labelCol.span,
+                },
+              }}
+            >
+              <Button type="primary" htmlType="submit">
+                {formatMessage({ id: 'eState.option.query' })}
+              </Button>
+              <Button type="primary" style={{ marginLeft: 8 }}
+                onClick={handleDownload}
+                disabled={!(result.settles && result.settles.length > 0)}
+              >
+                {formatMessage({ id: 'eState.option.download' })}
+              </Button>
+            </Form.Item>
+          </Form>
+          <Divider style={{ margin: '40px 0 24px' }} />
+          <div className={styles.desc}>
+            <Table columns={columns} dataSource={result.settles} rowKey={record => `${record.merNo}${record.settleDate}${record.channel}`} />
+          </div>
+        </Card>
+      </Spin>
+    </PageHeaderWrapper >
   );
 };
 
