@@ -97,9 +97,16 @@ const PageView: React.FC<PageViewProps> = props => {
       },
     ];
     if (record.subs && record.subs.length > 0) {
-      return <Table<SettleSubItem> columns={columns} dataSource={record.subs} pagination={false} />;
+      return (
+        <Table<SettleSubItem>
+          rowKey={record => record.settleDate + record.merNo + record.channel}
+          columns={columns}
+          dataSource={record.subs}
+          pagination={false}
+        />
+      )
     } else {
-      return <></>
+      return (<></>)
     }
   };
 

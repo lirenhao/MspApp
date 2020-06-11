@@ -105,7 +105,13 @@ const TransView: React.FC<TransViewProps> = props => {
         <Descriptions.Item label={formatMessage({ id: 'settle.channel.title' })}>{sub.channel}</Descriptions.Item>
       </Descriptions>
       <Divider style={{ marginBottom: 0 }} />
-      <Table<SettleTranItem> columns={columns} dataSource={trans} scroll={{ x: 1000 }} pagination={false} />
+      <Table<SettleTranItem>
+        rowKey={record => record.settleDate + record.merNo + record.traceNo}
+        columns={columns}
+        dataSource={trans}
+        scroll={{ x: 'max-content' }}
+        pagination={false}
+      />
     </Modal>
   );
 }
