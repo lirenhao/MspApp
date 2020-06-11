@@ -257,7 +257,7 @@ class Pie extends Component<PieProps, PieState> {
                     shadowBlur: 2,
                     shadowColor: "rgba(0, 0, 0, .45)"
                   }}
-                  formatter={(_, item: any) => `${(item.point.percent * 100).toFixed(2)}%`}
+                  formatter={(_, item: any) => `${item.point.y},\n${(item.point.percent * 100).toFixed(2)}%`}
                 />
               </Geom>
             </Chart>

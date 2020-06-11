@@ -2,13 +2,15 @@ import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { notification } from 'antd';
 import moment from 'moment';
-import { SettlePage, SettleQuery, MerSubItem } from './data';
-import { querySettle, downloadSettle, getMerSubs } from './service';
+import { SettlePage, SettleQuery, SettleSubItem, MerSubItem, SettleTranItem } from './data';
+import { getMerSubs, querySettle, downloadSettle, getSubTrans } from './service';
 
 export interface StateType {
   page: SettlePage;
   query: SettleQuery;
   merSubs: MerSubItem[];
+  sub: Partial<SettleSubItem>,
+  trans: SettleTranItem[];
   downloading: boolean;
 }
 
@@ -16,14 +18,17 @@ export interface ModelType {
   namespace: string;
   state: StateType;
   effects: {
+    fetchMerSubs: Effect;
     fetchQuery: Effect;
     fetchDownload: Effect;
-    fetchMerSubs: Effect;
+    fetchTrans: Effect;
   };
   reducers: {
+    setMerSubs: Reducer<StateType>;
     setQuery: Reducer<StateType>;
     setPage: Reducer<StateType>;
-    setMerSubs: Reducer<StateType>;
+    setSub: Reducer<StateType>;
+    setTrans: Reducer<StateType>;
   };
 }
 
@@ -44,6 +49,8 @@ const defaultState = {
     settleDate: moment().endOf('day').add('day', -1).format('YYYYMMDD'),
   },
   merSubs: [],
+  sub: {},
+  trans: [],
   downloading: false,
 };
 
@@ -51,6 +58,20 @@ const Model: ModelType = {
   namespace: 'settle',
   state: defaultState,
   effects: {
+    *fetchMerSubs({ payload, callback }, { call, put }) {
+      try {
+        yield put({
+          type: 'setQuery',
+          payload: payload,
+        });
+        const response = yield call(getMerSubs);
+        yield put({
+          type: 'setMerSubs',
+          payload: response,
+        });
+        if (callback) callback(response);
+      } catch (error) { }
+    },
     *fetchQuery({ payload, callback }, { call, put }) {
       try {
         yield put({
@@ -102,15 +123,15 @@ const Model: ModelType = {
       }
       if (callback) callback();
     },
-    *fetchMerSubs({ payload, callback }, { call, put }) {
+    *fetchTrans({ payload, callback }, { call, put }) {
       try {
         yield put({
-          type: 'setQuery',
+          type: 'setSub',
           payload: payload,
         });
-        const response = yield call(getMerSubs);
+        const response = yield call(getSubTrans, payload);
         yield put({
-          type: 'setMerSubs',
+          type: 'setTrans',
           payload: response,
         });
         if (callback) callback(response);
@@ -119,6 +140,12 @@ const Model: ModelType = {
   },
 
   reducers: {
+    setMerSubs(state, action) {
+      return {
+        ...(state as StateType),
+        merSubs: [...action.payload],
+      };
+    },
     setPage(state, action) {
       return {
         ...(state as StateType),
@@ -137,10 +164,16 @@ const Model: ModelType = {
         },
       };
     },
-    setMerSubs(state, action) {
+    setSub(state, action) {
       return {
         ...(state as StateType),
-        merSubs: [...action.payload],
+        sub: action.payload,
+      };
+    },
+    setTrans(state, action) {
+      return {
+        ...(state as StateType),
+        trans: [...action.payload],
       };
     },
   },

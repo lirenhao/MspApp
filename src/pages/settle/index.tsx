@@ -6,11 +6,12 @@ import { Form, Card, Table, Tooltip, Button } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
-import { SettlePage, SettleQuery, SettleItem } from './data.d';
+import { SettlePage, SettleQuery, SettleItem, SettleSubItem } from './data.d';
 import { UserModelState } from '@/models/user';
 import { StateType } from './model';
 import Search from './Search';
 import ToolBar from './toolBar';
+import Trans from './Trans';
 
 interface PageViewProps {
   dispatch: Dispatch<any>;
@@ -24,6 +25,7 @@ const PageView: React.FC<PageViewProps> = props => {
   const { dispatch, loading, merNo, page, query } = props;
 
   const [isDownload, setIsDownload] = React.useState(false);
+  const [isTrans, setIsTrans] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement>(null);
   const [form] = Form.useForm();
 
@@ -91,10 +93,11 @@ const PageView: React.FC<PageViewProps> = props => {
       {
         title: formatMessage({ id: 'settle.channel.title' }),
         dataIndex: 'channel',
+        render: (val: string, record: SettleSubItem) => (<Button type='link' onClick={() => handleTrans(record)}>{val}</Button>),
       },
     ];
     if (record.subs && record.subs.length > 0) {
-      return <Table columns={columns} dataSource={record.subs} pagination={false} />;
+      return <Table<SettleSubItem> columns={columns} dataSource={record.subs} pagination={false} />;
     } else {
       return <></>
     }
@@ -130,6 +133,16 @@ const PageView: React.FC<PageViewProps> = props => {
     })
   };
 
+  const handleTrans = (record: SettleSubItem) => {
+    dispatch({
+      type: 'settle/fetchTrans',
+      payload: record,
+      callback: () => {
+        setIsTrans(true);
+      },
+    })
+  }
+
   return (
     <PageHeaderWrapper>
       <div ref={rootRef}>
@@ -163,7 +176,7 @@ const PageView: React.FC<PageViewProps> = props => {
           />
         </Card>
       </div>
-
+      <Trans visible={isTrans} onCancel={() => setIsTrans(false)} />
     </PageHeaderWrapper>
   );
 };

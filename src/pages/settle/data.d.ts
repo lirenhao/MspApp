@@ -1,3 +1,21 @@
+export interface SettleTranItem {
+  settleDate: string;
+  merNo: string;
+  termNo: string;
+  cardNo: string;
+  tranName: string;
+  tranAmt: string;
+  fee: string;
+  settleAmt: string;
+  tranDate: string;
+  tranTime: string;
+  batchNo: string;
+  authNo: string;
+  traceNo: string;
+  rrn: string;
+  channel: string;
+}
+
 export interface SettleSubItem {
   settleDate: string;
   merNo: string;
