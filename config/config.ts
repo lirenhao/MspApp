@@ -45,7 +45,7 @@ const plugins: IPlugin[] = [
       autoAddMenu: true,
     },
   ],
-  // ['umi-plugin-antd-theme', themePluginConfig],
+  ['umi-plugin-antd-theme', themePluginConfig],
 ];
 
 export default {
@@ -125,7 +125,7 @@ export default {
             {
               path: '/eState',
               name: 'eState',
-              icon: 'link',
+              icon: 'mail',
               component: './eState',
             },
             {

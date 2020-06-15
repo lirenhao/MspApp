@@ -46,7 +46,7 @@ const defaultState = {
   query: {
     page: 0,
     size: 10,
-    settleDate: moment().endOf('day').add('day', -1).format('YYYYMMDD'),
+    settleDate: moment().endOf('day').format('YYYYMMDD'),
   },
   merSubs: [],
   sub: {},

@@ -93,7 +93,7 @@ const SearchView: React.FC<SearchProps> = props => {
             >
               <DateFormat style={{ width: '100%' }} showToday={false} allowClear={false} format="YYYYMMDD"
                 placeholder={formatMessage({ id: 'settle.settleDate.placeholder' })}
-                disabledDate={(date: moment.Moment) => date && (date >= moment().endOf('day').add('day', -1) || date < moment().endOf('day').add('day', -31))}
+                disabledDate={(date: moment.Moment) => date && (date >= moment().endOf('day') || date < moment().endOf('day').add('day', -30))}
               />
             </Form.Item>
           </Col>
