@@ -250,7 +250,7 @@ class Pie extends Component<PieProps, PieState> {
               >
                 <Label
                   content="percent"
-                  offset={-40}
+                  offset={0}
                   textStyle={{
                     rotate: 0,
                     textAlign: "center",

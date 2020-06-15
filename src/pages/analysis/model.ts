@@ -1,31 +1,39 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
-import { VisitDataType } from './data';
-import { fakeChartData } from './service';
+import { TotalData, MonthData, TopData } from './data';
+import { getTotal, getMonths, getTops } from './service';
 
 export interface StateType {
-  salesData: VisitDataType[];
+  total: TotalData;
+  months: MonthData[];
+  tops: TopData[];
+}
+
+const defaultState: StateType = {
+  total: {
+    year: '2020',
+    count: 0,
+    trans: 0,
+    settle: 0,
+  },
+  months: [],
+  tops: [],
 }
 
 export interface ModelType {
   namespace: string;
   state: StateType;
   effects: {
-    fetch: Effect;
-    fetchSalesData: Effect;
+    fetchTotal: Effect;
+    fetchMonths: Effect;
+    fetchTops: Effect;
   };
   reducers: {
-    save: Reducer<StateType>;
-    clear: Reducer<StateType>;
+    setTotal: Reducer<StateType>;
+    setMonths: Reducer<StateType>;
+    setTops: Reducer<StateType>;
   };
 }
-
-const defaultState = {
-  salesData: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i => ({
-    x: `${i + 1}月`,
-    y: Math.floor(Math.random() * 1000) + 200,
-  })),
-};
 
 const Model: ModelType = {
   namespace: 'analysis',
@@ -33,33 +41,56 @@ const Model: ModelType = {
   state: defaultState,
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(fakeChartData);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
+    *fetchTotal(_, { call, put }) {
+      try {
+        const response = yield call(getTotal);
+        yield put({
+          type: 'setTotal',
+          payload: response,
+        });
+      } catch (error) { }
     },
-    *fetchSalesData(_, { call, put }) {
-      const response = yield call(fakeChartData);
-      yield put({
-        type: 'save',
-        payload: {
-          salesData: response.salesData,
-        },
-      });
+    *fetchMonths(_, { call, put }) {
+      try {
+        const response = yield call(getMonths);
+        yield put({
+          type: 'setMonths',
+          payload: response,
+        });
+      } catch (error) { }
+    },
+    *fetchTops(_, { call, put }) {
+      try {
+        const response = yield call(getTops);
+        yield put({
+          type: 'setTops',
+          payload: response,
+        });
+      } catch (error) { }
     },
   },
 
   reducers: {
-    save(state, { payload }) {
+    setTotal(state, { payload }) {
       return {
-        ...state,
-        ...payload,
+        ...(state as StateType),
+        total: {
+          ...(state as StateType).total,
+          ...payload,
+        },
       };
     },
-    clear() {
-      return defaultState;
+    setMonths(state, { payload }) {
+      return {
+        ...(state as StateType),
+        months: [...payload],
+      };
+    },
+    setTops(state, { payload }) {
+      return {
+        ...(state as StateType),
+        tops: [...payload],
+      };
     },
   },
 };

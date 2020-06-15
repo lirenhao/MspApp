@@ -1,6 +1,6 @@
 import { Axis, Chart, Geom, Tooltip } from 'bizcharts';
 import React, { Component } from 'react';
-
+import numeral from 'numeral';
 import Debounce from 'lodash.debounce';
 import autoHeight from '../autoHeight';
 import styles from '../index.less';
@@ -24,7 +24,7 @@ class Bar extends Component<
   {
     autoHideXLabels: boolean;
   }
-> {
+  > {
   state = {
     autoHideXLabels: false,
   };
@@ -99,7 +99,7 @@ class Bar extends Component<
       'x*y',
       (x: string, y: string) => ({
         name: x,
-        value: y,
+        value: numeral(y).format('0,0.00'),
       }),
     ];
 

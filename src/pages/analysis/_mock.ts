@@ -1,15 +1,33 @@
-import { VisitDataType } from './data';
+import { MonthData, TopData } from './data';
 
-const salesData: VisitDataType[] = [];
+const monthData: MonthData[] = [];
 for (let i = 0; i < 12; i += 1) {
-  salesData.push({
-    x: `${i + 1}月`,
-    y: Math.floor(Math.random() * 1000) + 200,
+  monthData.push({
+    month: i + 1,
+    sales: Math.floor(Math.random() * 1000) + 200,
+  });
+}
+
+const topData: TopData[] = [];
+for (let i = 0; i < 7; i += 1) {
+  topData.push({
+    merNo: '123456789012345',
+    merName: 'Merchant Name',
+    sales: 323234,
   });
 }
 
 export default {
-  'GET  /api/fake_chart_data': {
-    salesData,
+  'GET  /api/msp/sales/total': {
+    year: '2020',
+    count: '8846',
+    trans: '126560',
+    settle: '126560',
+  },
+  'GET  /api/msp/sales/month': {
+    monthData,
+  },
+  'GET  /api/msp/sales/top': {
+    topData,
   },
 };
