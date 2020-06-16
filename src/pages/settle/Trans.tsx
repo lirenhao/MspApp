@@ -1,21 +1,27 @@
 import React from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Modal, Descriptions, Divider, Table } from 'antd';
+import { Modal, Card, Descriptions, Table } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
 import { UserModelState } from '@/models/user';
 import { SettleSubItem, SettleTranItem } from './data';
 import { StateType } from './model';
+import ToolBar from './toolBar';
 
 interface TransViewProps {
+  dispatch: Dispatch<any>;
   visible: boolean;
   onCancel(): void;
   sub: Partial<SettleSubItem>;
   trans: SettleTranItem[];
+  loading: boolean;
 }
 
 const TransView: React.FC<TransViewProps> = props => {
-  const { visible, onCancel, sub, trans } = props;
+  const { dispatch, visible, onCancel, sub, trans, loading } = props;
+
+  const rootRef = React.useRef<HTMLDivElement>(null);
 
   const columns = [
     {
@@ -96,28 +102,46 @@ const TransView: React.FC<TransViewProps> = props => {
       maskClosable={false}
       centered
     >
-      <Descriptions size="default" bordered>
-        <Descriptions.Item label={formatMessage({ id: 'settle.merNo.title' })}>{sub.merNo}</Descriptions.Item>
-        <Descriptions.Item label={formatMessage({ id: 'settle.settleDate.title' })}>{sub.settleDate}</Descriptions.Item>
-        <Descriptions.Item label={formatMessage({ id: 'settle.tranAmt.title' })}>{`SG$${sub.tranAmt}`}</Descriptions.Item>
-        <Descriptions.Item label={formatMessage({ id: 'settle.fee.title' })}>{`SG$${sub.fee}`}</Descriptions.Item>
-        <Descriptions.Item label={formatMessage({ id: 'settle.settleAmt.title' })}>{`SG$${sub.settleAmt}`}</Descriptions.Item>
-        <Descriptions.Item label={formatMessage({ id: 'settle.channel.title' })}>{sub.channel}</Descriptions.Item>
-      </Descriptions>
-      <Divider style={{ marginBottom: 0 }} />
-      <Table<SettleTranItem>
-        rowKey={record => record.settleDate + record.merNo + record.traceNo}
-        columns={columns}
-        dataSource={trans}
-        scroll={{ x: 'max-content' }}
-        pagination={false}
-      />
+      <div ref={rootRef}>
+        <Card bordered={false}
+          style={{ height: '100%' }}
+          bodyStyle={{ padding: 0 }}
+        >
+          <Descriptions size="default" bordered>
+            <Descriptions.Item label={formatMessage({ id: 'settle.merNo.title' })}>{sub.merNo}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'settle.settleDate.title' })}>{sub.settleDate}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'settle.tranAmt.title' })}>{`SG$${sub.tranAmt}`}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'settle.fee.title' })}>{`SG$${sub.fee}`}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'settle.settleAmt.title' })}>{`SG$${sub.settleAmt}`}</Descriptions.Item>
+            <Descriptions.Item label={formatMessage({ id: 'settle.channel.title' })}>{sub.channel}</Descriptions.Item>
+          </Descriptions>
+          {/* <Divider style={{ marginBottom: 0 }} /> */}
+          <ToolBar
+            title=""
+            rootRef={rootRef}
+            onReload={() => {
+              dispatch({
+                type: 'settle/fetchTrans',
+                payload: sub,
+              })
+            }}
+          />
+          <Table<SettleTranItem>
+            rowKey={record => record.settleDate + record.merNo + record.traceNo}
+            columns={columns}
+            dataSource={trans}
+            scroll={{ x: 'max-content' }}
+            pagination={false}
+            loading={loading}
+          />
+        </Card>
+      </div>
     </Modal>
   );
 }
 
 export default connect(
-  ({ user, settle }: {
+  ({ user, settle, loading }: {
     user: UserModelState;
     settle: StateType,
     loading: { models: { [key: string]: boolean } };
@@ -125,5 +149,6 @@ export default connect(
     merNo: user.user.merNo,
     sub: settle.sub,
     trans: settle.trans,
+    loading: loading.models.settle,
   }),
 )(TransView);
