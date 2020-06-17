@@ -115,7 +115,6 @@ const TransView: React.FC<TransViewProps> = props => {
             <Descriptions.Item label={formatMessage({ id: 'settle.settleAmt.title' })}>{`SG$${sub.settleAmt}`}</Descriptions.Item>
             <Descriptions.Item label={formatMessage({ id: 'settle.channel.title' })}>{sub.channel}</Descriptions.Item>
           </Descriptions>
-          {/* <Divider style={{ marginBottom: 0 }} /> */}
           <ToolBar
             title=""
             rootRef={rootRef}
@@ -131,7 +130,7 @@ const TransView: React.FC<TransViewProps> = props => {
             columns={columns}
             dataSource={trans}
             scroll={{ x: 'max-content' }}
-            pagination={false}
+            pagination={{ showTotal: (total: number, range: number[]) => `${range[0]}-${range[1]} of ${total} items`, }}
             loading={loading}
           />
         </Card>
