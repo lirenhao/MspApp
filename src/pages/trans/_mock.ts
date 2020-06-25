@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { parse } from 'url';
-import { TransItem, TransQuery } from './data';
+import { TransItem, TransQuery, TransPage } from './data';
 
 const transDataSource: TransItem[] = [
   {
@@ -198,11 +198,18 @@ function getTrans(req: Request, res: Response) {
   const dataSource = transDataSource
     .filter(data => params.termNo ? data.termNo.includes(params.termNo) : true);
 
-  return res.json({
+  const page: TransPage = {
     content: dataSource,
+    pageable: {
+      pageSize: Number(params.size) || 10,
+      pageNumber: Number(params.page) || 0,
+      sort: [],
+    },
     totalElements: dataSource.length,
     totalPages: dataSource.length % params.size,
-  });
+  }
+
+  return res.json(page);
 }
 
 export default {

@@ -12,8 +12,11 @@ const getMerData: MerData = {
   contactEmail: '电子邮件',
   terms: [
     {
+      merNo: '123456789012345',
       termNo: '12345678',
       termAddress: '北京市海淀区上地西路八号院B栋6楼',
+      serialNumber: '1',
+      status: 'OK'
     }
   ],
 };

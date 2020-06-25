@@ -4,58 +4,114 @@ function getPolicy(_: Request, res: Response) {
   return res.json({
     title: 'BOC Merchant Portal Policy',
     content: `
-<p>
-  中国银行股份有限公司苏州分行无感支付业务协议
-  委托代扣申请人(以下简称甲方)与中国银行(以下简称乙方)双方就甲方委托乙方办理无感支付事宜达成<br />
-  如下协议:
-</p>
-
-<h2>一、无感支付</h2>
-<p>
-  乙方推出的无感支付业务，旨在方便广大客户，适用于已经和乙方开通无感支付或后续即将开通无感支付的停车场、加油站、加气站、充电桩、汽渡公司等乙方合作商户。
-  乙方提供的无感支付服务是甲方通过与乙方签订本协议，将甲方在乙方开立的账户（下称“甲方签约账户”）与“智慧停车”商户进行绑定，绑定完成后即可在“智慧停车”内所签约的合作商户方(含手机应用)完成直接付款业务。甲方授权乙方在收到商户端发送的划拨甲方签约账户资金的支付指令后，直接依据该指令实时扣减甲方签约账户内的余额进行支付。
-</p>
-
-<h2>
-  二、业务内容
-</h2>
-<p>
-  1、甲方可通过乙方手机银行或其他渠道(后续简称渠道)办理相关无感支付的开通、关闭和银行卡号更新的服务申请，并可通过乙方渠道查询业务处理状态。<br />
-2、甲方如果要更改原无感支付协议中的相关信息，要先解除原无感支付协议，待解约正式生效后，再重新签署新的协议。<br />
-3、本协议生效之日起，乙方将根据甲方在乙方提供的可进行无感支付业务或后续即将开通无感支付的停车场、加油站、加气站、充电桩、汽渡公司等乙方合作商户提供的应缴费金额，及时从甲方的银行卡内扣相应的费用。<br />
-4、若甲方在乙方开通账户短信通知服务，则甲方扣款情况，乙方都会以短信的形式通知甲方，如因甲方未及时更新在乙方留存的手机号码而未收到乙方的短信通知，相关责任由甲方负责;若甲方未在乙方开通账户短信通知服务，甲方可以通过手机银行、个人网银自助开通。<br />
-5、甲方银行卡因未激活、止付、冻结、挂失未补卡、信用卡到期未续卡或销卡等卡状态异常原因导致的卡片停止使用期间，无感支付交易将会失败。甲方应及时通过其他方式自行缴费。<br />
-6、乙方合作商户负责其用户欠费的催讨和缴费数据的解释，并负责其用户缴费收据或发票的寄送，乙方概不负责。<br />
-</p>
-
-<h2>三、双方的权利和义务</h2>
-<p>
-  1、如甲方签约无感支付的银行卡已在其他APP或应用程序签约了无感支付业务，应注销后再另行开通乙方的无感支付业务。因甲方未按上述流程操作造成重复扣款或漏扣款的相关责任由甲方承担。<br />
-  2、甲方应按照乙方规定的渠道签约程序向乙方提交签约资料并对提交资料的真实性、准确性和合法性负责。因甲方提交资料有误等原因造成签约不成功或影响签约生效时间的，相关责任由甲方负责。<br />
-  3、甲方应保证签约银行卡在无感支付开通项目缴费期间内有足够的余额或信用额度用于扣缴。余额或信用卡额度不足时，甲方应及时补充，乙方不作部分扣缴、不垫款。<br />
-  4、如甲方签约无感支付项目的客户编号(如:客户车牌号码、手机号码等)发生过户或变更时，请及时通过乙方渠道办理无感支付解约，否则原客户编号的费用仍将从甲方的银行卡中支付，由此引起的甲方经济损失乙方不予承担。<br />
-  5、甲方必须依照乙方合作商户的有关规定承担欠费补缴的责任。<br />
-  6、甲方可通过乙方手机银行无感支付页面或中国银行苏州分行官方微信查询无感支付交易记录，但乙方不负责向甲方提供有关收费具体情况的发票并转送甲方。<br />
-  7、乙方对于甲方与乙方合作商户之间就费用金额产生的纠纷不承担任何责任。<br />
-  8、在无感支付过程中，如出现差错，甲乙双方应密切配合查明原因。因甲方的过错造成的损失，由甲方承担责任;因乙方的过错造成的损失，由乙方承担责任;因双方的过错造成的损失，由双方按过错的程度承担相应的责任。
-</p>
-
-<h2>
-  四、合作期限
-</h2>
-<p>
-  1、本协议自甲方在签约无感支付页面点击”我已阅读并同意”按钮后生效，至无感支付解约时终止。<br />
-  2、在甲方解约前乙方接收到的所有收费指令仍为有效指令，由甲方承担责任。
-</p>
-
-<h2>五、违约</h2>
-<p>双方承认，任何一方对本协议的任何违反都将给对方造成损失。如果一方违约，遵守协议的另-方有权获得赔偿</p>
-
-<h2>六、争议的解决</h2>
-<p>在发生因履行本协议而引起的或与本协议有关的争议时，双方应首先通过友好协商解决争议。协商不成的，可向乙方所在地人民法院提起诉讼。</p>
-
-<h2>七、保密</h2>
-<p>甲乙双方对另一方提供的信息、资料及本合同的具体内容负有保密责任，对任何一方因违反保密责任造成的损失。而引发的纠纷，由过错方承担责任。</p>
+<h2>1. Introduction</h2>
+<p> This Web Site is provided to you under these Terms and any amendment or supplement thereto that may be posted by us
+  from time to time (collectively referred to as “these Terms”). Your use of this Web Site shall be deemed to constitute
+  your consent to be bound by these Terms</p>
+<h2>2. Terms and Conditions of NETS Web Site</h2>
+<p> All Terms and Conditions stated in our NETS Web Site (“NETS Web Site Terms”) constitute an integral part of these
+  Terms and shall be deemed incorporated into these Terms. We suggest you click to the NETS Web Site at www.nets.com.sg
+  and read the NETS Web Site Terms carefully.</p>
+<h2>3. Modifications to these Terms and NETS Web Site Terms</h2>
+<p> We may make changes to these Terms or the NETS Web Site Terms from time to time at our sole discretion, and we will
+  post any such changes on this Web Site or the NETS Web Site respectively. Each time changes are made to these Terms or
+  the NETS Web Site Terms, notice of these changes will be posted on the respective home page. Your continued use of
+  this Web Site following the posting of changes constitutes your acceptance of any such changes.</p>
+<h2>4. Privacy Policy</h2>
+<p> The information that we obtain through your use of this Web Site, whether through the registration process or
+  otherwise, is subject to the following Privacy Policy:</p>
+<p> (a) You agree and consent that we may, at our sole discretion, disclose to any third party and information relating
+  to or supplied by you which is in our possession or control.</p>
+<p> (b) You agree and consent that we may incorporate your personal information in our mailing lists to disseminate any
+  promotion, offer, newsletter or marketing material from us or from our business partners through us.</p>
+<p> (c) You agree and consent that we may disclose your personal information, if required to do so by law, or in good
+  faith believe that such action is necessary to (i) conform to edicts of the law or comply with legal process or
+  directives of regulatory authorities or (ii) protect and defend our rights and property.</p>
+<p> (d) You acknowledge that the information collected by us will be used to provide the services or products in
+  connection with our MerchantConnect Portal and you agree that we may engage third parties to provide certain services
+  on our behalf.</p>
+<h2>5. Application and Registration</h2>
+<p> You have to apply and register with us in order to use the Web Site. You must submit the completed MerchantConnect
+  Application Form to us for processing.</p>
+<p> You agree to provide true, accurate and complete registration information and to maintain and promptly update your
+  information. You shall not impersonate any person or use a name other than your own. You authorise us to make such
+  inquiries as we consider necessary to validate your registration.</p>
+<h2>6. Acceptance of Terms and Conditions</h2>
+<p> If you do not wish to accept or do not agree with these Terms, the NETS Web Site Terms, our Privacy Policy or fee
+  and charges, you should not register or if you have registered, de-register the use of this Web Site.</p>
+<h2>7. Fees and Charges</h2>
+<p> You may apply for multiple Customer-Code Accounts or Retailer-Code Accounts. There is no charge for one
+  Customer-Code Account but charges will be payable in respect of subsequent Customer-Code Accounts and all
+  Retailer-Code Accounts.</p>
+<p> We reserve the right to levy other fees and charges from time to time.</p>
+<h2>8. MerchantConnect Portal</h2>
+<p> The MerchantConnect Portal allows you access to your transaction data for EFTPOS, CashCard, CashBack, UnionPay (CUP)
+  and Rintis-BCA and such other services as we may include from time to time.</p>
+<p> You will have access to the following reports:</p>
+<p> (a) Monthly invoice and Daily Transaction Report;</p>
+<p> (b) Monthly Transaction by Retailer;</p>
+<p> (c) Daily Transaction Summary;</p>
+<p> (d) Such other reports as we may include from time to time.</p>
+<p> However, we reserve the right, at our sole discretion, to remove or add to the foregoing services or reports at any
+  time.</p>
+<p></p>
+<h2>9. Access to MerchantConnect Portal</h2>
+<p> We endeavour to provide access to the MerchantConnect Portal on a 24-hour basis, but there will be periods when
+  access is not available or delayed due to breakdown, maintenance, upgrading or other technical reasons.</p>
+<p> We shall in no event be liable for any damage, loss or expense including without limitation, special damage, or
+  consequential damage, or economic loss arising from or in connection with:</p>
+<p> (a) any access, use or the delay or inability to access or use this Web Site, or reliance on any information
+  contained in this Web Site;</p>
+<p> (b) any system, server or connection failure, error, omission, interruption, delay in transmission or computer
+  failure;</p>
+<p> (c) any use of or access to any other web site linked to this Web Site;</p>
+<p> (d) any service, product, information, date, software or other material obtained from this Web Site or from any
+  other web site linked to this Web Site;</p>
+<p> even if we are advised of the possibility of such damages, losses and expenses and your sole remedy is to
+  de-register or discontinue use of the Web Site. This exclusion clause shall have effect to the fullest extent
+  permitted by law.</p>
+<h2>10. Unauthorised Access</h2>
+<p> It is very important that you notify NETS immediately if you have reason to suspect or believe that there has been
+  unauthorised access to your account.</p>
+<h2>11. Receiving Information</h2>
+<p> You agree that we have the right to send you any information via any media once you register. Your consent to
+  receive information electronically or via other media is valid until you de-register.</p>
+<h2>12. Ownership</h2>
+<p> This Web site is owned by us. All right and title to, and interest in the content displayed on this Web Site,
+  including but not limited to this Web Site''s look and feel, data, information, text, graphics, /images, sound or
+  video materials, designs, trademarks, service marks, trade names, and URL, are our property or the property of our
+  respective partners, agents, or third parties as the case may be.</p>
+<h2>13. Electronic Communications</h2>
+<p> The information communicated on this Web Site constitutes an electronic communication. When you communicate with us
+  through this Web Site or via other forms of electronic media, such as e-mail, you are communicating with us
+  electronically. You agree that we may communicate electronically and that such communications, as well as notices,
+  disclosures, agreements, and other communications that we provide to you electronically, are equivalent to
+  communications in writing and shall have the same force and effect as if they were in writing and signed by the party
+  sending the communication.</p>
+<h2>14. Compliance With Laws</h2>
+<p> You agree to comply with all applicable local laws regarding your use of this Web Site, including, without
+  limitation, laws regarding import or export of technical data by virtue of your online transmission.</p>
+<h2>15. Information Disclaimer</h2>
+<p> Your use of this Web Site is subject to the additional conditions, disclaimers and caveats that may appear
+  throughout this Web Site. We assume no responsibility for any consequence relating directly or indirectly to any
+  action or inaction you take based on the information, services or other material on this Web Site. While we strive to
+  keep the information on this Web Site accurate, complete and up-to-date (but not real-time), we cannot guarantee, and
+  will not be responsible for, any damage or loss related to the accuracy, completeness or timeliness of the
+  information.</p>
+<h2>16. Disclaimer of Warranties With Respect to Use of Web Site</h2>
+<p> This Web Site is provided on an “as is” and “as available” basis. Except as specifically provided herein, to the
+  fullest extent permissible pursuant to applicable law, we expressly disclaim all warranties of any kind, whether
+  express or implied, including, without limitation, any warranties of merchantability, fitness for a particular purpose
+  and non-infringement.</p>
+<p> We do not make any warranty that this Web Site will meet your requirements or that access to the Web Site will be
+  uninterrupted, timely, secure or error-free, or that defects, if any, will be corrected. We make no warranties as to
+  the results that may be obtained from the use of this Web Site or as to the accuracy, quality, or reliability of any
+  information obtained through this Web Site.</p>
+<p> You understand and agree that any material or data downloaded or otherwise obtained through the use of the Web Site
+  is used at your own risk and that you will be solely responsible for any damage to your computer system or loss of
+  data that results from the download of such material or data.</p>
+<p> No advice or information, whether oral or written, obtained by you from us or through this Web Site shall create any
+  warranty not expressly made herein.</p>
 `,
   });
 }

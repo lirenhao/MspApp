@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { parse } from 'url';
-import { SettleItem, SettleQuery } from './data.d';
+import { SettleItem, SettleQuery, SettlePage } from './data.d';
 
 const settleDataSource: SettleItem[] = [
   {
@@ -86,14 +86,21 @@ function getSettle(req: Request, res: Response, u: string) {
   };
 
   const dataSource = settleDataSource
-    .filter(data => params.settleDate ? data.settleDate.includes(params.settleDate) : true)
-    .filter(data => params.merNo ? data.merNo.includes(params.merNo) : true);
+  // .filter(data => params.settleDate ? data.settleDate.includes(params.settleDate) : true)
+  // .filter(data => params.merNo ? data.merNo.includes(params.merNo) : true);
 
-  return res.json({
+  const page: SettlePage = {
     content: dataSource,
+    pageable: {
+      pageSize: Number(params.size) || 10,
+      pageNumber: Number(params.page) || 0,
+      sort: [],
+    },
     totalElements: dataSource.length,
     totalPages: dataSource.length % params.size,
-  });
+  }
+
+  return res.json(page);
 }
 
 export default {

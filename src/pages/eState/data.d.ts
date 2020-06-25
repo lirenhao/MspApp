@@ -7,15 +7,6 @@ export interface SettleSubItem {
   settleAmt: string;
 }
 
-export interface SettleItem {
-  settleDate: string;
-  merNo: string;
-  tranAmt: string;
-  fee: string;
-  settleAmt: string;
-  subs: SettleSubItem[];
-}
-
 export interface Query {
   merNo: string;
   settleDate: string[];
@@ -23,7 +14,7 @@ export interface Query {
 
 export interface Result {
   merchantId: string;
-  settleDate: string[];
+  settleDate: string;
   merchantName: string;
   emailAddress: string;
   postalCode: string;

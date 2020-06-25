@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
+import moment from 'moment';
 import { TotalData, MonthData, TopData } from './data';
 import { getTotal, getMonths, getTops } from './service';
 
@@ -11,7 +12,7 @@ export interface StateType {
 
 const defaultState: StateType = {
   total: {
-    year: '2020',
+    year: moment().endOf('day').format('YYYY'),
     count: 0,
     trans: 0,
     settle: 0,

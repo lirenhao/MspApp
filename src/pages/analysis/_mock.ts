@@ -8,9 +8,9 @@ for (let i = 0; i < 12; i += 1) {
   });
 }
 
-const topData: TopData[] = [];
+const topsData: TopData[] = [];
 for (let i = 0; i < 7; i += 1) {
-  topData.push({
+  topsData.push({
     merNo: '123456789012345',
     merName: 'Merchant Name',
     sales: 323234,
@@ -24,10 +24,6 @@ export default {
     trans: '126560',
     settle: '126560',
   },
-  'GET  /svc/msp/sales/month': {
-    monthData,
-  },
-  'GET  /svc/msp/sales/top': {
-    topData,
-  },
+  'GET  /svc/msp/sales/months': monthData,
+  'GET  /svc/msp/sales/tops': topsData,
 };

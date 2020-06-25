@@ -1,4 +1,5 @@
 export interface TermData {
+  merNo: string;
   termNo: string;
   termAddress: string;
   serialNumber: string;
