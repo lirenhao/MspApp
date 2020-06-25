@@ -61,5 +61,5 @@ function getPolicy(_: Request, res: Response) {
 }
 
 export default {
-  'GET /api/msp/policy': getPolicy,
+  'GET /svc/msp/policy': getPolicy,
 };

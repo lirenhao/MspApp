@@ -5,7 +5,7 @@ const getUser = (req: Request, res: Response) => {
 }
 
 export default {
-  'GET /api/msp/user': {
+  'GET /svc/msp/user': {
     merNo: '123456789012345',
     merName: '测试商户',
     status: '00',

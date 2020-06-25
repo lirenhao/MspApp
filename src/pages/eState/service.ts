@@ -16,11 +16,11 @@ pdfMake.fonts = {
 };
 
 export async function getMerSubs() {
-  return request('/api/msp/mer/subs');
+  return request('/svc/msp/mer/subs');
 }
 
 export async function getResult(params: Query) {
-  return request('/api/msp/eState', {
+  return request('/svc/msp/eState', {
     params,
   });
 }

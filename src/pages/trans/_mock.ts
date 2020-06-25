@@ -206,5 +206,5 @@ function getTrans(req: Request, res: Response) {
 }
 
 export default {
-  'GET /api/msp/trans': getTrans,
+  'GET /svc/msp/trans': getTrans,
 };

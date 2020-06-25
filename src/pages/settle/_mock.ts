@@ -97,5 +97,5 @@ function getSettle(req: Request, res: Response, u: string) {
 }
 
 export default {
-  'GET /api/msp/settle': getSettle,
+  'GET /svc/msp/settle': getSettle,
 };

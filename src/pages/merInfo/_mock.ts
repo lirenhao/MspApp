@@ -19,5 +19,5 @@ const getMerData: MerData = {
 };
 
 export default {
-  'GET /api/msp/mer': getMerData,
+  'GET /svc/msp/mer': getMerData,
 };

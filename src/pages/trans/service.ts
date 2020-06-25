@@ -1,18 +1,18 @@
 import request from '@/utils/request';
 
 export async function queryTrans(params?: any) {
-  return request('/api/msp/trans', {
+  return request('/svc/msp/trans', {
     params,
   });
 }
 
 export async function downloadTrans(params?: any) {
-  return request('/api/msp/trans/download', {
+  return request('/svc/msp/trans/download', {
     params,
     parseResponse: false,
   });
 }
 
 export async function getMerSubs() {
-  return request('/api/msp/mer/subs');
+  return request('/svc/msp/mer/subs');
 }
