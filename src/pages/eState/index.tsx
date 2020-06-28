@@ -33,11 +33,11 @@ const RangeDateFormat: React.FC<Record<string, any>> = ({ value, format, onChang
 
   const disabledDate = (current: any) => {
     if (!dates || dates.length === 0) {
-      return current >= moment().endOf('day');
+      return current >= moment().endOf('day') || current < moment().endOf('day').add('day', -30);
     }
     const tooLate = dates[0] && current.diff(moment(dates[0] as string, format), 'days') > 7;
     const tooEarly = dates[1] && moment(dates[1] as string, format).diff(current, 'days') > 7;
-    return tooEarly || tooLate || current >= moment().endOf('day');
+    return tooEarly || tooLate || current >= moment().endOf('day') || current < moment().endOf('day').add('day', -30);
   };
 
   return (

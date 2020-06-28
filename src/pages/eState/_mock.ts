@@ -11,7 +11,7 @@ export default {
   ],
   'GET /svc/msp/eState': {
     merchantId: '123456789012345',
-    settleDate: '20200131',
+    settleDate: ['20200131', '20200131'],
     merchantName: '测试商户-1',
     emailAddress: 'emailAddress',
     postalCode: 'postalCode',

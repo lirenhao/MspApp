@@ -2,6 +2,7 @@ import request from '@/utils/request';
 import pdfMake from "pdfmake/build/pdfmake";
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import moment from 'moment';
+import numeral from 'numeral';
 import vfs from './vfs_fonts';
 import { Query, Result } from './data.d';
 
@@ -76,11 +77,11 @@ const getPdfDefinition = (result: Result): TDocumentDefinitions => ({
       columns: [
         {
           table: {
-            widths: [70, 2, 90],
+            widths: [70, 2, 100],
             heights: [15, 15],
             body: [
               ['Merchant ID', ':', result.merchantId],
-              ['Statement Date', ':', `${result.settleDate[0]} ~ ${result.settleDate[1]}`],
+              ['Statement Date', ':', `${result.settleDate[0]}~${result.settleDate[1]}`],
             ],
           },
           layout: 'noBorders'
@@ -110,7 +111,7 @@ const getPdfDefinition = (result: Result): TDocumentDefinitions => ({
     { text: `Attention to:${result.contactPerson || ''}`, style: 'text' },
     { text: 'Dear Sir / Mdm', style: 'text' },
     {
-      text: 'Kindly find below credited amount for funds settlement to your bank account. We take this time opportunity to thank you for using Bank of China’s Merchant Services.',
+      text: 'Kindly find below credited amount for funds settlement to your bank account. We take this opportunity to thank you for using Bank of China’s Merchant Services.',
       style: 'text'
     },
     {
@@ -129,9 +130,9 @@ const getPdfDefinition = (result: Result): TDocumentDefinitions => ({
           ...result.settles.map(settle => [
             { text: settle.channel, style: 'settleRow' },
             { text: moment(settle.settleDate, 'YYYYMMDD').format('DD-MM-YYYY'), style: 'settleRow' },
-            { text: `S$${settle.tranAmt}`, style: 'settleRow' },
-            { text: `S$${settle.fee}`, style: 'settleRow' },
-            { text: `S$${settle.settleAmt}`, style: 'settleRow' },
+            { text: `S$${numeral(settle.tranAmt).format('0,0.00')}`, style: 'settleRow' },
+            { text: `S$${numeral(settle.fee).format('0,0.00')}`, style: 'settleRow' },
+            { text: `S$${numeral(settle.settleAmt).format('0,0.00')}`, style: 'settleRow' },
             { text: moment(settle.settleDate, 'YYYYMMDD').add(1, 'day').format('DD-MM-YYYY'), style: 'settleRow' }
           ]),
         ]
@@ -215,6 +216,7 @@ const getPdfDefinition = (result: Result): TDocumentDefinitions => ({
     settleRow: {
       alignment: 'center',
       margin: [0, 6, 0, 0],
+      fontSize: 9,
     },
     text: {
       margin: [0, 10, 0, 10]

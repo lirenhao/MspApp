@@ -14,7 +14,7 @@ export interface Query {
 
 export interface Result {
   merchantId: string;
-  settleDate: string;
+  settleDate: string[];
   merchantName: string;
   emailAddress: string;
   postalCode: string;

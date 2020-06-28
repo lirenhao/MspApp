@@ -6,6 +6,7 @@ import { Form, Card, Table, Tooltip, Button } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
+import numeral from 'numeral';
 import { TransPage, TransQuery, TransItem } from './data.d';
 import { UserModelState } from '@/models/user';
 import { StateType } from './model';
@@ -52,7 +53,7 @@ const PageView: React.FC<PageViewProps> = props => {
     {
       title: formatMessage({ id: 'trans.tranAmt.title' }),
       dataIndex: 'tranAmt',
-      render: (val: string) => `SG$${val}`,
+      render: (val: string) => `S$${numeral(val).format('0,0.00')}`,
     },
     {
       title: formatMessage({ id: 'trans.tranType.title' }),

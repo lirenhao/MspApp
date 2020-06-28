@@ -6,6 +6,7 @@ import { Form, Card, Table, Tooltip, Button } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
+import numeral from 'numeral';
 import { SettlePage, SettleQuery, SettleItem, SettleSubItem } from './data.d';
 import { UserModelState } from '@/models/user';
 import { StateType } from './model';
@@ -51,17 +52,17 @@ const PageView: React.FC<PageViewProps> = props => {
     {
       title: formatMessage({ id: 'settle.tranAmt.title' }),
       dataIndex: 'tranAmt',
-      render: (val: number) => `SG$${val}`,
+      render: (val: number) => `S$${numeral(val).format('0,0.00')}`,
     },
     {
       title: formatMessage({ id: 'settle.fee.title' }),
       dataIndex: 'fee',
-      render: (val: number) => `SG$${val}`,
+      render: (val: number) => `S$${numeral(val).format('0,0.00')}`,
     },
     {
       title: formatMessage({ id: 'settle.settleAmt.title' }),
       dataIndex: 'settleAmt',
-      render: (val: number) => `SG$${val}`,
+      render: (val: number) => `S$${numeral(val).format('0,0.00')}`,
     },
   ];
 
@@ -78,17 +79,17 @@ const PageView: React.FC<PageViewProps> = props => {
       {
         title: formatMessage({ id: 'settle.tranAmt.title' }),
         dataIndex: 'tranAmt',
-        render: (val: number) => `SG$${val}`,
+        render: (val: number) => `S$${numeral(val).format('0,0.00')}`,
       },
       {
         title: formatMessage({ id: 'settle.fee.title' }),
         dataIndex: 'fee',
-        render: (val: number) => `SG$${val}`,
+        render: (val: number) => `S$${numeral(val).format('0,0.00')}`,
       },
       {
         title: formatMessage({ id: 'settle.settleAmt.title' }),
         dataIndex: 'settleAmt',
-        render: (val: number) => `SG$${val}`,
+        render: (val: number) => `S$${numeral(val).format('0,0.00')}`,
       },
       {
         title: formatMessage({ id: 'settle.channel.title' }),
