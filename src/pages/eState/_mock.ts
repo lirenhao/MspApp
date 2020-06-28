@@ -1,14 +1,4 @@
 export default {
-  'GET /svc/msp/mer/subs': [
-    {
-      merNo: '123456789012345',
-      merName: '测试商户-1'
-    },
-    {
-      merNo: '123456789012346',
-      merName: '测试商户-2'
-    }
-  ],
   'GET /svc/msp/eState': {
     merchantId: '123456789012345',
     settleDate: ['20200131', '20200131'],

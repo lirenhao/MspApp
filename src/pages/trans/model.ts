@@ -3,7 +3,7 @@ import { Effect } from 'dva';
 import { notification } from 'antd';
 import moment from 'moment';
 import { TransPage, TransQuery, MerSubItem } from './data';
-import { queryTrans, downloadTrans, getMerSubs } from './service';
+import { queryTrans, downloadTrans, getMerSubs, getTermNos } from './service';
 
 export interface StateType {
   page: TransPage;
@@ -19,6 +19,7 @@ export interface ModelType {
     fetchQuery: Effect;
     fetchDownload: Effect;
     fetchMerSubs: Effect;
+    fetchTermNos: Effect;
   };
   reducers: {
     setQuery: Reducer<StateType>;
@@ -117,6 +118,12 @@ const Model: ModelType = {
         if (callback) callback(response);
       } catch (error) { }
     },
+    *fetchTermNos({ payload, callback }, { call }) {
+      try {
+        const response = yield call(getTermNos, payload);
+        if (callback) callback(response);
+      } catch (error) { }
+    }
   },
 
   reducers: {

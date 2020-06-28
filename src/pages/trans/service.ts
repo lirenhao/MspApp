@@ -16,3 +16,7 @@ export async function downloadTrans(params?: any) {
 export async function getMerSubs() {
   return request('/svc/msp/mer/subs');
 }
+
+export async function getTermNos(merNo: string) {
+  return request(`/svc/msp/mer/termNos?merNo=${merNo}`);
+}

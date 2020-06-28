@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { parse } from 'url';
 
 const getUser = (req: Request, res: Response) => {
   res.status(401).end();
@@ -9,6 +10,22 @@ export default {
     merNo: '123456789012345',
     merName: '测试商户',
     status: '00',
+  },
+  'GET /svc/msp/mer/subs': [
+    {
+      merNo: '123456789012345',
+      merName: '测试商户-1'
+    },
+    {
+      merNo: '123456789012346',
+      merName: '测试商户-2'
+    }
+  ],
+  'GET /svc/msp/mer/termNos': (req: Request, res: Response) => {
+    const merNo = parse(req.url, true).query.merNo;
+    res.send([
+      merNo
+    ]);
   },
   'POST /api/register': (req: Request, res: Response) => {
     res.send({ status: 'ok', currentAuthority: 'user' });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Card, Form, Row, Col, Input, DatePicker, Select, Space, Button } from 'antd';
+import { Card, Form, Row, Col, DatePicker, Select, Space, Button } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { FormInstance } from 'antd/lib/form';
 import moment from 'moment';
@@ -46,6 +46,26 @@ const tailLayout = {
 const SearchView: React.FC<SearchProps> = props => {
   const { dispatch, form, merNo, query, merSubs } = props;
 
+  const [termNos, setTermNos] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    handleMerNoChange((merNo as string))
+  }, [merNo]);
+
+  const handleMerNoChange = (merNo: string) => {
+    dispatch({
+      type: 'trans/fetchTermNos',
+      payload: merNo,
+      callback: (termNos: string[]) => {
+        setTermNos(termNos);
+        form.setFieldsValue({
+          ...form.getFieldsValue(),
+          termNo: undefined,
+        });
+      }
+    })
+  }
+
   const handleSubmit = (values: any) => {
     dispatch({
       type: 'trans/fetchQuery',
@@ -79,7 +99,7 @@ const SearchView: React.FC<SearchProps> = props => {
                 }
               ]}
             >
-              <Select placeholder={formatMessage({ id: 'settle.merNo.placeholder' })}>
+              <Select onChange={handleMerNoChange} placeholder={formatMessage({ id: 'trans.merNo.placeholder' })}>
                 {merSubs?.map(sub => (
                   <Select.Option key={sub.merNo} value={sub.merNo}>{`${sub.merNo}[${sub.merName}]`}</Select.Option>
                 ))}
@@ -88,7 +108,11 @@ const SearchView: React.FC<SearchProps> = props => {
           </Col>
           <Col {...defaultColConfig} >
             <Form.Item {...layout} label={formatMessage({ id: 'trans.termNo.title' })} name="termNo">
-              <Input placeholder={formatMessage({ id: 'trans.termNo.placeholder' })} />
+              <Select placeholder={formatMessage({ id: 'trans.termNo.placeholder' })}>
+                {termNos?.map(termNo => (
+                  <Select.Option key={termNo} value={termNo}>{termNo}</Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           <Col {...defaultColConfig} >
