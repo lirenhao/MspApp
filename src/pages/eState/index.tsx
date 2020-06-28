@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Spin, Card, Form, Select, DatePicker, Button, Divider, Table } from 'antd';
+import { Spin, Card, Form, Select, DatePicker, Space, Button, Divider, Table } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { formatMessage } from 'umi-plugin-react/locale';
 import moment from 'moment';
@@ -153,16 +153,21 @@ const PageView: React.FC<PageViewProps> = props => {
                   offset: formItemLayout.labelCol.span,
                 },
               }}
+              noStyle={true}
             >
-              <Button type="primary" htmlType="submit">
-                {formatMessage({ id: 'eState.option.query' })}
-              </Button>
-              <Button type="primary" style={{ marginLeft: 8 }}
-                onClick={handleDownload}
-                disabled={!(result.settles && result.settles.length > 0)}
-              >
-                {formatMessage({ id: 'eState.option.download' })}
-              </Button>
+              <div style={{ textAlign: 'center' }}>
+                <Space>
+                  <Button type="primary" style={{ width: 96 }} htmlType="submit">
+                    {formatMessage({ id: 'eState.option.query' })}
+                  </Button>
+                  <Button type="primary" style={{ width: 96 }}
+                    onClick={handleDownload}
+                    disabled={!(result.settles && result.settles.length > 0)}
+                  >
+                    {formatMessage({ id: 'eState.option.download' })}
+                  </Button>
+                </Space>
+              </div>
             </Form.Item>
           </Form>
           <Divider style={{ margin: '40px 0 24px' }} />
