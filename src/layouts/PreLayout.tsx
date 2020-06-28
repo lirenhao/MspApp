@@ -9,7 +9,7 @@ import ProLayout, {
 import { formatMessage } from 'umi-plugin-react/locale';
 import { ConnectState } from '@/models/connect';
 import RightContent from '@/components/GlobalHeader/RightContent';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 
 export interface LayoutProps extends ProLayoutProps {
   settings: Settings;

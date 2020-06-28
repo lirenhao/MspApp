@@ -55,7 +55,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'Merchant Service Portal',
+  title: 'BOC Merchant Service Portal',
   pwa: false,
   iconfontUrl: '',
 } as DefaultSettings;

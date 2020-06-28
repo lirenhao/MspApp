@@ -1,5 +1,5 @@
 {
-  "name": "Merchant Service Portal",
+  "name": "BOC Merchant Service Portal",
   "short_name": "msp",
   "display": "standalone",
   "start_url": "./?utm_source=homescreen",

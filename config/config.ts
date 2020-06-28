@@ -45,7 +45,7 @@ const plugins: IPlugin[] = [
       autoAddMenu: true,
     },
   ],
-  ['umi-plugin-antd-theme', themePluginConfig],
+  // ['umi-plugin-antd-theme', themePluginConfig],
 ];
 
 export default {
@@ -198,11 +198,11 @@ export default {
     basePath: '/',
   }, // chainWebpack: webpackPlugin,
   proxy: {
-    '/api': {
+    '/svc': {
       target: 'http://localhost:3012/',
       changeOrigin: true,
       pathRewrite: {
-        '^/api': '',
+        '^/svc': '',
       },
       logLevel: 'debug',
     },

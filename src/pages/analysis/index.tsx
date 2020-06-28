@@ -11,6 +11,9 @@ import { StateType } from './model';
 import { TotalData, MonthData, TopData } from './data.d';
 
 import styles from './style.less';
+import count_png from '@/assets/count.png';
+import trans_png from '@/assets/trans.png';
+import settle_png from '@/assets/settle.png';
 
 const totalColProps = {
   xs: 24,
@@ -51,7 +54,7 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                   <img
                     alt="indicator"
                     style={{ width: 56, height: 56 }}
-                    src="https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png"
+                    src={count_png}
                   />
                 }
                 loading={loading}
@@ -70,7 +73,7 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                   <img
                     alt="indicator"
                     style={{ width: 56, height: 56 }}
-                    src="https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png"
+                    src={trans_png}
                   />
                 }
                 total={() => `S$${numeral(total.trans).format('0,0.00')}`}
@@ -88,7 +91,7 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                   <img
                     alt="indicator"
                     style={{ width: 56, height: 56 }}
-                    src="https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png"
+                    src={settle_png}
                   />
                 }
                 total={() => `S$${numeral(total.settle).format('0,0.00')}`}
@@ -97,24 +100,14 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
               >
               </ChartCard>
             </Col>
-            <Col {...totalColProps}>
-              <Card bordered={false}>
-                <Pie
-                  hasLegend
-                  data={[{ x: 'On-us', y: 10 }, { x: 'Off-us', y: 20 },]}
-                  height={160}
-                  inner={0}
-                />
-              </Card>
-            </Col>
           </Row>
         </Suspense>
         <Suspense fallback={null}>
           <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }}>
             <br />
             <div className={styles.salesCard}>
-              <Row>
-                <Col xl={14} lg={12} md={12} sm={24} xs={24}>
+              <Row gutter={24}>
+                <Col xl={24} lg={24} md={24} sm={24} xs={24}>
                   <div className={styles.salesBar}>
                     <Bar
                       height={295}
@@ -123,7 +116,26 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                     />
                   </div>
                 </Col>
-                <Col xl={10} lg={12} md={12} sm={24} xs={24}>
+              </Row>
+            </div>
+          </Card>
+        </Suspense>
+        <br />
+        <Suspense fallback={<PageLoading />}>
+          <div className={styles.salesCard}>
+            <Row gutter={24}>
+              <Col xl={10} lg={12} md={12} sm={24} xs={24}>
+                <Card bordered={false}>
+                  <Pie
+                    hasLegend
+                    data={[{ x: 'On-us', y: 10 }, { x: 'Off-us', y: 20 },]}
+                    height={260}
+                    inner={0}
+                  />
+                </Card>
+              </Col>
+              <Col xl={14} lg={12} md={12} sm={24} xs={24}>
+                <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }}>
                   <div className={styles.salesRank}>
                     <h4 className={styles.rankingTitle}>
 
@@ -147,10 +159,10 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                       ))}
                     </ul>
                   </div>
-                </Col>
-              </Row>
-            </div>
-          </Card>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </Suspense>
       </React.Fragment>
     </GridContent>
