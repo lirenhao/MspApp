@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { Col, Row, Card } from 'antd';
+import { Col, Row, Card, List } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { GridContent } from '@ant-design/pro-layout';
 import numeral from 'numeral';
@@ -129,19 +129,18 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                   <Pie
                     hasLegend
                     data={[{ x: 'On-us', y: 10 }, { x: 'Off-us', y: 20 },]}
-                    height={260}
+                    height={200}
                     inner={0}
                   />
                 </Card>
               </Col>
               <Col xl={14} lg={12} md={12} sm={24} xs={24}>
-                <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }}>
-                  <div className={styles.salesRank}>
-                    <h4 className={styles.rankingTitle}>
-
-                    </h4>
-                    <ul className={styles.rankingList}>
-                      {tops.map((item, i) => (
+                <Card loading={loading} bordered={false} bodyStyle={{ padding: 0, height: 248 }}>
+                  <List
+                    className={styles.salesRank}
+                    dataSource={tops}
+                    renderItem={(item, i) => i < 5 ?
+                      <ul className={styles.rankingList}>
                         <li key={i}>
                           <span className={`${styles.rankingItemNumber} ${i < 3 ? styles.active : ''}`}>
                             {i + 1}
@@ -153,12 +152,11 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                             {item.merName}
                           </span>
                           <span className={styles.rankingItemValue}>
-                            {numeral(item.sales).format('0,0.00')}
+                            {`S$${numeral(item.sales).format('0,0.00')}`}
                           </span>
                         </li>
-                      ))}
-                    </ul>
-                  </div>
+                      </ul> : null
+                    } />
                 </Card>
               </Col>
             </Row>
