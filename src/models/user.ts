@@ -46,12 +46,11 @@ const UserModel: UserModelType = {
         // TODO 获取商户信息失败
       }
     },
-    *fetchLogout(_, { call, put }) {
+    *fetchLogout({ callback }, { call }) {
       try {
         yield call(getLogout);
-      } catch (error) {
-        // TODO 获取商户信息失败
-      }
+        if (callback) callback();
+      } catch (error) { }
     }
   },
 
