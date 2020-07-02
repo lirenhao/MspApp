@@ -5,5 +5,5 @@ export async function getUser(): Promise<any> {
 }
 
 export async function getLogout(): Promise<any> {
-  return request('/api/logout');
+  return request('/logout');
 }
