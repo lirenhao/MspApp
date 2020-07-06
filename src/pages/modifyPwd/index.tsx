@@ -1,4 +1,5 @@
 import React from 'react';
+import { router } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, Form, Input, Button, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
@@ -25,6 +26,7 @@ const ModifyView: React.FC<{}> = () => {
       notification.success({
         message: formatMessage({ id: 'modify.submit.success' }),
       });
+      router.goBack();
     } catch (error) {
       notification.error({
         message: formatMessage({ id: 'modify.submit.failed' }),

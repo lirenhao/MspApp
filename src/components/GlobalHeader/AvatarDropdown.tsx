@@ -26,7 +26,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
         dispatch({
           type: 'user/fetchLogout',
           callback: () => {
-            window.location.href = `${process.env.SERVICE_CONTEXT || ''}/login`;
+            window.location.href = `${process.env.SERVICE_CONTEXT || ''}/login?redirect=${process.env.SERVICE_CONTEXT || ''}/`;
           },
         });
       }
