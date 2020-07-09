@@ -98,7 +98,7 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                     <Bar
                       height={295}
                       title={formatMessage({ id: 'analysis.month.sales' })}
-                      data={months.map(item => ({ x: `${item.month}月`, y: item.sales }))}
+                      data={months.map(item => ({ x: `${item.month}${formatMessage({ id: 'analysis.month' })}`, y: item.sales }))}
                     />
                   </div>
                 </Col>

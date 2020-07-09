@@ -99,7 +99,7 @@ class Bar extends Component<
       'x*y',
       (x: string, y: string) => ({
         name: x,
-        value: numeral(y).format('0,0.00'),
+        value: `S$${numeral(y).format('0,0.00')}`,
       }),
     ];
 
