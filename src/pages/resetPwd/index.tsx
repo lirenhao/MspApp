@@ -4,7 +4,7 @@ import { Card, Form, Input, Row, Col, Button, Statistic, notification } from 'an
 import { LockOutlined } from '@ant-design/icons';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import { ResetData } from './data';
-import { resetPwd } from './service';
+import { resetPwd, sendCode } from './service';
 
 const layout = {
   labelCol: { span: 8 },
@@ -33,6 +33,26 @@ const ResetView: React.FC<{}> = () => {
     }
   };
 
+  const handleSendCode = async () => {
+    setIsCountdown(true)
+    try {
+      const result = await sendCode();
+      if (result) {
+        notification.success({
+          message: formatMessage({ id: 'reset.captcha.send.success' }),
+        });
+      } else {
+        notification.error({
+          message: formatMessage({ id: 'reset.captcha.send.failed' }),
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: formatMessage({ id: 'reset.captcha.send.failed' }),
+      });
+    }
+  };
+
   return (
     <PageHeaderWrapper pageHeaderRender={() => (<></>)}>
       <Card bordered={false} style={{ marginTop: 40 }}>
@@ -42,6 +62,38 @@ const ResetView: React.FC<{}> = () => {
           form={form} {...layout}
           onFinish={values => handleSubmit(values as ResetData)}
         >
+          <Form.Item
+            label={formatMessage({ id: 'reset.captcha.label' })}
+            extra={formatMessage({ id: 'reset.captcha.extra' })}
+          >
+            <Row gutter={8}>
+              <Col span={16}>
+                <Form.Item
+                  name="captcha"
+                  noStyle
+                  rules={[
+                    {
+                      required: true,
+                      message: formatMessage({ id: 'reset.captcha.role-required' }),
+                    },
+                    {
+                      len: 6,
+                      message: formatMessage({ id: 'reset.captcha.role-len' }),
+                    }
+                  ]}
+                >
+                  <Input placeholder={formatMessage({ id: 'reset.captcha.placeholder' })} />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Button block disabled={isCountdown} onClick={handleSendCode}>
+                  {isCountdown ? (
+                    <Statistic.Countdown value={Date.now() + 1000 * 20} format="s" suffix="S" onFinish={() => setIsCountdown(false)} />
+                  ) : formatMessage({ id: 'reset.captcha.button' })}
+                </Button>
+              </Col>
+            </Row>
+          </Form.Item>
           <Form.Item
             name="newPwd"
             label={formatMessage({ id: 'reset.newPwd.label' })}
@@ -79,34 +131,6 @@ const ResetView: React.FC<{}> = () => {
               placeholder={formatMessage({ id: 'reset.checkPwd.placeholder' })}
               prefix={<LockOutlined />}
             />
-          </Form.Item>
-          <Form.Item
-            label={formatMessage({ id: 'reset.captcha.label' })}
-            extra={formatMessage({ id: 'reset.captcha.extra' })}
-          >
-            <Row gutter={8}>
-              <Col span={16}>
-                <Form.Item
-                  name="captcha"
-                  noStyle
-                  rules={[
-                    {
-                      required: true,
-                      message: formatMessage({ id: 'reset.captcha.role-required' }),
-                    }
-                  ]}
-                >
-                  <Input placeholder={formatMessage({ id: 'reset.captcha.placeholder' })} />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Button block disabled={isCountdown} onClick={() => setIsCountdown(true)}>
-                  {isCountdown ? (
-                    <Statistic.Countdown value={Date.now() + 1000 * 20} format="s" suffix="S" onFinish={() => setIsCountdown(false)} />
-                  ) : formatMessage({ id: 'reset.captcha.button' })}
-                </Button>
-              </Col>
-            </Row>
           </Form.Item>
           <Form.Item {...tailLayout}>
             <Button block size="large" type="primary" htmlType="submit">

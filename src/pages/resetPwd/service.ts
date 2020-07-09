@@ -7,3 +7,7 @@ export async function resetPwd(params: ResetData) {
     data: params,
   });
 }
+
+export async function sendCode() {
+  return request('/svc/msp/emailCode/send');
+}
