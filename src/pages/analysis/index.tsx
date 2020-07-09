@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
 import { Col, Row, Card, List } from 'antd';
+import { CreditCardTwoTone, DollarCircleTwoTone, ReconciliationTwoTone } from '@ant-design/icons';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { GridContent } from '@ant-design/pro-layout';
 import numeral from 'numeral';
@@ -11,9 +12,6 @@ import { StateType } from './model';
 import { TotalData, MonthData, TopData } from './data.d';
 
 import styles from './style.less';
-import count_png from '@/assets/count.png';
-import trans_png from '@/assets/trans.png';
-import settle_png from '@/assets/settle.png';
 
 const totalColProps = {
   xs: 24,
@@ -51,11 +49,7 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                 bordered={false}
                 title={total.year}
                 avatar={
-                  <img
-                    alt="indicator"
-                    style={{ width: 56, height: 56 }}
-                    src={count_png}
-                  />
+                  <CreditCardTwoTone style={{ fontSize: '56px' }} />
                 }
                 loading={loading}
                 total={numeral(total.count).format('0,0')}
@@ -70,11 +64,7 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                 loading={loading}
                 title={total.year}
                 avatar={
-                  <img
-                    alt="indicator"
-                    style={{ width: 56, height: 56 }}
-                    src={trans_png}
-                  />
+                  <DollarCircleTwoTone style={{ fontSize: '56px' }} />
                 }
                 total={() => `S$${numeral(total.trans).format('0,0.00')}`}
                 footer={<>{formatMessage({ id: 'analysis.total.tran.volume' })}</>}
@@ -88,11 +78,7 @@ const AnalysisView: React.FC<AnalysisViewProps> = props => {
                 loading={loading}
                 title={total.year}
                 avatar={
-                  <img
-                    alt="indicator"
-                    style={{ width: 56, height: 56 }}
-                    src={settle_png}
-                  />
+                  <ReconciliationTwoTone style={{ fontSize: '56px' }} />
                 }
                 total={() => `S$${numeral(total.settle).format('0,0.00')}`}
                 footer={<>{formatMessage({ id: 'analysis.total.settle.volume' })}</>}
