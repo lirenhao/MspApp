@@ -1,5 +1,8 @@
 export default {
   'reset.title': '重置密码',
+  'reset.oldPwd.label': '旧密码',
+  'reset.oldPwd.placeholder': '请输入旧密码',
+  'reset.oldPwd.role-required': '请输入密码',
   'reset.newPwd.label': '新密码',
   'reset.newPwd.placeholder': '请输入新密码',
   'reset.newPwd.role-required': '请输入密码',

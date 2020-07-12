@@ -5,7 +5,8 @@ import router from 'umi/router';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, Form, Input, Row, Col, Button, Statistic, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage, formatMessage, getLocale } from 'umi-plugin-react/locale';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { StateType } from './model';
 import { ResetData } from './data';
 
@@ -70,42 +71,19 @@ const ResetView: React.FC<ResetProps> = (props) => {
           onFinish={values => handleSubmit(values as ResetData)}
         >
           <Form.Item
-            label={formatMessage({ id: 'reset.captcha.label' })}
-            extra={formatMessage({ id: 'reset.captcha.extra' })}
+            name="oldPwd"
+            label={formatMessage({ id: 'reset.oldPwd.label' })}
+            rules={[
+              {
+                required: true,
+                message: formatMessage({ id: 'reset.oldPwd.role-required' }),
+              },
+            ]}
           >
-            <Row gutter={8}>
-              <Col span={16}>
-                <Form.Item
-                  name="code"
-                  noStyle
-                  rules={[
-                    {
-                      required: true,
-                      message: formatMessage({ id: 'reset.captcha.role-required' }),
-                    },
-                    {
-                      len: 6,
-                      message: formatMessage({ id: 'reset.captcha.role-len' }),
-                    }
-                  ]}
-                >
-                  <Input placeholder={formatMessage({ id: 'reset.captcha.placeholder' })} />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                {isSend ? (
-                  <Statistic.Countdown format="s" suffix="S"
-                    value={Date.now() + 1000 * 20}
-                    onFinish={() => dispatch({ type: 'reset/setSend', payload: false })}
-                  />
-                ) : (
-                    <Button block disabled={isSend} onClick={handleSendCode} loading={sending}>
-                      {formatMessage({ id: 'reset.captcha.button' })}
-                    </Button>
-                  )
-                }
-              </Col>
-            </Row>
+            <Input.Password
+              placeholder={formatMessage({ id: 'reset.oldPwd.placeholder' })}
+              prefix={<LockOutlined />}
+            />
           </Form.Item>
           <Form.Item
             name="newPwd"
@@ -143,6 +121,22 @@ const ResetView: React.FC<ResetProps> = (props) => {
             <Input.Password
               placeholder={formatMessage({ id: 'reset.checkPwd.placeholder' })}
               prefix={<LockOutlined />}
+            />
+          </Form.Item>
+          <Form.Item
+            name="captcha"
+            label={formatMessage({ id: 'reset.captcha.label' })}
+            rules={[
+              {
+                required: true,
+                message: formatMessage({ id: 'reset.captcha.role-required' }),
+              },
+            ]}
+          >
+            <ReCAPTCHA
+              size="normal"
+              sitekey={process.env.GOOGLE_SITE_KEY || '6Leu2NsUAAAAAFttLaiyEKDu9yLgrYJhN77Ou1ge'}
+              hl={getLocale() === 'en-US' ? 'en' : 'zh-CN'}
             />
           </Form.Item>
           <Form.Item {...tailLayout}>
