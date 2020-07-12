@@ -21,10 +21,10 @@ const SecurityLayout: React.FC<SecurityLayoutProps> = props => {
   if (!loading && user) {
     switch (user.status) {
       case "01": {
-        return <Redirect to="/pre/policy"></Redirect>;
+        return <Redirect to="/pre/init"></Redirect>;
       }
       case "02": {
-        return <Redirect to="/pre/reset"></Redirect>;
+        return <Redirect to="/pre/policy"></Redirect>;
       }
       case "03": {
         return <Redirect to="/pre/reset"></Redirect>;

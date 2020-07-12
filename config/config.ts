@@ -74,14 +74,19 @@ export default {
       component: '../layouts/PreLayout',
       routes: [
         {
-          name: 'reset',
-          path: '/pre/reset',
+          name: 'init',
+          path: '/pre/init',
           component: './resetPwd',
         },
         {
           name: 'policy',
           path: '/pre/policy',
           component: './policy',
+        },
+        {
+          name: 'reset',
+          path: '/pre/reset',
+          component: './resetPwd',
         },
       ],
     },
@@ -113,13 +118,13 @@ export default {
             {
               path: '/trans',
               name: 'trans',
-              icon: 'transaction',
+              icon: 'dollarCircle',
               component: './trans',
             },
             {
               path: '/settle',
               name: 'settle',
-              icon: 'payCircle',
+              icon: 'fileDone',
               component: './settle',
             },
             {
@@ -198,6 +203,14 @@ export default {
     basePath: '/',
   }, // chainWebpack: webpackPlugin,
   proxy: {
+    '/svc/user': {
+      target: 'http://localhost:3001/',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/svc': '',
+      },
+      logLevel: 'debug',
+    },
     '/svc': {
       target: 'http://localhost:3012/',
       changeOrigin: true,

@@ -5,5 +5,6 @@ function emailCode(_: Request, res: Response) {
 }
 
 export default {
-  'GET /svc/msp/emailCode/send': emailCode,
+  'POST /svc/user/fa': emailCode,
+  'POST /svc/user/initPwd': [],
 };

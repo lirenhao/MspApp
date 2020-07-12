@@ -5,7 +5,7 @@ export async function getPolicy() {
 }
 
 export async function postPolicy() {
-  return request('/svc/msp/policy?id=login', {
+  return request('/svc/user/policy', {
     method: 'POST',
   });
 }

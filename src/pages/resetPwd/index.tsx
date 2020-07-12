@@ -69,7 +69,7 @@ const ResetView: React.FC<{}> = () => {
             <Row gutter={8}>
               <Col span={16}>
                 <Form.Item
-                  name="captcha"
+                  name="code"
                   noStyle
                   rules={[
                     {

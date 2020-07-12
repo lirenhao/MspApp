@@ -40,7 +40,10 @@ const UserModel: UserModelType = {
         const response = yield call(getUser);
         yield put({
           type: 'setUser',
-          payload: response,
+          payload: {
+            merNo: response.userId.split('@')[0],
+            status: response.status || '01'
+          },
         });
       } catch (error) {
         // TODO 获取商户信息失败
