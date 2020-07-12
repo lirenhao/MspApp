@@ -76,7 +76,7 @@ export default {
         {
           name: 'init',
           path: '/pre/init',
-          component: './resetPwd',
+          component: './initPwd',
         },
         {
           name: 'policy',
@@ -211,7 +211,7 @@ export default {
       },
       logLevel: 'debug',
     },
-    '/svc': {
+    '/svc/msp': {
       target: 'http://localhost:3012/',
       changeOrigin: true,
       pathRewrite: {
