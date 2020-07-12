@@ -1,5 +1,5 @@
 export default {
-  'init.title': 'Init Password',
+  'init.title': 'User Init',
   'init.newPwd.label': 'Password',
   'init.newPwd.placeholder': 'Password',
   'init.newPwd.role-required': '请输入密码',

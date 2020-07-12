@@ -1,5 +1,5 @@
 export default {
-  'init.title': '重置密码',
+  'init.title': '用户初始化',
   'init.newPwd.label': '新密码',
   'init.newPwd.placeholder': '请输入新密码',
   'init.newPwd.role-required': '请输入密码',

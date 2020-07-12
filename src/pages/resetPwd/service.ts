@@ -8,7 +8,7 @@ export async function sendCode() {
 }
 
 export async function resetPwd(params: ResetData) {
-  return request('/svc/user/init', {
+  return request('/svc/user/resetPwd', {
     method: 'POST',
     data: params,
   });

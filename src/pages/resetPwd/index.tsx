@@ -1,56 +1,63 @@
 import React from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'dva';
+import router from 'umi/router';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, Form, Input, Row, Col, Button, Statistic, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
+import { StateType } from './model';
 import { ResetData } from './data';
-import { resetPwd, sendCode } from './service';
 
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 8 },
 };
+
 const tailLayout = {
   wrapperCol: { offset: 8, span: 8 },
 };
 
-const ResetView: React.FC<{}> = () => {
-  const [isCountdown, setIsCountdown] = React.useState<boolean>(false);
+interface ResetProps {
+  loading: boolean;
+  sending: boolean;
+  isSend: boolean;
+  dispatch: Dispatch<any>;
+}
+
+const ResetView: React.FC<ResetProps> = (props) => {
+  const { loading, sending, isSend, dispatch } = props;
 
   const [form] = Form.useForm();
 
-  const handleSubmit = async (values: ResetData) => {
-    try {
-      await resetPwd(values);
-      // TODO 修改商户状态
-      notification.success({
-        message: formatMessage({ id: 'reset.submit.success' }),
-      });
-    } catch (error) {
-      notification.error({
-        message: formatMessage({ id: 'reset.submit.failed' }),
-      });
-    }
+  const handleSubmit = (values: ResetData) => {
+    dispatch({
+      type: 'reset/fetchReset',
+      payload: values,
+      callback: () => {
+        dispatch({
+          type: 'user/setUser',
+        });
+        router.replace('/');
+      }
+    })
   };
 
-  const handleSendCode = async () => {
-    setIsCountdown(true)
-    try {
-      const result = await sendCode();
-      if (result) {
-        notification.success({
-          message: formatMessage({ id: 'reset.captcha.send.success' }),
-        });
-      } else {
-        notification.error({
-          message: formatMessage({ id: 'reset.captcha.send.failed' }),
-        });
+  const handleSendCode = () => {
+    dispatch({
+      type: 'reset/fetchCode',
+      callback: (result: boolean) => {
+        if (result) {
+          notification.success({
+            message: formatMessage({ id: 'reset.captcha.send.success' }),
+          });
+        } else {
+          notification.error({
+            message: formatMessage({ id: 'reset.captcha.send.failed' }),
+          });
+        }
       }
-    } catch (error) {
-      notification.error({
-        message: formatMessage({ id: 'reset.captcha.send.failed' }),
-      });
-    }
+    })
   };
 
   return (
@@ -86,11 +93,17 @@ const ResetView: React.FC<{}> = () => {
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Button block disabled={isCountdown} onClick={handleSendCode}>
-                  {isCountdown ? (
-                    <Statistic.Countdown value={Date.now() + 1000 * 20} format="s" suffix="S" onFinish={() => setIsCountdown(false)} />
-                  ) : formatMessage({ id: 'reset.captcha.button' })}
-                </Button>
+                {isSend ? (
+                  <Statistic.Countdown format="s" suffix="S"
+                    value={Date.now() + 1000 * 20}
+                    onFinish={() => dispatch({ type: 'reset/setSend', payload: false })}
+                  />
+                ) : (
+                    <Button block disabled={isSend} onClick={handleSendCode} loading={sending}>
+                      {formatMessage({ id: 'reset.captcha.button' })}
+                    </Button>
+                  )
+                }
               </Col>
             </Row>
           </Form.Item>
@@ -133,7 +146,7 @@ const ResetView: React.FC<{}> = () => {
             />
           </Form.Item>
           <Form.Item {...tailLayout}>
-            <Button block size="large" type="primary" htmlType="submit">
+            <Button block size="large" type="primary" htmlType="submit" loading={loading}>
               <FormattedMessage id="reset.submit" />
             </Button>
           </Form.Item>
@@ -143,4 +156,18 @@ const ResetView: React.FC<{}> = () => {
   )
 };
 
-export default ResetView;
+export default connect(
+  ({
+    reset,
+    loading,
+  }: {
+    reset: StateType,
+    loading: {
+      effects: { [key: string]: boolean };
+    };
+  }) => ({
+    isSend: reset.isSend,
+    sending: loading.effects['reset/fetchCode'],
+    loading: loading.effects['reset/fetchReset'],
+  }),
+)(ResetView);
