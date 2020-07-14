@@ -27,7 +27,7 @@ const SecurityLayout: React.FC<SecurityLayoutProps> = props => {
         return <Redirect to="/pre/policy"></Redirect>;
       }
       case "03": {
-        return <Redirect to="/pre/reset"></Redirect>;
+        return <Redirect to="/pre/init"></Redirect>;
       }
       case "00": {
         return children as React.ReactElement;
