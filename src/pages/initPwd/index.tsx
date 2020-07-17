@@ -95,7 +95,7 @@ const InitView: React.FC<InitProps> = (props) => {
               <Col span={8}>
                 {isSend ? (
                   <Statistic.Countdown format="s" suffix="S"
-                    value={Date.now() + 1000 * 20}
+                    value={Date.now() + 1000 * 60}
                     onFinish={() => dispatch({ type: 'init/setSend', payload: false })}
                   />
                 ) : (
