@@ -1,4 +1,4 @@
-import { Effect } from 'dva';
+import { Effect, Subscription } from 'dva';
 import { Reducer } from 'redux';
 import { getUser, getLogout } from '@/services/user';
 
@@ -22,6 +22,9 @@ export interface UserModelType {
   };
   reducers: {
     setUser: Reducer<UserModelState>;
+  };
+  subscriptions: {
+    subTime: Subscription;
   };
 }
 
@@ -65,6 +68,12 @@ const UserModel: UserModelType = {
       };
     },
   },
+
+  subscriptions: {
+    subTime() {
+
+    }
+  }
 };
 
 export default UserModel;

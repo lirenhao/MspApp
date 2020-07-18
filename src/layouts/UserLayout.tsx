@@ -54,7 +54,7 @@ const UserLayout: React.FC<UserLayoutProps> = props => {
                 <span className={styles.title}>BOC Merchant Service Portal</span>
               </Link>
             </div>
-            <div className={styles.desc}>BOC Merchant Service Portal新加坡智能POS</div>
+            <div className={styles.desc}>BOC Merchant Service Portal</div>
           </div>
           {children}
         </div>

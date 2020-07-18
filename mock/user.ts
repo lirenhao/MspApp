@@ -7,7 +7,7 @@ const getUser = (req: Request, res: Response) => {
 
 export default {
   'GET /svc/user': {
-    merNo: '123456789012345',
+    userId: '123456789012345@admin',
     merName: '测试商户',
     status: '00',
   },

@@ -6,9 +6,9 @@ import ProLayout, {
   Settings,
   DefaultFooter,
 } from '@ant-design/pro-layout';
-import { formatMessage } from 'umi-plugin-react/locale';
 import { ConnectState } from '@/models/connect';
 import RightContent from '@/components/GlobalHeader/RightContent';
+import Background from './Background';
 import logo from '../assets/logo.png';
 
 export interface LayoutProps extends ProLayoutProps {
@@ -27,14 +27,16 @@ const PreLayout: React.FC<LayoutProps> = props => {
   const { settings, children } = props;
 
   return (
-    <ProLayout
-      logo={logo}
-      footerRender={footerRender}
-      rightContentRender={() => <RightContent />}
-      {...settings}
-    >
-      {children}
-    </ProLayout>
+    <Background>
+      <ProLayout
+        logo={logo}
+        footerRender={footerRender}
+        rightContentRender={() => <RightContent />}
+        {...settings}
+      >
+        {children}
+      </ProLayout>
+    </Background>
   )
 };
 
