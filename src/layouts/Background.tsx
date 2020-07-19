@@ -8,7 +8,6 @@ const curIsDay = function () {
   const time = moment(),
     beforeTime = moment('08:00:00', format),
     afterTime = moment('18:00:00', format);
-  console.log(time)
   return time.isBetween(beforeTime, afterTime);
 }
 

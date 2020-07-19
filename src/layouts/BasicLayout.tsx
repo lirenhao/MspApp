@@ -20,6 +20,7 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import Background from './Background';
+import BasicFooter from './BasicFooter';
 import logo from '../assets/logo.png';
 
 const noMatch = (
@@ -58,13 +59,6 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
     return Authorized.check(item.authority, localItem, null) as MenuDataItem;
   });
-
-const footerRender = () => (
-  <DefaultFooter
-    copyright="2020 copyright文本"
-    links={[]}
-  />
-);
 
 const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const {
@@ -125,7 +119,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
               <span>{route.breadcrumbName}</span>
             );
         }}
-        footerRender={footerRender}
+        footerRender={() => <BasicFooter />}
         menuDataRender={menuDataRender}
         rightContentRender={() => <RightContent />}
         {...props}
