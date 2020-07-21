@@ -5,8 +5,9 @@ import { Card, Form, Input, Button, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import { FormattedMessage, formatMessage, getLocale } from 'umi-plugin-react/locale';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { ModifyData } from './data';
-import { modifyPwd } from './service';
+import { Dispatch } from 'redux';
+import { connect } from 'dva';
+import { ModifyData } from './data.d';
 
 const layout = {
   labelCol: { span: 8 },
@@ -17,21 +18,34 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 8 },
 };
 
-const ModifyView: React.FC<{}> = () => {
-  const [form] = Form.useForm();
+interface ModifyPwdProps {
+  dispatch: Dispatch<any>;
+  loading: boolean;
+  modifyPwdState: ModifyData;
+}
 
-  const handleSubmit = async (values: ModifyData) => {
-    try {
-      await modifyPwd(values);
-      notification.success({
-        message: formatMessage({ id: 'modify.submit.success' }),
-      });
-      router.goBack();
-    } catch (error) {
-      notification.error({
-        message: formatMessage({ id: 'modify.submit.failed' }),
-      });
-    }
+const ModifyView: React.FC<ModifyPwdProps> = props => {
+  const [form] = Form.useForm();
+  const { loading } = props;
+
+  const handleSubmit = (values: ModifyData) => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'modifyPwd/fetchModify',
+      payload: { ...values },
+      callback: (response: any) => {
+        if (response !== undefined && response !== null) {
+          notification.success({
+            message: formatMessage({ id: 'modify.submit.success' }),
+          });
+          router.goBack();
+        } else {
+          notification.error({
+            message: formatMessage({ id: 'modify.submit.failed' }),
+          });
+        }
+      },
+    });
   };
 
   return (
@@ -39,8 +53,10 @@ const ModifyView: React.FC<{}> = () => {
       <Card bordered={false}>
         <h1 style={{ textAlign: 'center' }}>{formatMessage({ id: 'modify.title' })}</h1>
         <Form
-          size="large" style={{ marginTop: 40 }}
-          form={form} {...layout}
+          size="large"
+          style={{ marginTop: 40 }}
+          form={form}
+          {...layout}
           onFinish={values => handleSubmit(values as ModifyData)}
         >
           <Form.Item
@@ -86,8 +102,10 @@ const ModifyView: React.FC<{}> = () => {
                 message: formatMessage({ id: 'modify.checkPwd.role-required' }),
               },
               {
-                validator: (_, value) => (value === '' || value === form.getFieldValue('newPwd')) ?
-                  Promise.resolve() : Promise.reject(formatMessage({ id: 'modify.checkPwd.role-validator' })),
+                validator: (_, value) =>
+                  value === '' || value === form.getFieldValue('newPwd')
+                    ? Promise.resolve()
+                    : Promise.reject(formatMessage({ id: 'modify.checkPwd.role-validator' })),
               },
             ]}
           >
@@ -113,14 +131,29 @@ const ModifyView: React.FC<{}> = () => {
             />
           </Form.Item>
           <Form.Item {...tailLayout}>
-            <Button block size="large" type="primary" htmlType="submit">
+            <Button block size="large" type="primary" htmlType="submit" loading={loading}>
               <FormattedMessage id="modify.submit" />
             </Button>
           </Form.Item>
         </Form>
       </Card>
     </PageHeaderWrapper>
-  )
+  );
 };
 
-export default ModifyView;
+export default connect(
+  ({
+    modifyPwdState,
+    loading,
+  }: {
+    modifyPwdState: ModifyData;
+    loading: {
+      effects: {
+        [key: string]: boolean;
+      };
+    };
+  }) => ({
+    modifyPwdState,
+    loading: loading.effects['modifyPwd/fetchModify'],
+  }),
+)(ModifyView);
