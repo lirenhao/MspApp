@@ -22,10 +22,13 @@ const Model: ModelType = {
   state: defaulState,
   effects: {
     *fetchModify({ payload, callback }, { call }) {
-      const response = yield call(modifyPwd, payload);
-
-      if (callback && typeof callback === 'function') {
-        callback(response);
+      try {
+        const response = yield call(modifyPwd, payload);
+        if (callback && typeof callback === 'function') {
+          callback(response);
+        }
+      } catch (e) {
+        callback(undefined);
       }
     },
   },
