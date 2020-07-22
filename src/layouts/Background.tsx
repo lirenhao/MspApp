@@ -6,8 +6,8 @@ import night from '../assets/backgroundNight.jpg';
 const curIsDay = function () {
   const format = 'hh:mm:ss'
   const time = moment(),
-    beforeTime = moment('08:00:00', format),
-    afterTime = moment('18:00:00', format);
+    beforeTime = moment('07:00:00', format),
+    afterTime = moment('19:00:00', format);
   return time.isBetween(beforeTime, afterTime);
 }
 
