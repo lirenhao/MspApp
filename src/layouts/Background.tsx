@@ -28,6 +28,7 @@ const Background: React.FC = props => {
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: '100%',
+    backgroundAttachment: 'fixed',
   }
 
   return (
